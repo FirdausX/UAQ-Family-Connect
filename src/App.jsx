@@ -92,7 +92,7 @@ function Icon({ name, size = 21, strokeWidth = 1.9 }) {
 
 function getVideoPreviewUrl(url) {
   if (!url) return ''
-  return url.includes('#') ? url : `${url}#t=0.1`
+  return url.includes('#') ? url : `${url}#t=2`
 }
 
 export default function App() {
@@ -343,7 +343,7 @@ export default function App() {
     const { data, error } = await supabase
       .from('family_updates')
       .select(
-        'id,patient_id,audience_type,title,message,update_type,media_path,media_type,media_original_name,created_at'
+        'id,patient_id,audience_type,title,message,update_type,media_path,media_type,media_original_name,thumbnail_path,created_at'
       )
       .or(
         `patient_id.eq.${patientId},audience_type.eq.all_families`
@@ -363,31 +363,51 @@ export default function App() {
 
     const rows = await Promise.all(
       (data || []).map(async (update) => {
-        if (!update.media_path) {
-          return {
-            ...update,
-            media_url: '',
+        let mediaUrl = ''
+        let thumbnailUrl = ''
+
+        if (update.media_path) {
+          const {
+            data: signedData,
+            error: signedError,
+          } = await supabase.storage
+            .from('family-updates')
+            .createSignedUrl(
+              update.media_path,
+              60 * 60
+            )
+
+          if (signedError) {
+            console.error(signedError)
+          } else {
+            mediaUrl =
+              signedData?.signedUrl || ''
           }
         }
 
-        const {
-          data: signedData,
-          error: signedError,
-        } = await supabase.storage
-          .from('family-updates')
-          .createSignedUrl(
-            update.media_path,
-            60 * 60
-          )
+        if (update.thumbnail_path) {
+          const {
+            data: thumbnailData,
+            error: thumbnailError,
+          } = await supabase.storage
+            .from('family-updates')
+            .createSignedUrl(
+              update.thumbnail_path,
+              60 * 60
+            )
 
-        if (signedError) {
-          console.error(signedError)
+          if (thumbnailError) {
+            console.error(thumbnailError)
+          } else {
+            thumbnailUrl =
+              thumbnailData?.signedUrl || ''
+          }
         }
 
         return {
           ...update,
-          media_url:
-            signedData?.signedUrl || '',
+          media_url: mediaUrl,
+          thumbnail_url: thumbnailUrl,
         }
       })
     )
@@ -1161,7 +1181,12 @@ export default function App() {
             'video' ? (
               <>
                 <video
-                  src={getVideoPreviewUrl(update.media_url)}
+                  src={
+                    update.thumbnail_url
+                      ? update.media_url
+                      : getVideoPreviewUrl(update.media_url)
+                  }
+                  poster={update.thumbnail_url || undefined}
                   controls
                   playsInline
                   preload="metadata"
