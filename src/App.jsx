@@ -111,6 +111,7 @@ export default function App() {
   const [message, setMessage] = useState('')
   const [activePage, setActivePage] = useState('home')
   const [showSupportModal, setShowSupportModal] = useState(false)
+  const [momentFilter, setMomentFilter] = useState('all')
 
   const uaqPhone = '+601112707492'
   const whatsappMessage = 'Hi UAQ, I’m contacting you through Family Connect.'
@@ -170,6 +171,7 @@ export default function App() {
     setUpdates([])
     setAppointments([])
     setAnnouncements([])
+    setMomentFilter('all')
   }
 
   function getTokenIssuedAt(accessToken) {
@@ -1255,38 +1257,117 @@ export default function App() {
       subtitle={`Special moments from ${residentName}'s journey at UAQ.`}
     >
       <div className="filter-pills">
-        <button className="active">
+        <button
+          type="button"
+          className={
+            momentFilter === 'all'
+              ? 'active'
+              : ''
+          }
+          onClick={() =>
+            setMomentFilter('all')
+          }
+        >
           All
         </button>
 
-        <button>
+        <button
+          type="button"
+          className={
+            momentFilter === 'photos'
+              ? 'active'
+              : ''
+          }
+          onClick={() =>
+            setMomentFilter('photos')
+          }
+        >
           Photos
         </button>
 
-        <button>
+        <button
+          type="button"
+          className={
+            momentFilter === 'videos'
+              ? 'active'
+              : ''
+          }
+          onClick={() =>
+            setMomentFilter('videos')
+          }
+        >
           Videos
         </button>
       </div>
     </PageHeader>
   )
 
-  const MomentsContent = () =>
-    updatesLoading ? (
-      <SkeletonCard />
-    ) : updates.length === 0 ? (
-      <EmptyCard
-        text="No moments have been shared yet."
-      />
-    ) : (
+  const MomentsContent = () => {
+    const filteredUpdates =
+      updates.filter((update) => {
+        if (
+          momentFilter === 'photos'
+        ) {
+          return (
+            update.media_type ===
+            'image'
+          )
+        }
+
+        if (
+          momentFilter === 'videos'
+        ) {
+          return (
+            update.media_type ===
+            'video'
+          )
+        }
+
+        return true
+      })
+
+    if (updatesLoading) {
+      return <SkeletonCard />
+    }
+
+    if (
+      updates.length === 0
+    ) {
+      return (
+        <EmptyCard
+          text="No moments have been shared yet."
+        />
+      )
+    }
+
+    if (
+      filteredUpdates.length ===
+      0
+    ) {
+      return (
+        <EmptyCard
+          text={
+            momentFilter === 'photos'
+              ? 'No photos have been shared yet.'
+              : 'No videos have been shared yet.'
+          }
+        />
+      )
+    }
+
+    return (
       <div className="moments-grid">
-        {updates.map((update) => (
-          <MomentFeature
-            key={update.id}
-            update={update}
-          />
-        ))}
+        {filteredUpdates.map(
+          (update) => (
+            <MomentFeature
+              key={update.id}
+              update={update}
+            />
+          )
+        )}
       </div>
     )
+  }
 
   const AppointmentsPage = () => (
     <>
