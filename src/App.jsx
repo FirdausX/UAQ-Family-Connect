@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from './lib/supabase'
+import { APP_VERSION, APP_VERSION_LABEL } from './version'
 import './App.css'
 
 const NAV_ITEMS = [
@@ -85,6 +86,10 @@ function Icon({ name, size = 21, strokeWidth = 1.9 }) {
 
   if (name === 'help') {
     return <svg {...common}><circle cx="12" cy="12" r="9"/><path d="M9.8 9a2.4 2.4 0 1 1 3.7 2c-.9.6-1.5 1.1-1.5 2.2M12 17h.01"/></svg>
+  }
+
+  if (name === 'info') {
+    return <svg {...common}><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7h.01"/></svg>
   }
 
   return null
@@ -181,6 +186,7 @@ export default function App() {
   const [message, setMessage] = useState('')
   const [activePage, setActivePage] = useState('home')
   const [showSupportModal, setShowSupportModal] = useState(false)
+  const [showAboutModal, setShowAboutModal] = useState(false)
   const [showNotifications, setShowNotifications] = useState(false)
   const [notificationsSeenAt, setNotificationsSeenAt] = useState(0)
   const [pushSupported, setPushSupported] = useState(true)
@@ -405,6 +411,7 @@ export default function App() {
     setResident(null)
     setResidentAvatarUrl('')
     setShowNotifications(false)
+    setShowAboutModal(false)
     setUpdates([])
     setAppointments([])
     setAnnouncements([])
@@ -2227,6 +2234,15 @@ export default function App() {
               setShowSupportModal(true)
             }
           />
+
+          <SettingRow
+            icon="info"
+            title="About UAQ Family Connect"
+            subtitle={APP_VERSION_LABEL}
+            onClick={() =>
+              setShowAboutModal(true)
+            }
+          />
         </section>
 
         <section className="push-settings-card premium-card">
@@ -2432,6 +2448,94 @@ export default function App() {
 
               <span>
                 10:00 AM – 5:00 PM · Every Day
+              </span>
+            </div>
+          </section>
+        </div>
+      )}
+
+      {showAboutModal && (
+        <div
+          className="about-modal-backdrop"
+          role="presentation"
+          onMouseDown={() =>
+            setShowAboutModal(false)
+          }
+        >
+          <section
+            className="about-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="about-modal-title"
+            onMouseDown={(event) =>
+              event.stopPropagation()
+            }
+          >
+            <div className="about-modal-head">
+              <div className="about-brand">
+                <img
+                  src="/uaq-logo.png"
+                  alt="UAQ Elderly Care Centre"
+                />
+
+                <div>
+                  <span>UAQ</span>
+                  <h3 id="about-modal-title">
+                    Family Connect
+                  </h3>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                className="about-modal-close"
+                aria-label="Close about"
+                onClick={() =>
+                  setShowAboutModal(false)
+                }
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="about-version-card">
+              <span>APP VERSION</span>
+              <strong>
+                {APP_VERSION_LABEL}
+              </strong>
+              <small>
+                Released {APP_VERSION.releaseDate}
+              </small>
+            </div>
+
+            <p className="about-description">
+              {APP_VERSION.description}
+            </p>
+
+            <section className="about-whats-new">
+              <span>WHAT'S NEW</span>
+              <h4>
+                Version {APP_VERSION.version}
+              </h4>
+
+              <ul>
+                {APP_VERSION.whatsNew.map(
+                  (item) => (
+                    <li key={item}>
+                      <i />
+                      <span>{item}</span>
+                    </li>
+                  )
+                )}
+              </ul>
+            </section>
+
+            <div className="about-footer">
+              <strong>
+                {APP_VERSION.centreName}
+              </strong>
+              <span>
+                {APP_VERSION.location}
               </span>
             </div>
           </section>
