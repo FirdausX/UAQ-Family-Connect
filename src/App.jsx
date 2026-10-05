@@ -134,6 +134,8 @@ export default function App() {
   const [message, setMessage] = useState('')
   const [activePage, setActivePage] = useState('home')
   const [showSupportModal, setShowSupportModal] = useState(false)
+  const [showNotifications, setShowNotifications] = useState(false)
+  const [notificationsSeenAt, setNotificationsSeenAt] = useState(0)
   const [momentFilter, setMomentFilter] = useState('all')
 
   const uaqPhone = '+601112707492'
@@ -189,9 +191,33 @@ export default function App() {
     }
   }, [session?.access_token])
 
+  useEffect(() => {
+    if (!session?.user?.id) {
+      setNotificationsSeenAt(0)
+      return
+    }
+
+    const key =
+      `uaq_family_notifications_seen_${session.user.id}`
+
+    const stored =
+      Number(
+        localStorage.getItem(
+          key
+        ) || 0
+      )
+
+    setNotificationsSeenAt(
+      Number.isFinite(stored)
+        ? stored
+        : 0
+    )
+  }, [session?.user?.id])
+
   function clearFamilyData() {
     setResident(null)
     setResidentAvatarUrl('')
+    setShowNotifications(false)
     setUpdates([])
     setAppointments([])
     setAnnouncements([])
@@ -614,6 +640,36 @@ export default function App() {
     })
   }
 
+  function openNotifications() {
+    setShowNotifications(true)
+
+    if (!session?.user?.id) {
+      return
+    }
+
+    const now = Date.now()
+
+    localStorage.setItem(
+      `uaq_family_notifications_seen_${session.user.id}`,
+      String(now)
+    )
+
+    setNotificationsSeenAt(
+      now
+    )
+  }
+
+  function closeNotifications() {
+    setShowNotifications(false)
+  }
+
+  function openNotificationItem(
+    item
+  ) {
+    closeNotifications()
+    navigate(item.page)
+  }
+
   function getGreeting() {
     const hour = new Date().getHours()
 
@@ -746,9 +802,236 @@ export default function App() {
   const latestAnnouncement =
     announcements[0] || null
 
+  const notificationItems =
+    [
+      ...updates.map(
+        (update) => ({
+          id:
+            `update-${update.id}`,
+          sourceId:
+            update.id,
+          type:
+            'Moment',
+          title:
+            update.title ||
+            'New family update',
+          message:
+            update.message ||
+            'A new update is available.',
+          createdAt:
+            update.created_at,
+          page:
+            'moments',
+        })
+      ),
+      ...announcements.map(
+        (announcement) => ({
+          id:
+            `announcement-${announcement.id}`,
+          sourceId:
+            announcement.id,
+          type:
+            'Announcement',
+          title:
+            announcement.title ||
+            'New announcement',
+          message:
+            announcement.message ||
+            'A new announcement is available.',
+          createdAt:
+            announcement.created_at,
+          page:
+            'announcements',
+        })
+      ),
+    ]
+      .filter(
+        (item) =>
+          item.createdAt
+      )
+      .sort(
+        (a, b) =>
+          new Date(
+            b.createdAt
+          ).getTime() -
+          new Date(
+            a.createdAt
+          ).getTime()
+      )
+
+  const unreadNotificationCount =
+    notificationItems.filter(
+      (item) =>
+        new Date(
+          item.createdAt
+        ).getTime() >
+        notificationsSeenAt
+    ).length
+
   const residentName =
     resident?.full_name ||
     'Your Loved One'
+
+  useEffect(() => {
+    if (
+      !session?.user?.id ||
+      !resident?.patient_id
+    ) {
+      return undefined
+    }
+
+    let stopped = false
+
+    async function checkForNewContent() {
+      const [
+        updateResult,
+        announcementResult,
+      ] =
+        await Promise.all([
+          supabase
+            .from(
+              'family_updates'
+            )
+            .select(
+              'id,created_at'
+            )
+            .or(
+              `patient_id.eq.${resident.patient_id},audience_type.eq.all_families`
+            )
+            .eq(
+              'visible_to_family',
+              true
+            )
+            .order(
+              'created_at',
+              {
+                ascending:
+                  false,
+              }
+            )
+            .limit(1),
+
+          supabase
+            .from(
+              'family_announcements'
+            )
+            .select(
+              'id,created_at'
+            )
+            .eq(
+              'visible',
+              true
+            )
+            .order(
+              'created_at',
+              {
+                ascending:
+                  false,
+              }
+            )
+            .limit(1),
+        ])
+
+      if (stopped) return
+
+      const serverLatest =
+        Math.max(
+          updateResult
+            .data?.[0]
+            ?.created_at
+            ? new Date(
+                updateResult
+                  .data[0]
+                  .created_at
+              ).getTime()
+            : 0,
+
+          announcementResult
+            .data?.[0]
+            ?.created_at
+            ? new Date(
+                announcementResult
+                  .data[0]
+                  .created_at
+              ).getTime()
+            : 0
+        )
+
+      const localLatest =
+        notificationItems[0]
+          ?.createdAt
+          ? new Date(
+              notificationItems[0]
+                .createdAt
+            ).getTime()
+          : 0
+
+      if (
+        serverLatest >
+        localLatest
+      ) {
+        await Promise.all([
+          loadUpdates(
+            resident.patient_id
+          ),
+          loadAnnouncements(),
+        ])
+      }
+    }
+
+    const intervalId =
+      window.setInterval(
+        checkForNewContent,
+        60 * 1000
+      )
+
+    const handleFocus =
+      () =>
+        checkForNewContent()
+
+    const handleVisibility =
+      () => {
+        if (
+          document
+            .visibilityState ===
+          'visible'
+        ) {
+          checkForNewContent()
+        }
+      }
+
+    window.addEventListener(
+      'focus',
+      handleFocus
+    )
+
+    document.addEventListener(
+      'visibilitychange',
+      handleVisibility
+    )
+
+    return () => {
+      stopped = true
+
+      window.clearInterval(
+        intervalId
+      )
+
+      window.removeEventListener(
+        'focus',
+        handleFocus
+      )
+
+      document.removeEventListener(
+        'visibilitychange',
+        handleVisibility
+      )
+    }
+  }, [
+    session?.user?.id,
+    resident?.patient_id,
+    notificationItems[0]?.createdAt,
+  ])
 
   if (loading) {
     return (
@@ -898,8 +1181,14 @@ export default function App() {
           </div>
 
           <button
-            className="round-icon-btn"
+            type="button"
+            className={
+              unreadNotificationCount > 0
+                ? 'round-icon-btn has-unread'
+                : 'round-icon-btn'
+            }
             aria-label="Notifications"
+            onClick={openNotifications}
           >
             <Icon name="bell" />
           </button>
@@ -1865,7 +2154,16 @@ export default function App() {
             </strong>
           </div>
 
-          <button className="round-icon-btn">
+          <button
+            type="button"
+            className={
+              unreadNotificationCount > 0
+                ? 'round-icon-btn has-unread'
+                : 'round-icon-btn'
+            }
+            aria-label="Notifications"
+            onClick={openNotifications}
+          >
             <Icon name="bell" />
           </button>
         </header>
@@ -1882,6 +2180,121 @@ export default function App() {
           {renderPage()}
         </main>
       </div>
+
+      {showNotifications && (
+        <div
+          className="notification-backdrop"
+          onClick={closeNotifications}
+        >
+          <section
+            className="notification-panel"
+            onClick={(event) =>
+              event.stopPropagation()
+            }
+          >
+            <div className="notification-panel-head">
+              <div>
+                <span>UAQ FAMILY CONNECT</span>
+                <h3>Notifications</h3>
+                <p>
+                  Latest updates from UAQ.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                className="notification-close"
+                onClick={
+                  closeNotifications
+                }
+                aria-label="Close notifications"
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="notification-list">
+              {notificationItems.length === 0 ? (
+                <div className="notification-empty">
+                  <Icon
+                    name="bell"
+                    size={24}
+                  />
+
+                  <strong>
+                    No notifications yet
+                  </strong>
+
+                  <span>
+                    New moments and announcements will appear here.
+                  </span>
+                </div>
+              ) : (
+                notificationItems
+                  .slice(0, 10)
+                  .map((item) => {
+                    const wasUnread =
+                      new Date(
+                        item.createdAt
+                      ).getTime() >
+                      notificationsSeenAt
+
+                    return (
+                      <button
+                        type="button"
+                        key={item.id}
+                        className={
+                          wasUnread
+                            ? 'notification-item unread'
+                            : 'notification-item'
+                        }
+                        onClick={() =>
+                          openNotificationItem(
+                            item
+                          )
+                        }
+                      >
+                        <div className="notification-item-icon">
+                          <Icon
+                            name={
+                              item.type ===
+                              'Announcement'
+                                ? 'bell'
+                                : 'image'
+                            }
+                            size={19}
+                          />
+                        </div>
+
+                        <div className="notification-item-copy">
+                          <div>
+                            <span>
+                              {item.type}
+                            </span>
+
+                            <time>
+                              {formatUpdateDate(
+                                item.createdAt
+                              )}
+                            </time>
+                          </div>
+
+                          <strong>
+                            {item.title}
+                          </strong>
+
+                          <p>
+                            {item.message}
+                          </p>
+                        </div>
+                      </button>
+                    )
+                  })
+              )}
+            </div>
+          </section>
+        </div>
+      )}
 
       <nav className="bottom-nav">
         {NAV_ITEMS.map(
