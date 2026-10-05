@@ -247,6 +247,112 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
 }
 
 /* =========================================================
+   PUSH NOTIFICATION SETTINGS
+   ========================================================= */
+
+.push-settings-card {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 14px;
+  padding: 20px;
+  border-radius: 24px;
+}
+
+.push-settings-icon {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border-radius: 15px;
+  color: var(--teal);
+  background: var(--teal-soft);
+}
+
+.push-settings-copy {
+  min-width: 0;
+}
+
+.push-settings-copy > span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--teal);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .14em;
+}
+
+.push-settings-copy h3 {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  font-size: 23px;
+}
+
+.push-settings-copy p {
+  margin: 6px 0 12px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.push-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 12px;
+  color: #7b8583;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.push-status i {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  border-radius: 50%;
+  background: #b4bbb8;
+}
+
+.push-status.enabled {
+  color: var(--teal);
+}
+
+.push-status.enabled i {
+  background: #3fc479;
+  box-shadow: 0 0 0 4px rgba(63,196,121,.10);
+}
+
+.push-status-message {
+  display: block;
+  margin: -2px 0 12px;
+  color: #7c7067;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.push-toggle-button {
+  min-height: 42px;
+  padding: 0 15px;
+  border: 0;
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(135deg, #11a6a6, #08777b);
+  box-shadow: 0 10px 24px rgba(13,146,149,.18);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.push-toggle-button.disable {
+  color: #7a5543;
+  background: #f6eee8;
+  box-shadow: none;
+}
+
+.push-toggle-button:disabled {
+  opacity: .55;
+  cursor: default;
+}
+
+/* =========================================================
    NOTIFICATION BELL
    ========================================================= */
 
