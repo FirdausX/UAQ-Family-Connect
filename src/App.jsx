@@ -117,6 +117,53 @@ async function getResidentAvatarUrl(
     : ''
 }
 
+function urlBase64ToUint8Array(
+  base64String
+) {
+  const padding =
+    '='.repeat(
+      (
+        4 -
+        (
+          base64String.length %
+          4
+        )
+      ) % 4
+    )
+
+  const base64 =
+    (
+      base64String +
+      padding
+    )
+      .replace(/-/g, '+')
+      .replace(/_/g, '/')
+
+  const rawData =
+    window.atob(base64)
+
+  return Uint8Array.from(
+    [...rawData].map(
+      (character) =>
+        character.charCodeAt(0)
+    )
+  )
+}
+
+function getPushSubscriptionKeys(
+  subscription
+) {
+  const json =
+    subscription.toJSON()
+
+  return {
+    p256dh:
+      json.keys?.p256dh || '',
+    auth:
+      json.keys?.auth || '',
+  }
+}
+
 export default function App() {
   const [session, setSession] = useState(null)
   const [familyId, setFamilyId] = useState('')
@@ -136,11 +183,21 @@ export default function App() {
   const [showSupportModal, setShowSupportModal] = useState(false)
   const [showNotifications, setShowNotifications] = useState(false)
   const [notificationsSeenAt, setNotificationsSeenAt] = useState(0)
+  const [pushSupported, setPushSupported] = useState(true)
+  const [pushEnabled, setPushEnabled] = useState(false)
+  const [pushPermission, setPushPermission] = useState('default')
+  const [pushWorking, setPushWorking] = useState(false)
+  const [pushStatusMessage, setPushStatusMessage] = useState('')
   const [momentFilter, setMomentFilter] = useState('all')
 
   const uaqPhone = '+601112707492'
   const whatsappMessage = 'Hi UAQ, I’m contacting you through Family Connect.'
   const whatsappUrl = `https://wa.me/601112707492?text=${encodeURIComponent(whatsappMessage)}`
+
+  const vapidPublicKey =
+    import.meta.env
+      .VITE_VAPID_PUBLIC_KEY ||
+    ''
 
   useEffect(() => {
     checkSession()
@@ -212,6 +269,136 @@ export default function App() {
         ? stored
         : 0
     )
+  }, [session?.user?.id])
+
+  useEffect(() => {
+    if (!session?.user?.id) {
+      setPushEnabled(false)
+      setPushPermission(
+        typeof Notification !==
+          'undefined'
+          ? Notification.permission
+          : 'default'
+      )
+
+      return
+    }
+
+    let cancelled = false
+
+    async function checkPushStatus() {
+      const supported =
+        'serviceWorker' in navigator &&
+        'PushManager' in window &&
+        'Notification' in window
+
+      if (!cancelled) {
+        setPushSupported(
+          supported
+        )
+      }
+
+      if (!supported) {
+        if (!cancelled) {
+          setPushEnabled(false)
+        }
+
+        return
+      }
+
+      if (!cancelled) {
+        setPushPermission(
+          Notification.permission
+        )
+      }
+
+      try {
+        const registration =
+          await navigator
+            .serviceWorker
+            .ready
+
+        const subscription =
+          await registration
+            .pushManager
+            .getSubscription()
+
+        if (cancelled) return
+
+        setPushEnabled(
+          Boolean(subscription)
+        )
+
+        if (
+          subscription &&
+          session?.user?.id
+        ) {
+          const keys =
+            getPushSubscriptionKeys(
+              subscription
+            )
+
+          if (
+            keys.p256dh &&
+            keys.auth
+          ) {
+            const { error } =
+              await supabase
+                .from(
+                  'family_push_subscriptions'
+                )
+                .upsert(
+                  {
+                    family_user_id:
+                      session.user.id,
+                    endpoint:
+                      subscription.endpoint,
+                    p256dh:
+                      keys.p256dh,
+                    auth_key:
+                      keys.auth,
+                    user_agent:
+                      navigator.userAgent,
+                    enabled:
+                      true,
+                    last_seen_at:
+                      new Date()
+                        .toISOString(),
+                  },
+                  {
+                    onConflict:
+                      'endpoint',
+                  }
+                )
+
+            if (
+              error &&
+              !cancelled
+            ) {
+              console.error(
+                'Unable to refresh push subscription.',
+                error
+              )
+            }
+          }
+        }
+      } catch (error) {
+        console.error(
+          'Unable to check push notification status.',
+          error
+        )
+
+        if (!cancelled) {
+          setPushEnabled(false)
+        }
+      }
+    }
+
+    checkPushStatus()
+
+    return () => {
+      cancelled = true
+    }
   }, [session?.user?.id])
 
   function clearFamilyData() {
@@ -624,6 +811,232 @@ export default function App() {
     setFamilyId('')
     setPin('')
     setLoginLoading(false)
+  }
+
+  async function enablePushNotifications() {
+    if (
+      !session?.user?.id
+    ) {
+      setPushStatusMessage(
+        'Please sign in again before enabling notifications.'
+      )
+
+      return
+    }
+
+    const supported =
+      'serviceWorker' in navigator &&
+      'PushManager' in window &&
+      'Notification' in window
+
+    if (!supported) {
+      setPushSupported(false)
+      setPushStatusMessage(
+        'Push notifications are not supported on this browser or device.'
+      )
+
+      return
+    }
+
+    if (!vapidPublicKey) {
+      setPushStatusMessage(
+        'Push notification setup is not complete yet.'
+      )
+
+      return
+    }
+
+    setPushWorking(true)
+    setPushStatusMessage('')
+
+    try {
+      const permission =
+        await Notification
+          .requestPermission()
+
+      setPushPermission(
+        permission
+      )
+
+      if (
+        permission !==
+        'granted'
+      ) {
+        setPushEnabled(false)
+
+        setPushStatusMessage(
+          permission ===
+            'denied'
+            ? 'Notifications are blocked. Please allow notifications in your device settings.'
+            : 'Notification permission was not enabled.'
+        )
+
+        return
+      }
+
+      const registration =
+        await navigator
+          .serviceWorker
+          .ready
+
+      let subscription =
+        await registration
+          .pushManager
+          .getSubscription()
+
+      if (!subscription) {
+        subscription =
+          await registration
+            .pushManager
+            .subscribe({
+              userVisibleOnly:
+                true,
+              applicationServerKey:
+                urlBase64ToUint8Array(
+                  vapidPublicKey
+                ),
+            })
+      }
+
+      const keys =
+        getPushSubscriptionKeys(
+          subscription
+        )
+
+      if (
+        !keys.p256dh ||
+        !keys.auth
+      ) {
+        throw new Error(
+          'Push subscription keys are unavailable.'
+        )
+      }
+
+      const { error } =
+        await supabase
+          .from(
+            'family_push_subscriptions'
+          )
+          .upsert(
+            {
+              family_user_id:
+                session.user.id,
+              endpoint:
+                subscription.endpoint,
+              p256dh:
+                keys.p256dh,
+              auth_key:
+                keys.auth,
+              user_agent:
+                navigator.userAgent,
+              enabled:
+                true,
+              last_seen_at:
+                new Date()
+                  .toISOString(),
+            },
+            {
+              onConflict:
+                'endpoint',
+            }
+          )
+
+      if (error) {
+        throw error
+      }
+
+      setPushEnabled(true)
+
+      setPushStatusMessage(
+        'Notifications are enabled on this device.'
+      )
+    } catch (error) {
+      console.error(
+        'Unable to enable push notifications.',
+        error
+      )
+
+      setPushEnabled(false)
+
+      setPushStatusMessage(
+        error?.message ||
+          'Unable to enable notifications.'
+      )
+    } finally {
+      setPushWorking(false)
+    }
+  }
+
+  async function disablePushNotifications() {
+    if (
+      !session?.user?.id ||
+      !(
+        'serviceWorker' in
+        navigator
+      )
+    ) {
+      return
+    }
+
+    setPushWorking(true)
+    setPushStatusMessage('')
+
+    try {
+      const registration =
+        await navigator
+          .serviceWorker
+          .ready
+
+      const subscription =
+        await registration
+          .pushManager
+          .getSubscription()
+
+      if (subscription) {
+        const endpoint =
+          subscription.endpoint
+
+        const { error } =
+          await supabase
+            .from(
+              'family_push_subscriptions'
+            )
+            .delete()
+            .eq(
+              'family_user_id',
+              session.user.id
+            )
+            .eq(
+              'endpoint',
+              endpoint
+            )
+
+        if (error) {
+          throw error
+        }
+
+        await subscription
+          .unsubscribe()
+      }
+
+      setPushEnabled(false)
+
+      setPushStatusMessage(
+        'Notifications are turned off on this device.'
+      )
+    } catch (error) {
+      console.error(
+        'Unable to disable push notifications.',
+        error
+      )
+
+      setPushStatusMessage(
+        error?.message ||
+          'Unable to turn off notifications.'
+      )
+    } finally {
+      setPushWorking(false)
+    }
   }
 
   async function handleLogout() {
@@ -1814,6 +2227,78 @@ export default function App() {
               setShowSupportModal(true)
             }
           />
+        </section>
+
+        <section className="push-settings-card premium-card">
+          <div className="push-settings-icon">
+            <Icon
+              name="bell"
+              size={22}
+            />
+          </div>
+
+          <div className="push-settings-copy">
+            <span>
+              PUSH NOTIFICATIONS
+            </span>
+
+            <h3>
+              Stay Updated
+            </h3>
+
+            <p>
+              Receive UAQ updates even when Family Connect is closed.
+            </p>
+
+            <div
+              className={
+                pushEnabled
+                  ? 'push-status enabled'
+                  : 'push-status'
+              }
+            >
+              <i />
+
+              {pushEnabled
+                ? 'Enabled on this device'
+                : pushPermission ===
+                    'denied'
+                  ? 'Blocked in device settings'
+                  : pushSupported
+                    ? 'Not enabled yet'
+                    : 'Not supported on this device'}
+            </div>
+
+            {pushStatusMessage && (
+              <small className="push-status-message">
+                {pushStatusMessage}
+              </small>
+            )}
+
+            <button
+              type="button"
+              className={
+                pushEnabled
+                  ? 'push-toggle-button disable'
+                  : 'push-toggle-button'
+              }
+              disabled={
+                pushWorking ||
+                !pushSupported
+              }
+              onClick={
+                pushEnabled
+                  ? disablePushNotifications
+                  : enablePushNotifications
+              }
+            >
+              {pushWorking
+                ? 'Please wait...'
+                : pushEnabled
+                  ? 'Turn Off Notifications'
+                  : 'Enable Notifications'}
+            </button>
+          </div>
         </section>
 
         <section className="support-card premium-card">
