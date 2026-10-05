@@ -90,6 +90,11 @@ function Icon({ name, size = 21, strokeWidth = 1.9 }) {
   return null
 }
 
+function getVideoPreviewUrl(url) {
+  if (!url) return ''
+  return url.includes('#') ? url : `${url}#t=0.1`
+}
+
 export default function App() {
   const [session, setSession] = useState(null)
   const [familyId, setFamilyId] = useState('')
@@ -1028,9 +1033,7 @@ export default function App() {
           announcement.media_type ===
           'video' ? (
             <video
-              src={
-                announcement.media_url
-              }
+              src={getVideoPreviewUrl(announcement.media_url)}
               controls
               playsInline
               preload="metadata"
@@ -1158,9 +1161,7 @@ export default function App() {
             'video' ? (
               <>
                 <video
-                  src={
-                    update.media_url
-                  }
+                  src={getVideoPreviewUrl(update.media_url)}
                   controls
                   playsInline
                   preload="metadata"
