@@ -95,11 +95,34 @@ function getVideoPreviewUrl(url) {
   return url.includes('#') ? url : `${url}#t=2`
 }
 
+async function getResidentAvatarUrl(
+  patientId
+) {
+  if (!patientId) return ''
+
+  const { data, error } =
+    await supabase.storage
+      .from('patient-avatars')
+      .createSignedUrl(
+        `${patientId}/avatar.jpg`,
+        60 * 60 * 24 * 7
+      )
+
+  if (error) {
+    return ''
+  }
+
+  return data?.signedUrl
+    ? `${data.signedUrl}&v=${Date.now()}`
+    : ''
+}
+
 export default function App() {
   const [session, setSession] = useState(null)
   const [familyId, setFamilyId] = useState('')
   const [pin, setPin] = useState('')
   const [resident, setResident] = useState(null)
+  const [residentAvatarUrl, setResidentAvatarUrl] = useState('')
   const [updates, setUpdates] = useState([])
   const [appointments, setAppointments] = useState([])
   const [announcements, setAnnouncements] = useState([])
@@ -168,6 +191,7 @@ export default function App() {
 
   function clearFamilyData() {
     setResident(null)
+    setResidentAvatarUrl('')
     setUpdates([])
     setAppointments([])
     setAnnouncements([])
@@ -332,7 +356,17 @@ export default function App() {
 
     setResident(residentData)
 
+    const avatarPromise =
+      getResidentAvatarUrl(
+        residentData.patient_id
+      ).then((url) => {
+        setResidentAvatarUrl(
+          url
+        )
+      })
+
     await Promise.all([
+      avatarPromise,
       loadUpdates(residentData.patient_id),
       loadAppointments(residentData.patient_id),
       loadAnnouncements(),
@@ -895,9 +929,16 @@ export default function App() {
 
       <section className="resident-card premium-card">
         <div className="resident-avatar">
-          {residentName
-            .charAt(0)
-            .toUpperCase()}
+          {residentAvatarUrl ? (
+            <img
+              src={residentAvatarUrl}
+              alt=""
+            />
+          ) : (
+            residentName
+              .charAt(0)
+              .toUpperCase()
+          )}
         </div>
 
         <div className="resident-info">
@@ -1434,9 +1475,16 @@ export default function App() {
 
       <section className="profile-summary premium-card">
         <div className="resident-avatar large">
-          {residentName
-            .charAt(0)
-            .toUpperCase()}
+          {residentAvatarUrl ? (
+            <img
+              src={residentAvatarUrl}
+              alt=""
+            />
+          ) : (
+            residentName
+              .charAt(0)
+              .toUpperCase()
+          )}
         </div>
 
         <div>
