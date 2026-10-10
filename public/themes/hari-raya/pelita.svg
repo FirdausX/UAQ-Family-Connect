@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-label="Hiasan pelita Hari Raya">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF2B4"/>
+      <stop offset="0.55" stop-color="#D6AB57"/>
+      <stop offset="1" stop-color="#9B7026"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFF8D9" stop-opacity="0.88"/>
+      <stop offset="1" stop-color="#FBDF8B" stop-opacity="0.16"/>
+    </linearGradient>
+  </defs>
+  <!-- A simple lightweight decorative hanging Eid lantern; transparent background -->
+  <path d="M64 4v14" stroke="#C49A4F" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="64" cy="17" r="5" fill="none" stroke="#C49A4F" stroke-width="3"/>
+  <path d="M47 33Q64 18 81 33L87 41H41Z" fill="url(#gold)" stroke="#A8782D" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M41 41H87L82 93H46Z" fill="url(#glass)" stroke="url(#gold)" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M52 42L55 94M76 42L73 94M41 48H87" stroke="#B88A40" stroke-width="2.8" opacity="0.82"/>
+  <path d="M64 52C67 58 70 62 70 67C70 72 67 76 64 76C61 76 58 72 58 67C58 62 61 58 64 52Z" fill="#E7A83E"/>
+  <path d="M64 59C66 64 67 66 66 69C65 71 62 71 62 68C62 65 63 62 64 59Z" fill="#FFF3B7"/>
+  <path d="M49 96H79L83 101H45Z" fill="url(#gold)" stroke="#A8782D" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M54 106H74L68 113H60Z" fill="#C99D4C"/>
+  <path d="M64 113V121" stroke="#C99D4C" stroke-width="3" stroke-linecap="round"/>
+  <path d="M27 44v10m-5-5h10M101 40v10m-5-5h10" stroke="#E2BA65" stroke-width="2" stroke-linecap="round" opacity="0.95"/>
+</svg>

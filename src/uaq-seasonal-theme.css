@@ -1,0 +1,228 @@
+
+/* ================================================================
+   UAQ THEME MANAGER 2.0 - TRUE HARI RAYA THEME
+   Keeps approved Blue Sakura and profile image styles UNCHANGED.
+   No animation, no new Supabase Storage requests.
+   All user-selected art lives under /public/themes/hari-raya/.
+   ================================================================ */
+.app-shell[data-uaq-season='hari_raya'] {
+  --uaq-sakura-sprig: url('/images/uaq-raya-ketupat.svg');
+  --uaq-blue:#23704f;
+  --uaq-blue-deep:#194c3b;
+  --uaq-blue-muted:#658475;
+  --uaq-blue-line:rgba(38,123,82,.22);
+  --uaq-blue-shadow:0 14px 35px rgba(28,86,57,.12);
+  --bg:#f2f8ea;
+  --surface:#fffef7;
+  --surface-soft:#eaf3e8;
+  --text:#224c3c;
+  --muted:#648072;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] {
+  --bg:#10281e;
+  --surface:#18382b;
+  --surface-soft:#224635;
+  --text:#e7f3e5;
+  --muted:#b0cfb9;
+}
+/* Remove any original Sakura ornament remaining from the original app. */
+.app-shell[data-uaq-season='hari_raya']::before,
+.app-shell[data-uaq-season='hari_raya']::after {
+  background-image:none !important;
+  animation:none !important;
+}
+/* Emerald + gold page-wide background, optional replaceable wallpaper. */
+.app-shell[data-uaq-season='hari_raya'] .app-main,
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell {
+  background:
+    linear-gradient(145deg,rgba(239,250,236,.85),rgba(252,248,233,.91)),
+    url('/themes/hari-raya/wallpaper.jpg') center top/cover no-repeat,
+    #eff7e7 !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .app-main,
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell {
+  background:
+    linear-gradient(145deg,rgba(11,40,28,.85),rgba(20,44,33,.90)),
+    url('/themes/hari-raya/wallpaper.jpg') center top/cover no-repeat,
+    #10291e !important;
+}
+/* Sidebar wallpaper also changes, while ALL photo cards remain untouched. */
+.app-shell[data-uaq-season='hari_raya'] .sidebar,
+.app-shell[data-uaq-season='hari_raya'] .desktop-sidebar,
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .desktop-sidebar {
+  background:
+    linear-gradient(170deg,rgba(238,250,236,.96),rgba(249,246,227,.92)),
+    url('/themes/hari-raya/wallpaper.jpg') center bottom/cover no-repeat,
+    #edf8e9 !important;
+  border-right-color:rgba(89,133,83,.22) !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .sidebar,
+.app-shell.dark[data-uaq-season='hari_raya'] .desktop-sidebar,
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .desktop-sidebar {
+  background:
+    linear-gradient(170deg,rgba(13,42,29,.96),rgba(17,42,33,.89)),
+    url('/themes/hari-raya/wallpaper.jpg') center bottom/cover no-repeat,
+    #10291e !important;
+}
+/* Main banners, navigation, icons, headings and tiles switch to emerald. */
+.app-shell[data-uaq-season='hari_raya'] .nav-item-active,
+.app-shell[data-uaq-season='hari_raya'] .sidebar-nav .nav-item.nav-item-active,
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .desktop-nav button.active,
+.app-shell[data-uaq-season='hari_raya'] .mobile-bottom-nav button.active {
+  background:linear-gradient(110deg,#d4eed8,#f5f2d6) !important;
+  color:#206b49 !important;
+  border-color:rgba(62,127,75,.22) !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .sidebar-nav .nav-item.nav-item-active,
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .desktop-nav button.active {
+  background:#285d41 !important;color:#f4edce !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .uaq-blue-dashboard-intro h2,
+.app-shell[data-uaq-season='hari_raya'] .uaq-blue-family-intro h1,
+.app-shell[data-uaq-season='hari_raya'] .page-title-row h1,
+.app-shell[data-uaq-season='hari_raya'] .page-topbar h1,
+.app-shell[data-uaq-season='hari_raya'] .section-heading h2,
+.app-shell[data-uaq-season='hari_raya'] .panel-heading h2 {
+  color:#1b6147 !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .uaq-blue-family-intro>span,
+.app-shell[data-uaq-season='hari_raya'] .uaq-blue-dashboard-intro>span,
+.app-shell[data-uaq-season='hari_raya'] .uaq-blue-family-intro p,
+.app-shell[data-uaq-season='hari_raya'] .page-topbar p {
+  color:#5a8865 !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .uaq-blue-family-intro h1,
+.app-shell.dark[data-uaq-season='hari_raya'] .uaq-blue-dashboard-intro h2,
+.app-shell.dark[data-uaq-season='hari_raya'] .page-title-row h1,
+.app-shell.dark[data-uaq-season='hari_raya'] .section-heading h2 {
+  color:#f2e1af !important;
+}
+/* Card content: no profiles/photos/avatars altered. */
+.app-shell[data-uaq-season='hari_raya'] .stats-grid .stat-card,
+.app-shell[data-uaq-season='hari_raya'] .dashboard-bottom-grid .panel-card,
+.app-shell[data-uaq-season='hari_raya'] .uaq-blue-family-stats button,
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-scroll .home-summary-card,
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .standard-page .activity-card {
+  background:rgba(255,254,247,.95) !important;
+  border-color:rgba(104,144,79,.25) !important;
+  box-shadow:0 11px 27px rgba(43,99,50,.08) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .stats-grid .stat-icon,
+.app-shell[data-uaq-season='hari_raya'] .uaq-blue-family-stats button>svg,
+.app-shell[data-uaq-season='hari_raya'] .summary-icon {
+  background:#e0f1df !important;color:#237f54 !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .stats-grid .stat-content strong,
+.app-shell[data-uaq-season='hari_raya'] .uaq-blue-family-stats button>strong,
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-summary-card strong {
+  color:#205f43 !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .stats-grid .stat-content>span,
+.app-shell[data-uaq-season='hari_raya'] .uaq-blue-family-stats button>span {
+  color:#23724d !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .stats-grid .stat-card,
+.app-shell.dark[data-uaq-season='hari_raya'] .dashboard-bottom-grid .panel-card,
+.app-shell.dark[data-uaq-season='hari_raya'] .uaq-blue-family-stats button {
+  background:rgba(24,57,41,.96) !important;
+  border-color:rgba(191,167,102,.25) !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .stats-grid .stat-content strong,
+.app-shell.dark[data-uaq-season='hari_raya'] .uaq-blue-family-stats button>strong {
+  color:#f3e9c4 !important;
+}
+/* Keep the seasonal static ketupat details; do not animate. */
+.app-shell[data-uaq-season='hari_raya'] .content-area::after,
+.app-shell[data-uaq-season='hari_raya'] .content-area::before {
+  --uaq-sakura-sprig:url('/images/uaq-raya-ketupat.svg');
+}
+
+/* Family Connect: Sakura hero replaced by user's optional Raya photo. */
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-hero,
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .home-hero {
+  background:url('/themes/hari-raya/family-hero.jpg') center center/cover no-repeat,#1f6847 !important;
+  border:1px solid rgba(190,156,78,.49) !important;
+  box-shadow:0 14px 35px rgba(24,75,48,.13) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-hero-overlay {
+  background:linear-gradient(90deg,rgba(8,54,35,.72) 0%,rgba(20,72,48,.38) 62%,rgba(21,67,45,.04) 100%) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-hero-top h1 {
+  color:#fffbea !important;
+  text-shadow:0 2px 6px rgba(0,0,0,.16) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-hero-top>div>span {
+  color:#f0e7b6 !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-hero-message {
+  background:rgba(255,250,229,.95) !important;
+  color:#256346 !important;
+  border-color:rgba(183,159,92,.32) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .page-topbar {
+  background:rgba(246,252,239,.94) !important;
+  border-color:rgba(94,139,90,.22) !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .page-topbar {
+  background:rgba(14,45,31,.95) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .sidebar-footer strong {
+  color:#246947 !important;
+}
+/* The Sakura artwork embedded in the logo is replaced via JSX src choice. */
+
+/* v2.0: always show festive ketupat pattern + custom wallpaper, even
+   if the user replaces the wallpaper with a plain photograph. */
+.app-shell[data-uaq-season='hari_raya'] .app-main,
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell {
+  background-image:
+    linear-gradient(145deg,rgba(239,250,236,.91),rgba(252,248,233,.93)),
+    url('/images/uaq-raya-ketupat.svg'),
+    url('/themes/hari-raya/wallpaper.jpg') !important;
+  background-position:center,center top,center !important;
+  background-size:cover,600px 350px,cover !important;
+  background-repeat:no-repeat,repeat,no-repeat !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .app-main,
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell {
+  background-image:
+    linear-gradient(145deg,rgba(11,40,28,.89),rgba(20,44,33,.94)),
+    url('/images/uaq-raya-ketupat.svg'),
+    url('/themes/hari-raya/wallpaper.jpg') !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .sidebar,
+.app-shell[data-uaq-season='hari_raya'] .desktop-sidebar,
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .desktop-sidebar {
+  background-image:
+    linear-gradient(170deg,rgba(238,250,236,.97),rgba(249,246,227,.94)),
+    url('/images/uaq-raya-ketupat.svg'),
+    url('/themes/hari-raya/wallpaper.jpg') !important;
+  background-position:center,center top,center !important;
+  background-size:cover,420px 245px,cover !important;
+  background-repeat:no-repeat,repeat,no-repeat !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .sidebar,
+.app-shell.dark[data-uaq-season='hari_raya'] .desktop-sidebar,
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .desktop-sidebar {
+  background-image:
+    linear-gradient(170deg,rgba(13,42,29,.97),rgba(17,42,33,.93)),
+    url('/images/uaq-raya-ketupat.svg'),
+    url('/themes/hari-raya/wallpaper.jpg') !important;
+}
+/* A small traditional pelita beside the existing Selamat Hari Raya bar. */
+.app-shell[data-uaq-season='hari_raya'] .content-area::before,
+.app-shell[data-uaq-season='hari_raya'] .app-content::before {
+  background-image:
+    url('/themes/hari-raya/pelita.svg'),
+    linear-gradient(95deg,rgba(221,240,219,.96),rgba(249,244,215,.96)) !important;
+  background-position:16px center,center !important;
+  background-size:27px 27px,cover !important;
+  background-repeat:no-repeat,no-repeat !important;
+  padding-left:45px !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .content-area::before,
+.app-shell.dark[data-uaq-season='hari_raya'] .app-content::before {
+  background-image:
+    url('/themes/hari-raya/pelita.svg'),
+    linear-gradient(95deg,#1d5540,#4a4b2e) !important;
+}

@@ -1,0 +1,3677 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
+
+:root {
+  --bg: #f5f2ea;
+  --surface: #fffdf8;
+  --surface-soft: #f0f4ee;
+  --surface-green: #e7efe8;
+  --text: #21352f;
+  --muted: #77827e;
+  --line: rgba(56, 77, 69, 0.12);
+  --teal: #138f92;
+  --teal-dark: #176c69;
+  --teal-soft: #dcefeb;
+  --sage: #87a58e;
+  --sage-dark: #5c7964;
+  --brown: #8a674e;
+  --rose: #b9184e;
+  --gold: #c59a54;
+  --shadow: 0 18px 55px rgba(66, 70, 60, 0.10);
+  --shadow-soft: 0 10px 30px rgba(66, 70, 60, 0.08);
+  font-family: 'DM Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+  background: var(--bg);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid rgba(19, 143, 146, 0.18);
+  outline-offset: 3px;
+}
+
+.app-shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 93% 6%, rgba(126, 167, 145, 0.09), transparent 27%),
+    radial-gradient(circle at 16% 92%, rgba(185, 145, 100, 0.07), transparent 31%),
+    #f7f4ed;
+  color: var(--text);
+}
+
+.app-shell.dark {
+  --bg: #16201d;
+  --surface: #1d2925;
+  --surface-soft: #22332e;
+  --surface-green: #243831;
+  --text: #edf4f0;
+  --muted: #9eaaa5;
+  --line: rgba(255, 255, 255, 0.09);
+  --teal-soft: #25423e;
+  --shadow: 0 18px 55px rgba(0, 0, 0, 0.26);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.20);
+  background:
+    radial-gradient(circle at 92% 7%, rgba(55, 135, 126, 0.14), transparent 27%),
+    radial-gradient(circle at 10% 90%, rgba(139, 102, 70, 0.12), transparent 30%),
+    #16201d;
+  color: var(--text);
+}
+
+/* =========================================================
+   STARTUP
+   ========================================================= */
+
+.startup-screen {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 18px;
+  padding: 28px;
+}
+
+.startup-screen img {
+  width: min(280px, 72vw);
+  border-radius: 28px;
+  box-shadow: var(--shadow-soft);
+}
+
+.startup-screen p {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
+.login-screen {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(420px, 0.95fr);
+  background: var(--surface);
+}
+
+.login-hero {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(247, 244, 235, 0.22), rgba(42, 82, 72, 0.08)),
+    url('/images/family-hero.webp') center / cover no-repeat;
+}
+
+.login-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(28, 57, 50, 0.70), rgba(28, 57, 50, 0.18) 72%, transparent),
+    linear-gradient(180deg, rgba(255,255,255,0.05), rgba(23, 55, 48, 0.33));
+}
+
+.login-hero-copy {
+  position: absolute;
+  z-index: 2;
+  left: clamp(34px, 6vw, 84px);
+  right: clamp(34px, 7vw, 100px);
+  bottom: clamp(46px, 8vh, 92px);
+  max-width: 560px;
+  color: #fff;
+}
+
+.login-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 17px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.login-hero-copy h2 {
+  margin: 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(44px, 5.1vw, 76px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+.login-hero-copy p {
+  max-width: 470px;
+  margin: 20px 0 0;
+  font-size: 16px;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.88);
+}
+
+.login-panel {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 40px clamp(28px, 5vw, 72px);
+  background:
+    radial-gradient(circle at 90% 8%, rgba(187, 111, 116, 0.07), transparent 24%),
+    radial-gradient(circle at 9% 92%, rgba(79, 142, 128, 0.08), transparent 24%),
+    #fffdf8;
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 26px;
+  right: 28px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: rgba(255,255,255,0.82);
+  color: var(--teal-dark);
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
+}
+
+.login-card {
+  width: min(100%, 470px);
+  padding: 34px 34px 30px;
+  border: 1px solid rgba(70, 86, 77, 0.10);
+  border-radius: 34px;
+  background: rgba(255,255,255,0.93);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.login-brand-image {
+  width: min(300px, 88%);
+  margin: 0 auto 24px;
+  border-radius: 20px;
+}
+
+.login-title > span {
+  display: block;
+  color: var(--teal-dark);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.login-title h1 {
+  margin: 7px 0 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(38px, 5vw, 54px);
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.login-title p {
+  margin: 12px 0 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.login-form {
+  display: grid;
+  gap: 16px;
+  margin-top: 26px;
+}
+
+.login-form label {
+  display: grid;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.input-shell {
+  min-height: 54px;
+  display: grid;
+  grid-template-columns: 24px minmax(0,1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px 0 15px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+  transition: border-color .16s ease, box-shadow .16s ease;
+}
+
+.input-shell:focus-within {
+  border-color: rgba(19, 143, 146, 0.50);
+  box-shadow: 0 0 0 4px rgba(19, 143, 146, 0.08);
+}
+
+.input-shell > svg {
+  color: var(--teal-dark);
+}
+
+.input-shell input {
+  width: 100%;
+  min-width: 0;
+  height: 52px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font-weight: 650;
+}
+
+.password-toggle {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 12px;
+  background: var(--teal-soft);
+  color: var(--teal-dark);
+  cursor: pointer;
+}
+
+.login-error {
+  padding: 11px 13px;
+  border: 1px solid #efc7c3;
+  border-radius: 14px;
+  background: #fff3f1;
+  color: #934b45;
+  font-size: 12px;
+}
+
+.login-button {
+  min-height: 54px;
+  border: 0;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #16b8b0, #0a8d91);
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 13px 28px rgba(19, 143, 146, 0.20);
+}
+
+.login-button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.login-security {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+/* =========================================================
+   MAIN APP SHELL
+   ========================================================= */
+
+.family-app-shell {
+  min-height: 100vh;
+}
+
+.desktop-sidebar {
+  display: none;
+}
+
+.app-content {
+  min-width: 0;
+  min-height: 100vh;
+}
+
+.mobile-bottom-nav {
+  position: fixed;
+  z-index: 100;
+  left: 10px;
+  right: 10px;
+  bottom: max(10px, env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0,1fr));
+  gap: 3px;
+  min-height: 66px;
+  padding: 7px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: rgba(255,255,255,0.93);
+  box-shadow: 0 14px 42px rgba(27, 43, 38, 0.15);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.mobile-bottom-nav button {
+  min-width: 0;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 3px;
+  padding: 4px 2px;
+  border: 0;
+  border-radius: 17px;
+  background: transparent;
+  color: #74817c;
+  cursor: pointer;
+}
+
+.mobile-bottom-nav button.active {
+  background: var(--teal-soft);
+  color: var(--teal-dark);
+}
+
+.mobile-bottom-nav span {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 8px;
+  font-weight: 750;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   SHARED PAGE ELEMENTS
+   ========================================================= */
+
+.app-page {
+  min-height: 100vh;
+}
+
+.standard-page {
+  padding-bottom: 92px;
+}
+
+.page-topbar {
+  min-height: 118px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 24px 22px 20px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(250,248,242,0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.page-topbar > div > span,
+.section-heading span,
+.resident-profile-copy > span,
+.about-section-heading span,
+.about-account-card > div > span,
+.about-connection-card > div > span {
+  color: var(--sage-dark);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.page-topbar h1 {
+  margin: 4px 0 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(34px, 8vw, 52px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+.page-topbar p {
+  margin: 7px 0 0;
+  max-width: 560px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.home-icon-button {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 48px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: rgba(255,255,255,0.85);
+  color: var(--sage-dark);
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
+}
+
+.page-scroll {
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  padding: 30px 22px 38px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.section-heading h2 {
+  margin: 4px 0 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(26px, 5vw, 34px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.section-heading > button {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  border: 0;
+  background: transparent;
+  color: var(--teal-dark);
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.empty-card {
+  min-height: 128px;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  border: 1px dashed rgba(81, 104, 94, 0.20);
+  border-radius: 24px;
+  background: rgba(255,255,255,0.72);
+  color: var(--muted);
+  text-align: center;
+}
+
+/* =========================================================
+   HOME
+   ========================================================= */
+
+.home-app {
+  min-height: 100vh;
+  padding-bottom: 92px;
+}
+
+.home-hero {
+  position: relative;
+  min-height: 285px;
+  overflow: hidden;
+  background:
+    url('/images/family-hero.webp') center 48% / cover no-repeat;
+}
+
+.home-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(249,247,241,0.98) 0%, rgba(249,247,241,0.90) 40%, rgba(249,247,241,0.38) 74%, rgba(249,247,241,0.10) 100%),
+    linear-gradient(180deg, rgba(255,255,255,0.12), rgba(52,73,65,0.08));
+}
+
+.home-hero-top {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 28px 22px 0;
+}
+
+.home-hero-top > div > span {
+  color: var(--sage-dark);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+
+.home-hero-top h1 {
+  margin: 7px 0 0;
+  max-width: 600px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(39px, 8vw, 66px);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+
+.home-hero-message {
+  position: absolute;
+  z-index: 2;
+  left: 22px;
+  bottom: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 13px;
+  border: 1px solid rgba(101, 128, 116, 0.12);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.77);
+  color: var(--sage-dark);
+  font-size: 11px;
+  font-weight: 800;
+  backdrop-filter: blur(12px);
+}
+
+.home-scroll {
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  padding: 28px 22px 38px;
+}
+
+.home-scroll > section + section {
+  margin-top: 32px;
+}
+
+.resident-card {
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 72px minmax(0,1fr) auto;
+  align-items: center;
+  gap: 15px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  background: rgba(255,255,255,0.90);
+  color: inherit;
+  text-align: left;
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+}
+
+.resident-avatar,
+.resident-profile-avatar,
+.resident-mini-avatar {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #e7efe9;
+  color: var(--sage-dark);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+}
+
+.resident-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 22px;
+  font-size: 24px;
+}
+
+.resident-avatar img,
+.resident-profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.resident-card-copy {
+  min-width: 0;
+}
+
+.resident-card-copy > span {
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.resident-card-copy h3 {
+  margin: 4px 0 0;
+  overflow: hidden;
+  font-size: 19px;
+  letter-spacing: -0.025em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resident-card-copy p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.resident-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.resident-status > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 190px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #e7f0e8;
+  color: #56715d;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.resident-status > svg {
+  color: var(--muted);
+}
+
+.home-summary-grid {
+  display: grid;
+  gap: 13px;
+}
+
+.home-summary-card {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 46px minmax(0,1fr) 20px;
+  align-items: center;
+  gap: 12px;
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgba(255,255,255,0.88);
+  color: inherit;
+  text-align: left;
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+}
+
+.summary-icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: var(--teal-soft);
+  color: var(--teal-dark);
+}
+
+.home-summary-card > div:nth-child(2) {
+  min-width: 0;
+}
+
+.home-summary-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.home-summary-card strong {
+  display: block;
+  margin-top: 2px;
+  overflow: hidden;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home-summary-card p {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.home-summary-card > svg {
+  color: var(--muted);
+}
+
+.home-activity-grid {
+  display: grid;
+  gap: 14px;
+}
+
+/* =========================================================
+   ACTIVITY + MEDIA
+   ========================================================= */
+
+.activity-filter-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.activity-filter-row::-webkit-scrollbar {
+  display: none;
+}
+
+.activity-filter {
+  flex: 0 0 auto;
+  min-height: 38px;
+  padding: 0 15px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.70);
+  color: #53645d;
+  font-size: 11px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.activity-filter.active {
+  border-color: transparent;
+  background: var(--teal-dark);
+  color: #fff;
+}
+
+.linked-resident-strip {
+  display: grid;
+  grid-template-columns: 42px minmax(0,1fr) 24px;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 18px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 19px;
+  background: rgba(255,255,255,0.70);
+}
+
+.resident-mini-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  font-size: 14px;
+}
+
+.linked-resident-strip span {
+  display: block;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.linked-resident-strip strong {
+  display: block;
+  margin-top: 1px;
+  font-size: 12px;
+}
+
+.linked-resident-strip > svg {
+  color: var(--teal-dark);
+}
+
+.activity-feed {
+  display: grid;
+  gap: 15px;
+}
+
+.activity-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 25px;
+  background: rgba(255,255,255,0.90);
+  box-shadow: var(--shadow-soft);
+}
+
+.activity-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 0;
+  background-position: center;
+  background-size: cover;
+  cursor: pointer;
+}
+
+.activity-media-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.22));
+}
+
+.activity-type-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.90);
+  color: #24483f;
+  font-size: 9px;
+  font-weight: 800;
+  backdrop-filter: blur(9px);
+}
+
+.activity-play-button {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: auto;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.90);
+  color: var(--teal-dark);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.14);
+}
+
+.activity-card-content {
+  padding: 14px 15px 16px;
+}
+
+.activity-date {
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.activity-card-content h3 {
+  margin: 5px 0 0;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+}
+
+.activity-card-content p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.activity-card.compact .activity-card-content p {
+  display: none;
+}
+
+.privacy-footer {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 20px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255,255,255,0.67);
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.private-media-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  color: var(--sage-dark);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.media-viewer-backdrop {
+  position: fixed;
+  z-index: 500;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(10, 20, 17, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.media-viewer {
+  width: min(100%, 920px);
+  max-height: 92vh;
+  overflow: auto;
+  border-radius: 28px;
+  background: #fffdf8;
+  box-shadow: 0 34px 100px rgba(0,0,0,0.32);
+}
+
+.media-viewer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.media-viewer-header span {
+  display: block;
+  color: var(--teal-dark);
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.media-viewer-header strong {
+  display: block;
+  margin-top: 2px;
+}
+
+.media-close-button {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+}
+
+.media-viewer-stage {
+  background: #101614;
+}
+
+.media-viewer-stage > img {
+  width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+}
+
+.media-viewer-copy {
+  padding: 16px 18px 20px;
+}
+
+.media-viewer-copy > span {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.media-viewer-copy p {
+  margin: 8px 0 0;
+  color: #465750;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.private-video-player {
+  position: relative;
+  background: #0b0f0e;
+}
+
+.private-video-player video {
+  width: 100%;
+  max-height: 70vh;
+  background: #000;
+}
+
+.private-video-big-play {
+  position: absolute;
+  inset: 0;
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  margin: auto;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.92);
+  color: var(--teal-dark);
+  cursor: pointer;
+}
+
+.private-video-controls {
+  display: grid;
+  grid-template-columns: 38px auto minmax(60px,1fr) auto 38px 38px;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: rgba(12,18,16,0.96);
+  color: #fff;
+}
+
+.private-video-controls button {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  cursor: pointer;
+}
+
+.private-video-time {
+  font-size: 9px;
+  color: rgba(255,255,255,0.76);
+}
+
+.private-video-seek {
+  width: 100%;
+  accent-color: #6ed2c6;
+}
+
+/* =========================================================
+   APPOINTMENTS
+   ========================================================= */
+
+.appointments-page-scroll > section + section {
+  margin-top: 30px;
+}
+
+.appointment-list {
+  display: grid;
+  gap: 13px;
+}
+
+.appointment-card {
+  display: grid;
+  grid-template-columns: 64px minmax(0,1fr);
+  align-items: center;
+  gap: 13px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgba(255,255,255,0.88);
+  box-shadow: var(--shadow-soft);
+}
+
+.appointment-card.featured {
+  border-color: rgba(19, 143, 146, 0.18);
+  background: linear-gradient(135deg, rgba(236,248,245,0.94), rgba(255,253,248,0.96));
+}
+
+.appointment-date-box {
+  min-height: 72px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  border-radius: 17px;
+  background: #e5f1ef;
+  color: var(--teal-dark);
+}
+
+.appointment-date-box strong {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.appointment-date-box span {
+  margin-top: 3px;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.appointment-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--teal-dark);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.appointment-card h3 {
+  margin: 5px 0 0;
+  font-size: 16px;
+}
+
+.appointment-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.appointment-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.appointment-card p {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.appointment-empty-card,
+.announcement-empty-card {
+  display: grid;
+  grid-template-columns: 50px minmax(0,1fr);
+  align-items: center;
+  gap: 13px;
+  padding: 17px;
+  border: 1px dashed rgba(80, 105, 94, 0.20);
+  border-radius: 22px;
+  background: rgba(255,255,255,0.68);
+}
+
+.appointment-empty-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: var(--teal-soft);
+  color: var(--teal-dark);
+}
+
+.appointment-empty-card strong,
+.announcement-empty-card strong {
+  display: block;
+  font-size: 13px;
+}
+
+.appointment-empty-card p,
+.announcement-empty-card p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+/* =========================================================
+   ANNOUNCEMENTS
+   ========================================================= */
+
+.announcement-list {
+  display: grid;
+  gap: 13px;
+}
+
+.announcement-card {
+  display: grid;
+  grid-template-columns: 48px minmax(0,1fr);
+  gap: 13px;
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgba(255,255,255,0.88);
+  box-shadow: var(--shadow-soft);
+}
+
+.announcement-card.featured {
+  border-color: rgba(197,154,84,0.24);
+  background: linear-gradient(135deg, rgba(255,248,234,0.96), rgba(255,253,248,0.96));
+}
+
+.announcement-icon {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: #f4ead9;
+  color: #9c6d32;
+}
+
+.announcement-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.announcement-meta span:first-child {
+  color: #9c6d32;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.announcement-card h3 {
+  margin: 5px 0 0;
+  font-size: 15px;
+}
+
+.announcement-card p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   RESIDENT / CARE SUMMARY
+   ========================================================= */
+
+.resident-topbar {
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.resident-topbar > div {
+  min-width: 0;
+}
+
+.resident-page-scroll {
+  max-width: 1180px;
+}
+
+.resident-profile-card {
+  display: grid;
+  grid-template-columns: 94px minmax(0,1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: rgba(255,255,255,0.90);
+  box-shadow: var(--shadow);
+}
+
+.resident-profile-avatar {
+  width: 94px;
+  height: 94px;
+  border-radius: 24px;
+  font-size: 26px;
+}
+
+.resident-profile-copy {
+  min-width: 0;
+}
+
+.resident-profile-copy h2 {
+  margin: 5px 0 0;
+  font-size: 22px;
+  letter-spacing: -0.025em;
+}
+
+.resident-profile-copy p {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.resident-profile-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 220px;
+  padding: 8px 11px;
+  border-radius: 999px;
+  background: #e8f0e8;
+  color: #58715e;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.resident-page-scroll > section + section {
+  margin-top: 28px;
+}
+
+.care-summary-intro {
+  margin: -3px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.family-care-note {
+  display: grid;
+  grid-template-columns: 26px minmax(0,1fr);
+  gap: 10px;
+  margin-top: 24px;
+  padding: 16px;
+  border: 1px solid rgba(103, 135, 116, 0.14);
+  border-radius: 22px;
+  background: linear-gradient(135deg, #edf3e8, #f7efe6);
+  color: #56715f;
+}
+
+.family-care-note strong {
+  display: block;
+  font-size: 12px;
+}
+
+.family-care-note p {
+  margin: 4px 0 0;
+  color: #768079;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+/* Premium ribbon list */
+.family-care-ribbon-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.family-care-ribbon {
+  --ribbon-a: #9fc2a5;
+  --ribbon-b: #71977b;
+  --ribbon-dark: #4f7259;
+  position: relative;
+  display: grid;
+  grid-template-columns: 220px minmax(0,1fr);
+  min-width: 0;
+  min-height: 94px;
+  filter: drop-shadow(0 12px 16px rgba(54,68,62,0.11));
+}
+
+.family-care-ribbon-gold {
+  --ribbon-a: #dfc28b;
+  --ribbon-b: #b88a42;
+  --ribbon-dark: #875f25;
+}
+
+.family-care-ribbon-teal {
+  --ribbon-a: #82cec4;
+  --ribbon-b: #339e93;
+  --ribbon-dark: #16766e;
+}
+
+.family-care-ribbon-olive {
+  --ribbon-a: #adc9a2;
+  --ribbon-b: #759a68;
+  --ribbon-dark: #4f7645;
+}
+
+.family-care-ribbon-tab {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 14px 28px 14px 18px;
+  border-radius: 22px 0 0 22px;
+  background: linear-gradient(145deg, var(--ribbon-a), var(--ribbon-b));
+  color: #fff;
+  text-align: center;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.42),
+    inset 0 -12px 24px rgba(46,62,54,0.08);
+}
+
+.family-care-ribbon-tab::before {
+  content: "";
+  position: absolute;
+  top: -9px;
+  right: -12px;
+  width: 38px;
+  height: 19px;
+  border-radius: 0 14px 0 0;
+  background: linear-gradient(145deg, var(--ribbon-dark), var(--ribbon-a));
+  transform: skewX(-27deg);
+}
+
+.family-care-ribbon-tab::after {
+  content: "";
+  position: absolute;
+  right: -18px;
+  bottom: -8px;
+  width: 32px;
+  height: 18px;
+  border-radius: 0 0 12px 0;
+  background: linear-gradient(145deg, var(--ribbon-dark), var(--ribbon-b));
+  transform: skewX(27deg);
+}
+
+.family-care-ribbon-tab strong {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  max-width: 170px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 14px;
+  line-height: 1.12;
+}
+
+.family-care-ribbon-tab strong span {
+  opacity: 0.72;
+}
+
+.family-care-ribbon-body {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 1px minmax(0,1fr);
+  align-items: center;
+  gap: 22px;
+  min-width: 0;
+  padding: 15px 58px 15px 48px;
+  border: 1px solid rgba(226,222,213,0.92);
+  border-left: 0;
+  border-radius: 0 24px 24px 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.99), rgba(250,247,241,0.98));
+}
+
+.family-care-ribbon-body::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -34px;
+  width: 70px;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.99), rgba(250,247,241,0.98));
+  clip-path: polygon(0 0, 52% 0, 100% 50%, 52% 100%, 0 100%);
+  pointer-events: none;
+}
+
+.family-care-ribbon-body.single {
+  grid-template-columns: minmax(0,1fr);
+}
+
+.family-care-ribbon-divider {
+  width: 1px;
+  align-self: stretch;
+  background: linear-gradient(to bottom, transparent, rgba(164,166,159,0.34) 18%, rgba(164,166,159,0.34) 82%, transparent);
+}
+
+.family-care-ribbon-value {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+}
+
+.family-care-ribbon-value span {
+  display: block;
+  margin-bottom: 5px;
+  color: #87928e;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.35px;
+  text-transform: uppercase;
+}
+
+.family-care-ribbon-value strong {
+  display: block;
+  color: #263f3a;
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.42;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   ABOUT
+   ========================================================= */
+
+.about-scroll {
+  display: grid;
+  gap: 18px;
+}
+
+.about-section-card,
+.about-account-card,
+.about-connection-card {
+  border: 1px solid var(--line);
+  border-radius: 25px;
+  background: rgba(255,255,255,0.88);
+  box-shadow: var(--shadow-soft);
+}
+
+.about-section-card {
+  padding: 18px;
+}
+
+.about-section-heading {
+  display: grid;
+  grid-template-columns: 48px minmax(0,1fr);
+  gap: 13px;
+  align-items: start;
+}
+
+.about-section-icon,
+.about-account-icon {
+  display: grid;
+  place-items: center;
+  background: var(--teal-soft);
+  color: var(--teal-dark);
+}
+
+.about-section-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 15px;
+}
+
+.about-section-heading h2 {
+  margin: 4px 0 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 23px;
+  letter-spacing: -0.02em;
+}
+
+.about-section-heading p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.app-info-grid {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.app-info-grid article {
+  display: grid;
+  grid-template-columns: 40px minmax(0,1fr);
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  background: rgba(248,250,247,0.78);
+}
+
+.app-info-grid article > svg {
+  color: var(--sage-dark);
+}
+
+.app-info-grid strong {
+  display: block;
+  font-size: 11px;
+}
+
+.app-info-grid p {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.about-top-grid,
+.about-details-grid,
+.about-version-grid {
+  display: grid;
+  gap: 13px;
+}
+
+.about-account-card,
+.about-connection-card {
+  display: grid;
+  grid-template-columns: 48px minmax(0,1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 15px;
+}
+
+.about-connection-card {
+  grid-template-columns: 48px minmax(0,1fr);
+}
+
+.about-account-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 15px;
+}
+
+.about-account-card h2,
+.about-connection-card h2 {
+  margin: 4px 0 0;
+  font-size: 16px;
+}
+
+.about-account-card p,
+.about-connection-card p {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.about-account-card > svg {
+  color: var(--teal-dark);
+}
+
+.about-version-grid {
+  margin-top: 16px;
+}
+
+.version-card {
+  display: grid;
+  grid-template-columns: 36px minmax(0,1fr);
+  align-items: center;
+  gap: 9px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(248,250,247,0.74);
+}
+
+.version-card > svg {
+  color: var(--teal-dark);
+}
+
+.version-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 8px;
+  text-transform: uppercase;
+}
+
+.version-card strong {
+  display: block;
+  margin-top: 1px;
+  font-size: 11px;
+}
+
+.whats-new-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.whats-new-item {
+  display: grid;
+  grid-template-columns: 20px minmax(0,1fr);
+  gap: 8px;
+  align-items: start;
+  color: #52625c;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.whats-new-item > svg {
+  color: var(--teal-dark);
+}
+
+.sign-out-button {
+  width: 100%;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid rgba(171, 70, 66, 0.14);
+  border-radius: 18px;
+  background: #fff0ed;
+  color: #a64a43;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* =========================================================
+   DARK MODE DETAILS
+   ========================================================= */
+
+.app-shell.dark .login-panel,
+.app-shell.dark .page-topbar {
+  background: rgba(27,39,34,0.95);
+}
+
+.app-shell.dark .login-card,
+.app-shell.dark .resident-card,
+.app-shell.dark .home-summary-card,
+.app-shell.dark .activity-card,
+.app-shell.dark .appointment-card,
+.app-shell.dark .announcement-card,
+.app-shell.dark .resident-profile-card,
+.app-shell.dark .about-section-card,
+.app-shell.dark .about-account-card,
+.app-shell.dark .about-connection-card,
+.app-shell.dark .linked-resident-strip,
+.app-shell.dark .privacy-footer {
+  background: rgba(29,41,37,0.94);
+}
+
+.app-shell.dark .input-shell {
+  background: #22302c;
+}
+
+.app-shell.dark .input-shell input {
+  color: #eef4f1;
+}
+
+.app-shell.dark .theme-toggle,
+.app-shell.dark .home-icon-button,
+.app-shell.dark .media-close-button {
+  background: #24332e;
+}
+
+.app-shell.dark .mobile-bottom-nav {
+  background: rgba(27,39,34,0.95);
+}
+
+.app-shell.dark .media-viewer {
+  background: #1c2925;
+}
+
+.app-shell.dark .media-viewer-copy p,
+.app-shell.dark .whats-new-item {
+  color: #b0bbb6;
+}
+
+.app-shell.dark .family-care-ribbon-body {
+  border-color: rgba(255,255,255,0.08);
+  background: linear-gradient(135deg, rgba(29,39,35,0.98), rgba(32,39,35,0.98));
+}
+
+.app-shell.dark .family-care-ribbon-body::after {
+  background: linear-gradient(135deg, rgba(29,39,35,0.98), rgba(32,39,35,0.98));
+}
+
+.app-shell.dark .family-care-ribbon-value span {
+  color: #98a7a2;
+}
+
+.app-shell.dark .family-care-ribbon-value strong {
+  color: #eef4f1;
+}
+
+/* =========================================================
+   TABLET / DESKTOP
+   ========================================================= */
+
+@media (min-width: 700px) {
+  .home-summary-grid {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+
+  .home-activity-grid,
+  .activity-feed {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+
+  .appointment-list,
+  .announcement-list {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+
+  .about-top-grid,
+  .about-details-grid {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+
+  .about-version-grid,
+  .app-info-grid {
+    grid-template-columns: repeat(3, minmax(0,1fr));
+  }
+}
+
+@media (min-width: 960px) {
+  .family-app-shell {
+    display: grid;
+    grid-template-columns: 332px minmax(0,1fr);
+  }
+
+  .desktop-sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 18px 16px 22px;
+    border-right: 1px solid var(--line);
+    background: rgba(255,253,248,0.92);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  .sidebar-brand-art {
+    padding: 15px 0 22px;
+  }
+
+  .sidebar-brand-art img {
+    width: 100%;
+    max-height: 176px;
+    object-fit: contain;
+    border-radius: 28px;
+  }
+
+  .desktop-nav {
+    display: grid;
+    gap: 8px;
+  }
+
+  .desktop-nav button {
+    min-height: 58px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 19px;
+    background: transparent;
+    color: #6d7974;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .desktop-nav button.active {
+    background: #e5eee6;
+    color: #3e614c;
+  }
+
+  .desktop-nav button span {
+    font-size: 13px;
+  }
+
+  .sidebar-footer {
+    display: grid;
+    gap: 8px;
+    margin-top: auto;
+    padding: 18px 15px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .sidebar-footer strong {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.15;
+    color: #4c6c5a;
+  }
+
+  .sidebar-footer span {
+    color: var(--muted);
+    font-size: 9px;
+    line-height: 1.5;
+  }
+
+  .sidebar-footer small {
+    color: var(--teal-dark);
+    font-size: 9px;
+    font-weight: 800;
+  }
+
+  .mobile-bottom-nav {
+    display: none;
+  }
+
+  .standard-page,
+  .home-app {
+    padding-bottom: 0;
+  }
+
+  .page-topbar {
+    min-height: 152px;
+    padding: 38px 42px 28px;
+  }
+
+  .page-scroll,
+  .home-scroll {
+    padding-left: 42px;
+    padding-right: 42px;
+  }
+
+  .home-hero {
+    min-height: 340px;
+  }
+
+  .home-hero-top {
+    padding: 42px 42px 0;
+  }
+
+  .home-hero-message {
+    left: 42px;
+    bottom: 36px;
+  }
+
+  .home-hero-top h1 {
+    font-size: 64px;
+  }
+
+  .resident-card {
+    padding: 18px;
+  }
+
+  .activity-feed {
+    grid-template-columns: repeat(3, minmax(0,1fr));
+  }
+
+  .resident-profile-card {
+    padding: 20px;
+  }
+
+  .family-care-ribbon {
+    grid-template-columns: 220px minmax(0,1fr);
+  }
+}
+
+@media (min-width: 1320px) {
+  .page-scroll,
+  .home-scroll {
+    padding-left: 44px;
+    padding-right: 44px;
+  }
+
+  .activity-feed {
+    grid-template-columns: repeat(3, minmax(0,1fr));
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 959px) {
+  .login-screen {
+    grid-template-columns: 1fr;
+  }
+
+  .login-hero {
+    display: none;
+  }
+
+  .login-panel {
+    min-height: 100vh;
+    padding: 74px 18px 28px;
+  }
+
+  .theme-toggle {
+    top: 18px;
+    right: 18px;
+  }
+
+  .page-topbar {
+    position: sticky;
+    z-index: 20;
+    top: 0;
+  }
+}
+
+@media (max-width: 680px) {
+  .page-topbar {
+    min-height: 112px;
+    padding: 19px 16px 17px;
+  }
+
+  .resident-topbar {
+    min-height: 122px;
+  }
+
+  .page-scroll,
+  .home-scroll {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .home-hero-top {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .home-hero-message {
+    left: 16px;
+  }
+
+  .resident-card {
+    grid-template-columns: 60px minmax(0,1fr);
+  }
+
+  .resident-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 19px;
+    font-size: 20px;
+  }
+
+  .resident-status {
+    grid-column: 1 / -1;
+    justify-content: space-between;
+    padding-left: 73px;
+  }
+
+  .resident-status > span {
+    max-width: none;
+  }
+
+  .resident-profile-card {
+    grid-template-columns: 70px minmax(0,1fr);
+    gap: 13px;
+  }
+
+  .resident-profile-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    font-size: 21px;
+  }
+
+  .resident-profile-status {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  .private-video-controls {
+    grid-template-columns: 34px auto minmax(40px,1fr) 34px 34px;
+  }
+
+  .private-video-controls .private-video-time:nth-of-type(2) {
+    display: none;
+  }
+
+  .family-care-ribbon-list {
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .family-care-ribbon {
+    display: block;
+    min-height: 0;
+  }
+
+  .family-care-ribbon-tab {
+    min-height: 62px;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 11px;
+    padding: 11px 18px 11px 14px;
+    border-radius: 19px 19px 0 0;
+    text-align: left;
+  }
+
+  .family-care-ribbon-tab::before {
+    top: -7px;
+    right: 16px;
+    width: 31px;
+    height: 16px;
+  }
+
+  .family-care-ribbon-tab::after {
+    display: none;
+  }
+
+  .family-care-ribbon-tab strong {
+    justify-content: flex-start;
+    max-width: none;
+    font-size: 14px;
+  }
+
+  .family-care-ribbon-body {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 13px 15px 14px;
+    border-left: 1px solid rgba(226,222,213,0.92);
+    border-radius: 0 0 19px 19px;
+  }
+
+  .family-care-ribbon-body::after {
+    display: none;
+  }
+
+  .family-care-ribbon-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(164,166,159,0.28) 15%, rgba(164,166,159,0.28) 85%, transparent);
+  }
+
+  .family-care-ribbon-value span {
+    font-size: 8px;
+  }
+
+  .family-care-ribbon-value strong {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .login-card {
+    padding: 26px 19px 23px;
+    border-radius: 26px;
+  }
+
+  .login-brand-image {
+    width: 86%;
+  }
+
+  .home-hero {
+    min-height: 265px;
+  }
+
+  .home-hero-top h1 {
+    font-size: 40px;
+  }
+
+  .home-summary-grid,
+  .home-activity-grid,
+  .activity-feed,
+  .appointment-list,
+  .announcement-list,
+  .about-top-grid,
+  .about-details-grid,
+  .about-version-grid,
+  .app-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-topbar h1 {
+    font-size: 35px;
+  }
+
+  .section-heading h2 {
+    font-size: 26px;
+  }
+
+  .mobile-bottom-nav {
+    left: 7px;
+    right: 7px;
+  }
+
+  .mobile-bottom-nav span {
+    font-size: 7.5px;
+  }
+}
+
+/* =========================================================
+   DARK MODE CONTRAST + MOBILE NAV SAFE AREA FIX
+   ========================================================= */
+
+.app-shell.dark .app-info-grid article,
+.app-shell.dark .version-card,
+.app-shell.dark .appointment-empty-card,
+.app-shell.dark .announcement-empty-card,
+.app-shell.dark .empty-card {
+  border-color: rgba(255,255,255,0.08);
+  background: rgba(35, 49, 44, 0.96);
+  color: #eef4f1;
+}
+
+.app-shell.dark .app-info-grid strong,
+.app-shell.dark .version-card strong,
+.app-shell.dark .appointment-empty-card strong,
+.app-shell.dark .announcement-empty-card strong,
+.app-shell.dark .empty-card strong {
+  color: #eef4f1;
+}
+
+.app-shell.dark .app-info-grid p,
+.app-shell.dark .version-card span,
+.app-shell.dark .appointment-empty-card p,
+.app-shell.dark .announcement-empty-card p,
+.app-shell.dark .empty-card,
+.app-shell.dark .appointment-card p,
+.app-shell.dark .appointment-meta,
+.app-shell.dark .announcement-card p,
+.app-shell.dark .announcement-meta {
+  color: #aebbb5;
+}
+
+.app-shell.dark .appointment-empty-icon,
+.app-shell.dark .about-section-icon,
+.app-shell.dark .about-account-icon,
+.app-shell.dark .summary-icon {
+  background: #27463f;
+  color: #79c9bd;
+}
+
+.app-shell.dark .family-care-note {
+  border-color: rgba(127, 168, 145, 0.16);
+  background: linear-gradient(135deg, #24372f, #2d322d);
+  color: #d5e6dc;
+}
+
+.app-shell.dark .family-care-note p {
+  color: #aebbb5;
+}
+
+.app-shell.dark .resident-profile-status,
+.app-shell.dark .resident-status > span {
+  background: #294038;
+  color: #b9d3c2;
+}
+
+.app-shell.dark .activity-filter {
+  background: #24332e;
+  color: #aebbb5;
+}
+
+.app-shell.dark .activity-filter.active {
+  background: #176c69;
+  color: #ffffff;
+}
+
+@media (max-width: 959px) {
+  .standard-page,
+  .home-app {
+    padding-bottom: 104px;
+  }
+
+  .page-scroll,
+  .home-scroll,
+  .about-scroll {
+    padding-bottom: 34px;
+  }
+}
+
+@media (max-width: 420px) {
+  .standard-page,
+  .home-app {
+    padding-bottom: 112px;
+  }
+}
+
+/* =========================================================
+   DARK MODE V3 - FULL COVERAGE + TOP SAFE AREA
+   ========================================================= */
+
+/* Prevent the light strip / overscroll area around the dark app */
+html:has(.app-shell.dark),
+body:has(.app-shell.dark),
+body:has(.app-shell.dark) #root {
+  background: #14211d !important;
+  color-scheme: dark;
+}
+
+/* Core dark surfaces */
+.app-shell.dark,
+.app-shell.dark .family-app-shell,
+.app-shell.dark .app-content,
+.app-shell.dark .app-page,
+.app-shell.dark .standard-page,
+.app-shell.dark .home-app,
+.app-shell.dark .page-scroll,
+.app-shell.dark .home-scroll {
+  background-color: #14211d;
+  color: #edf4f0;
+}
+
+/* Headers */
+.app-shell.dark .page-topbar {
+  border-color: rgba(255,255,255,0.08);
+  background: rgba(20,33,29,0.97);
+}
+
+.app-shell.dark .page-topbar h1,
+.app-shell.dark .section-heading h2,
+.app-shell.dark .resident-profile-copy h2,
+.app-shell.dark .about-section-heading h2,
+.app-shell.dark .about-account-card h2,
+.app-shell.dark .about-connection-card h2,
+.app-shell.dark .home-hero-top h1 {
+  color: #f3f7f4;
+}
+
+.app-shell.dark .page-topbar p,
+.app-shell.dark .care-summary-intro,
+.app-shell.dark .resident-profile-copy p,
+.app-shell.dark .resident-card-copy p,
+.app-shell.dark .resident-card-copy > span {
+  color: #a9b6b0;
+}
+
+.app-shell.dark .page-topbar > div > span,
+.app-shell.dark .section-heading span,
+.app-shell.dark .resident-profile-copy > span,
+.app-shell.dark .about-section-heading span,
+.app-shell.dark .about-account-card > div > span,
+.app-shell.dark .about-connection-card > div > span,
+.app-shell.dark .home-hero-top > div > span {
+  color: #7fb19b;
+}
+
+/* Scenic home hero remains photographic but becomes genuinely dark */
+.app-shell.dark .home-hero {
+  background:
+    linear-gradient(rgba(13,27,23,0.34), rgba(13,27,23,0.36)),
+    url('/images/family-hero.webp') center 48% / cover no-repeat;
+}
+
+.app-shell.dark .home-hero-overlay {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(15,29,25,0.95) 0%,
+      rgba(15,29,25,0.82) 38%,
+      rgba(15,29,25,0.44) 70%,
+      rgba(15,29,25,0.18) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(8,18,16,0.06),
+      rgba(8,18,16,0.28)
+    );
+}
+
+.app-shell.dark .home-hero-message {
+  border-color: rgba(255,255,255,0.08);
+  background: rgba(24,39,34,0.86);
+  color: #b9d8ca;
+}
+
+/* General cards */
+.app-shell.dark .resident-card,
+.app-shell.dark .home-summary-card,
+.app-shell.dark .activity-card,
+.app-shell.dark .appointment-card,
+.app-shell.dark .announcement-card,
+.app-shell.dark .resident-profile-card,
+.app-shell.dark .about-section-card,
+.app-shell.dark .about-account-card,
+.app-shell.dark .about-connection-card,
+.app-shell.dark .linked-resident-strip,
+.app-shell.dark .privacy-footer,
+.app-shell.dark .empty-card,
+.app-shell.dark .appointment-empty-card,
+.app-shell.dark .announcement-empty-card,
+.app-shell.dark .app-info-grid article,
+.app-shell.dark .version-card {
+  border-color: rgba(255,255,255,0.08);
+  background: #1d2d28;
+  color: #edf4f0;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.16);
+}
+
+/* Resident details */
+.app-shell.dark .resident-avatar,
+.app-shell.dark .resident-profile-avatar,
+.app-shell.dark .resident-mini-avatar {
+  background: #dce7df;
+  color: #526d5a;
+}
+
+.app-shell.dark .resident-card-copy h3,
+.app-shell.dark .resident-profile-copy h2,
+.app-shell.dark .home-summary-card strong,
+.app-shell.dark .activity-card-content h3,
+.app-shell.dark .linked-resident-strip strong {
+  color: #f0f5f2;
+}
+
+.app-shell.dark .resident-status > span,
+.app-shell.dark .resident-profile-status {
+  background: #29433a;
+  color: #b8d4c4;
+}
+
+/* Muted copy */
+.app-shell.dark .home-summary-card span,
+.app-shell.dark .home-summary-card p,
+.app-shell.dark .activity-date,
+.app-shell.dark .activity-card-content p,
+.app-shell.dark .linked-resident-strip span,
+.app-shell.dark .appointment-card p,
+.app-shell.dark .appointment-meta,
+.app-shell.dark .announcement-card p,
+.app-shell.dark .announcement-meta,
+.app-shell.dark .appointment-empty-card p,
+.app-shell.dark .announcement-empty-card p,
+.app-shell.dark .app-info-grid p,
+.app-shell.dark .version-card span,
+.app-shell.dark .whats-new-item {
+  color: #a7b5af;
+}
+
+/* Icon tiles */
+.app-shell.dark .summary-icon,
+.app-shell.dark .about-section-icon,
+.app-shell.dark .about-account-icon,
+.app-shell.dark .appointment-empty-icon {
+  background: #27483f;
+  color: #79c9bd;
+}
+
+/* Appointment / announcement highlights */
+.app-shell.dark .appointment-card.featured,
+.app-shell.dark .announcement-card.featured {
+  border-color: rgba(121,201,189,0.14);
+  background: linear-gradient(135deg, #223930, #1d2d28);
+}
+
+.app-shell.dark .appointment-date-box,
+.app-shell.dark .announcement-icon {
+  background: #29463d;
+  color: #86cbbb;
+}
+
+.app-shell.dark .appointment-card h3,
+.app-shell.dark .announcement-card h3,
+.app-shell.dark .appointment-empty-card strong,
+.app-shell.dark .announcement-empty-card strong,
+.app-shell.dark .app-info-grid strong,
+.app-shell.dark .version-card strong {
+  color: #edf4f0;
+}
+
+/* About */
+.app-shell.dark .app-info-grid article,
+.app-shell.dark .version-card {
+  background: #22342e;
+}
+
+.app-shell.dark .sign-out-button {
+  border-color: rgba(211,112,104,0.18);
+  background: #3a2826;
+  color: #efb2ac;
+}
+
+/* Care note */
+.app-shell.dark .family-care-note {
+  border-color: rgba(127,168,145,0.15);
+  background: linear-gradient(135deg, #21352e, #302f2a);
+  color: #d5e5dc;
+}
+
+.app-shell.dark .family-care-note p {
+  color: #a9b6b0;
+}
+
+/* Care Summary ribbon bodies */
+.app-shell.dark .family-care-ribbon-body {
+  border-color: rgba(255,255,255,0.08);
+  background: linear-gradient(135deg, #1e2d28, #192622);
+}
+
+.app-shell.dark .family-care-ribbon-body::after {
+  background: linear-gradient(135deg, #1e2d28, #192622);
+}
+
+.app-shell.dark .family-care-ribbon-value span {
+  color: #8fa49b;
+}
+
+.app-shell.dark .family-care-ribbon-value strong {
+  color: #edf4f0;
+}
+
+.app-shell.dark .family-care-ribbon-divider {
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      rgba(255,255,255,0.12) 18%,
+      rgba(255,255,255,0.12) 82%,
+      transparent
+    );
+}
+
+/* Filters */
+.app-shell.dark .activity-filter {
+  border-color: rgba(255,255,255,0.08);
+  background: #24362f;
+  color: #a9b6b0;
+}
+
+.app-shell.dark .activity-filter.active {
+  background: #1a706b;
+  color: #ffffff;
+}
+
+/* Bottom navigation */
+.app-shell.dark .mobile-bottom-nav {
+  border-color: rgba(255,255,255,0.08);
+  background: rgba(24,38,33,0.98);
+  box-shadow: 0 14px 42px rgba(0,0,0,0.28);
+}
+
+.app-shell.dark .mobile-bottom-nav button {
+  color: #8fa19a;
+}
+
+.app-shell.dark .mobile-bottom-nav button.active {
+  background: #275047;
+  color: #70cfc2;
+}
+
+/* Desktop sidebar */
+@media (min-width: 960px) {
+  .app-shell.dark .desktop-sidebar {
+    border-color: rgba(255,255,255,0.08);
+    background: rgba(20,33,29,0.97);
+  }
+
+  .app-shell.dark .desktop-nav button {
+    color: #9faea7;
+  }
+
+  .app-shell.dark .desktop-nav button.active {
+    background: #29463d;
+    color: #d7ebe0;
+  }
+
+  .app-shell.dark .sidebar-footer {
+    border-color: rgba(255,255,255,0.08);
+  }
+
+  .app-shell.dark .sidebar-footer strong {
+    color: #d4e6dc;
+  }
+
+  .app-shell.dark .sidebar-footer span {
+    color: #95a69f;
+  }
+
+  .app-shell.dark .sidebar-footer small {
+    color: #76c3b7;
+  }
+}
+
+/* Login */
+.app-shell.dark .login-panel {
+  background:
+    radial-gradient(circle at 90% 8%, rgba(120,62,72,0.07), transparent 24%),
+    radial-gradient(circle at 9% 92%, rgba(49,112,102,0.08), transparent 24%),
+    #16231f;
+}
+
+.app-shell.dark .login-card {
+  border-color: rgba(255,255,255,0.08);
+  background: rgba(25,40,35,0.96);
+}
+
+.app-shell.dark .login-title h1 {
+  color: #f4f7f5;
+}
+
+.app-shell.dark .login-title p,
+.app-shell.dark .login-security {
+  color: #9daba5;
+}
+
+.app-shell.dark .input-shell {
+  border-color: rgba(255,255,255,0.08);
+  background: #22302c;
+}
+
+.app-shell.dark .input-shell input {
+  color: #eef4f1;
+}
+
+.app-shell.dark .theme-toggle,
+.app-shell.dark .home-icon-button,
+.app-shell.dark .media-close-button {
+  border-color: rgba(255,255,255,0.08);
+  background: #24332e;
+  color: #8fd1c4;
+}
+
+/* Keep mobile content above floating nav */
+@media (max-width: 959px) {
+  .standard-page,
+  .home-app {
+    padding-bottom: 110px;
+  }
+}
+
+/* =========================================================
+   HOME HERO MOTIVATIONAL MESSAGE
+   ========================================================= */
+
+.home-hero-top h1.hero-motivation {
+  max-width: 720px;
+  font-size: clamp(34px, 5.2vw, 58px);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+@media (max-width: 680px) {
+  .home-hero-top h1.hero-motivation {
+    max-width: 310px;
+    font-size: clamp(31px, 9.2vw, 43px);
+    line-height: 1.03;
+  }
+}
+
+@media (max-width: 420px) {
+  .home-hero-top h1.hero-motivation {
+    max-width: 280px;
+    font-size: 34px;
+  }
+}
+
+/* =========================================================
+   RESIDENT PROFILE PHOTO — SAFE FIT
+   Keeps the approved layout intact; only adjusts photo sizing/crop.
+   ========================================================= */
+
+.resident-avatar {
+  width: 64px !important;
+  height: 64px !important;
+  border-radius: 20px !important;
+}
+
+.resident-profile-avatar {
+  width: 84px !important;
+  height: 84px !important;
+  border-radius: 22px !important;
+}
+
+.resident-avatar img,
+.resident-profile-avatar img,
+.resident-mini-avatar img {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  background: #fffaf5 !important;
+}
+
+@media (max-width: 680px) {
+  .resident-avatar {
+    width: 58px !important;
+    height: 58px !important;
+    border-radius: 18px !important;
+  }
+
+  .resident-profile-avatar {
+    width: 68px !important;
+    height: 68px !important;
+    border-radius: 19px !important;
+  }
+}
+
+/* =========================================================
+   ANNOUNCEMENTS — READABILITY UPGRADE
+   Larger text for phone + desktop without changing layout.
+   ========================================================= */
+
+.announcement-card {
+  padding: 18px !important;
+  gap: 15px !important;
+}
+
+.announcement-icon {
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 16px !important;
+}
+
+.announcement-meta {
+  gap: 9px !important;
+  font-size: 11px !important;
+  line-height: 1.35 !important;
+}
+
+.announcement-card h3 {
+  margin-top: 6px !important;
+  font-size: clamp(17px, 1.35vw, 20px) !important;
+  line-height: 1.28 !important;
+  letter-spacing: -0.018em !important;
+}
+
+.announcement-card p {
+  margin-top: 8px !important;
+  font-size: clamp(13.5px, 1vw, 15px) !important;
+  line-height: 1.62 !important;
+}
+
+@media (max-width: 699px) {
+  .announcement-card {
+    grid-template-columns: 48px minmax(0, 1fr) !important;
+    padding: 17px !important;
+    gap: 13px !important;
+  }
+
+  .announcement-icon {
+    width: 48px !important;
+    height: 48px !important;
+  }
+
+  .announcement-meta {
+    font-size: 10.5px !important;
+  }
+
+  .announcement-card h3 {
+    font-size: 18px !important;
+    line-height: 1.3 !important;
+  }
+
+  .announcement-card p {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .announcement-card h3 {
+    font-size: 19px !important;
+  }
+
+  .announcement-card p {
+    font-size: 14.5px !important;
+  }
+}
+
+/* =========================================================
+   SAKURA FRAME v2 — DENSER BORDER + FALLING PETALS
+   ========================================================= */
+
+.app-shell {
+  position: relative;
+  overflow-x: hidden;
+  isolation: isolate;
+}
+
+/* Brighter frame + denser sakura around the full page */
+.app-shell::before {
+  content: "";
+  position: fixed;
+  inset: 10px;
+  z-index: 0;
+  pointer-events: none;
+  border: 2px solid rgba(224, 147, 177, 0.58);
+  border-radius: 30px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.58),
+    0 0 24px rgba(220, 155, 181, 0.10);
+
+  background:
+    /* top-left cluster */
+    radial-gradient(circle at 58px 48px, rgba(255, 213, 226, 0.98) 0 17px, transparent 18px),
+    radial-gradient(circle at 88px 72px, rgba(255, 182, 205, 0.96) 0 14px, transparent 15px),
+    radial-gradient(circle at 120px 46px, rgba(255, 226, 234, 0.96) 0 13px, transparent 14px),
+    radial-gradient(circle at 148px 74px, rgba(255, 196, 215, 0.94) 0 11px, transparent 12px),
+
+    /* top-right cluster */
+    radial-gradient(circle at calc(100% - 60px) 48px, rgba(255, 210, 224, 0.98) 0 17px, transparent 18px),
+    radial-gradient(circle at calc(100% - 92px) 76px, rgba(255, 178, 203, 0.96) 0 14px, transparent 15px),
+    radial-gradient(circle at calc(100% - 124px) 46px, rgba(255, 228, 236, 0.96) 0 13px, transparent 14px),
+    radial-gradient(circle at calc(100% - 152px) 76px, rgba(255, 198, 217, 0.94) 0 11px, transparent 12px),
+
+    /* left edge blossoms */
+    radial-gradient(circle at 28px 24%, rgba(255, 211, 225, 0.92) 0 11px, transparent 12px),
+    radial-gradient(circle at 20px 42%, rgba(255, 187, 208, 0.90) 0 9px, transparent 10px),
+    radial-gradient(circle at 30px 61%, rgba(255, 220, 230, 0.92) 0 10px, transparent 11px),
+    radial-gradient(circle at 22px 78%, rgba(255, 190, 211, 0.90) 0 9px, transparent 10px),
+
+    /* right edge blossoms */
+    radial-gradient(circle at calc(100% - 28px) 22%, rgba(255, 211, 225, 0.92) 0 11px, transparent 12px),
+    radial-gradient(circle at calc(100% - 20px) 40%, rgba(255, 187, 208, 0.90) 0 9px, transparent 10px),
+    radial-gradient(circle at calc(100% - 30px) 60%, rgba(255, 220, 230, 0.92) 0 10px, transparent 11px),
+    radial-gradient(circle at calc(100% - 22px) 79%, rgba(255, 190, 211, 0.90) 0 9px, transparent 10px),
+
+    /* bottom-left cluster */
+    radial-gradient(circle at 64px calc(100% - 54px), rgba(255, 214, 226, 0.98) 0 16px, transparent 17px),
+    radial-gradient(circle at 100px calc(100% - 84px), rgba(255, 184, 206, 0.94) 0 13px, transparent 14px),
+    radial-gradient(circle at 134px calc(100% - 52px), rgba(255, 225, 234, 0.94) 0 12px, transparent 13px),
+
+    /* bottom-right cluster */
+    radial-gradient(circle at calc(100% - 64px) calc(100% - 54px), rgba(255, 214, 226, 0.98) 0 16px, transparent 17px),
+    radial-gradient(circle at calc(100% - 100px) calc(100% - 84px), rgba(255, 184, 206, 0.94) 0 13px, transparent 14px),
+    radial-gradient(circle at calc(100% - 134px) calc(100% - 52px), rgba(255, 225, 234, 0.94) 0 12px, transparent 13px),
+
+    /* soft branch hints */
+    linear-gradient(135deg, rgba(154, 104, 124, 0.20) 0 4%, transparent 9%),
+    linear-gradient(225deg, rgba(154, 104, 124, 0.20) 0 4%, transparent 9%),
+    linear-gradient(315deg, rgba(154, 104, 124, 0.15) 0 3.5%, transparent 8%),
+    linear-gradient(45deg, rgba(154, 104, 124, 0.15) 0 3.5%, transparent 8%);
+
+  background-repeat: no-repeat;
+}
+
+/* Falling sakura petals */
+.app-shell::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: -18vh;
+  height: 130vh;
+  z-index: 0;
+  pointer-events: none;
+
+  background:
+    radial-gradient(ellipse at 5% 6%, rgba(255, 184, 207, 0.86) 0 4px, transparent 5px),
+    radial-gradient(ellipse at 14% 15%, rgba(255, 215, 226, 0.88) 0 5px, transparent 6px),
+    radial-gradient(ellipse at 24% 3%, rgba(255, 193, 213, 0.82) 0 4px, transparent 5px),
+    radial-gradient(ellipse at 34% 12%, rgba(255, 224, 232, 0.86) 0 5px, transparent 6px),
+    radial-gradient(ellipse at 45% 5%, rgba(255, 178, 204, 0.82) 0 4px, transparent 5px),
+    radial-gradient(ellipse at 56% 17%, rgba(255, 212, 225, 0.88) 0 5px, transparent 6px),
+    radial-gradient(ellipse at 67% 8%, rgba(255, 190, 211, 0.82) 0 4px, transparent 5px),
+    radial-gradient(ellipse at 78% 14%, rgba(255, 224, 232, 0.88) 0 5px, transparent 6px),
+    radial-gradient(ellipse at 89% 4%, rgba(255, 185, 207, 0.84) 0 4px, transparent 5px),
+
+    radial-gradient(ellipse at 10% 36%, rgba(255, 222, 231, 0.80) 0 4px, transparent 5px),
+    radial-gradient(ellipse at 21% 44%, rgba(255, 186, 207, 0.78) 0 5px, transparent 6px),
+    radial-gradient(ellipse at 38% 33%, rgba(255, 215, 227, 0.80) 0 4px, transparent 5px),
+    radial-gradient(ellipse at 53% 47%, rgba(255, 191, 212, 0.78) 0 5px, transparent 6px),
+    radial-gradient(ellipse at 70% 38%, rgba(255, 224, 233, 0.80) 0 4px, transparent 5px),
+    radial-gradient(ellipse at 84% 49%, rgba(255, 183, 205, 0.78) 0 5px, transparent 6px),
+
+    radial-gradient(ellipse at 7% 68%, rgba(255, 190, 212, 0.78) 0 4px, transparent 5px),
+    radial-gradient(ellipse at 18% 78%, rgba(255, 220, 230, 0.80) 0 5px, transparent 6px),
+    radial-gradient(ellipse at 32% 65%, rgba(255, 183, 205, 0.78) 0 4px, transparent 5px),
+    radial-gradient(ellipse at 49% 82%, rgba(255, 214, 226, 0.80) 0 5px, transparent 6px),
+    radial-gradient(ellipse at 63% 70%, rgba(255, 190, 211, 0.78) 0 4px, transparent 5px),
+    radial-gradient(ellipse at 76% 86%, rgba(255, 222, 231, 0.80) 0 5px, transparent 6px),
+    radial-gradient(ellipse at 92% 73%, rgba(255, 180, 204, 0.78) 0 4px, transparent 5px);
+
+  filter:
+    drop-shadow(0 2px 2px rgba(159, 99, 123, 0.08));
+
+  animation:
+    uaqSakuraFall 18s linear infinite,
+    uaqSakuraSway 6.5s ease-in-out infinite alternate;
+}
+
+/* Keep app content above the sakura decoration */
+.app-shell > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes uaqSakuraFall {
+  from {
+    transform:
+      translate3d(0, -14vh, 0)
+      rotate(0deg);
+  }
+
+  to {
+    transform:
+      translate3d(0, 105vh, 0)
+      rotate(9deg);
+  }
+}
+
+@keyframes uaqSakuraSway {
+  from {
+    margin-left: -10px;
+  }
+
+  to {
+    margin-left: 14px;
+  }
+}
+
+.app-shell.dark::before {
+  border-color:
+    rgba(226, 162, 188, 0.38);
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+    0 0 18px rgba(255, 174, 204, 0.06);
+}
+
+.app-shell.dark::after {
+  opacity: 0.72;
+}
+
+@media (max-width: 680px) {
+  .app-shell::before {
+    inset: 7px;
+    border-radius: 22px;
+    border-width: 1.5px;
+  }
+
+  .app-shell::after {
+    opacity: 0.82;
+    animation-duration:
+      20s,
+      7s;
+  }
+}
+
+/* Respect motion-reduction preferences */
+@media (prefers-reduced-motion: reduce) {
+  .app-shell::after {
+    animation: none !important;
+    top: 0;
+    height: 100vh;
+  }
+}
+
+/* =========================================================
+   DESKTOP SIDEBAR — COMPACT LOGO + LARGER NAVIGATION
+   ========================================================= */
+
+@media (min-width: 960px) {
+  .sidebar-brand-art {
+    display: grid;
+    place-items: center;
+    padding: 10px 0 20px !important;
+  }
+
+  .sidebar-brand-art img {
+    width: min(86%, 270px) !important;
+    max-height: 148px !important;
+    object-fit: contain !important;
+    border-radius: 24px !important;
+  }
+
+  .desktop-nav {
+    gap: 10px !important;
+  }
+
+  .desktop-nav button {
+    min-height: 68px !important;
+    gap: 16px !important;
+    padding: 0 20px !important;
+    border-radius: 21px !important;
+  }
+
+  .desktop-nav button span {
+    font-size: 17px !important;
+    line-height: 1.25 !important;
+    font-weight: 750 !important;
+    letter-spacing: -0.01em !important;
+  }
+
+  .desktop-nav button svg {
+    width: 25px !important;
+    height: 25px !important;
+    stroke-width: 2.1 !important;
+    flex: 0 0 auto;
+  }
+}
+
+/* =========================================================
+   TRANSPARENT PATIENT AVATAR — LIGHT + DARK PREMIUM
+   ========================================================= */
+
+.resident-avatar,
+.resident-profile-avatar,
+.resident-mini-avatar {
+  background:
+    rgba(238, 244, 239, 0.78) !important;
+  border:
+    1px solid rgba(102, 145, 127, 0.20) !important;
+  box-shadow:
+    0 10px 28px rgba(49, 76, 65, 0.08) !important;
+}
+
+.resident-avatar img,
+.resident-profile-avatar img,
+.resident-mini-avatar img {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  background: transparent !important;
+  border-radius: inherit !important;
+}
+
+.app-shell.dark .resident-avatar,
+.app-shell.dark .resident-profile-avatar,
+.app-shell.dark .resident-mini-avatar {
+  background:
+    rgba(40, 64, 55, 0.72) !important;
+  border:
+    1px solid rgba(132, 185, 163, 0.26) !important;
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.22),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.025) !important;
+}
+
+.app-shell.dark .resident-avatar img,
+.app-shell.dark .resident-profile-avatar img,
+.app-shell.dark .resident-mini-avatar img {
+  background: transparent !important;
+}
+
+/* =========================================================
+   MOBILE PERFORMANCE — STATIC SAKURA ONLY
+   Falling petal animation disabled to prevent phone lag.
+   ========================================================= */
+
+/* Disable animated falling petals everywhere */
+.app-shell::after {
+  display: none !important;
+  animation: none !important;
+  transform: none !important;
+  margin-left: 0 !important;
+}
+
+/* Keep only the static sakura border/frame */
+.app-shell::before {
+  animation: none !important;
+}
+
+/* Extra mobile optimization */
+@media (max-width: 900px) {
+  .app-shell::after {
+    display: none !important;
+  }
+
+  .app-shell::before {
+    filter: none !important;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.38) !important;
+  }
+}
+
+/* =========================================================
+   SAKURA SVG FRAME — STATIC PREMIUM VERSION
+   Replaces the previous CSS-drawn sakura decoration.
+   ========================================================= */
+
+.app-shell {
+  position: relative;
+  overflow-x: hidden;
+  isolation: isolate;
+}
+
+/* True SVG sakura branches, blossoms and edge sprigs */
+.app-shell::before {
+  content: "";
+  position: fixed;
+  inset: 8px;
+  z-index: 0;
+  pointer-events: none;
+  border: 1px solid rgba(219, 145, 173, 0.34);
+  border-radius: 28px;
+  background-image:
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22220%22%20height%3D%22220%22%20viewBox%3D%220%200%20220%20220%22%3E%0A%3Cpath%20d%3D%22M4%2013%20C48%2023%2072%2045%20101%2076%20C126%20103%20143%20126%20159%20162%22%20fill%3D%22none%22%20stroke%3D%22%23855c64%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.58%22/%3E%0A%3Cpath%20d%3D%22M49%2034%20C61%2029%2072%2022%2082%2010%22%20fill%3D%22none%22%20stroke%3D%22%23855c64%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.48%22/%3E%0A%3Cpath%20d%3D%22M82%2057%20C101%2052%20119%2046%20132%2032%22%20fill%3D%22none%22%20stroke%3D%22%23855c64%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.48%22/%3E%0A%3Cpath%20d%3D%22M107%2083%20C126%2078%20145%2081%20160%2091%22%20fill%3D%22none%22%20stroke%3D%22%23855c64%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.45%22/%3E%0A%3Cpath%20d%3D%22M132%20116%20C149%20110%20166%20112%20183%20123%22%20fill%3D%22none%22%20stroke%3D%22%23855c64%22%20stroke-width%3D%222.3%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.42%22/%3E%0A%3Cg%20transform%3D%22translate(25%2023)%20rotate(-8)%20scale(1.15)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(57%2039)%20rotate(13)%20scale(0.9)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f4a9c0%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f4a9c0%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f4a9c0%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f4a9c0%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f4a9c0%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(83%2018)%20rotate(-14)%20scale(0.78)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(96%2066)%20rotate(8)%20scale(1.0)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b6ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b6ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b6ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b6ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b6ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(132%2040)%20rotate(-5)%20scale(0.72)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a1bb%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a1bb%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a1bb%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a1bb%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a1bb%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(126%2095)%20rotate(18)%20scale(0.88)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc7d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc7d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc7d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc7d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc7d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(164%2094)%20rotate(-17)%20scale(0.7)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(154%20136)%20rotate(9)%20scale(0.82)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a8bf%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a8bf%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a8bf%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a8bf%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a8bf%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(189%20125)%20rotate(-11)%20scale(0.62)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(104%2035)%20rotate(36)%20scale(0.9)%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%220%22%20rx%3D%223.8%22%20ry%3D%226.2%22%20fill%3D%22%23ee9fba%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.7%22/%3E%3Cpath%20d%3D%22M0%205.5%20C1.5%208%202.5%2010%202.5%2013%22%20fill%3D%22none%22%20stroke%3D%22%237b5a61%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(143%2069)%20rotate(25)%20scale(0.8)%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%220%22%20rx%3D%223.8%22%20ry%3D%226.2%22%20fill%3D%22%23ee9fba%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.7%22/%3E%3Cpath%20d%3D%22M0%205.5%20C1.5%208%202.5%2010%202.5%2013%22%20fill%3D%22none%22%20stroke%3D%22%237b5a61%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(174%20112)%20rotate(42)%20scale(0.8)%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%220%22%20rx%3D%223.8%22%20ry%3D%226.2%22%20fill%3D%22%23ee9fba%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.7%22/%3E%3Cpath%20d%3D%22M0%205.5%20C1.5%208%202.5%2010%202.5%2013%22%20fill%3D%22none%22%20stroke%3D%22%237b5a61%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%0A%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22220%22%20height%3D%22220%22%20viewBox%3D%220%200%20220%20220%22%3E%3Cg%20transform%3D%22translate(220%200)%20scale(-1%201)%22%3E%0A%3Cpath%20d%3D%22M4%2013%20C48%2023%2072%2045%20101%2076%20C126%20103%20143%20126%20159%20162%22%20fill%3D%22none%22%20stroke%3D%22%23855c64%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.58%22/%3E%0A%3Cpath%20d%3D%22M49%2034%20C61%2029%2072%2022%2082%2010%22%20fill%3D%22none%22%20stroke%3D%22%23855c64%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.48%22/%3E%0A%3Cpath%20d%3D%22M82%2057%20C101%2052%20119%2046%20132%2032%22%20fill%3D%22none%22%20stroke%3D%22%23855c64%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.48%22/%3E%0A%3Cpath%20d%3D%22M107%2083%20C126%2078%20145%2081%20160%2091%22%20fill%3D%22none%22%20stroke%3D%22%23855c64%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.45%22/%3E%0A%3Cpath%20d%3D%22M132%20116%20C149%20110%20166%20112%20183%20123%22%20fill%3D%22none%22%20stroke%3D%22%23855c64%22%20stroke-width%3D%222.3%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.42%22/%3E%0A%3Cg%20transform%3D%22translate(25%2023)%20rotate(-8)%20scale(1.15)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(57%2039)%20rotate(13)%20scale(0.9)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f4a9c0%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f4a9c0%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f4a9c0%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f4a9c0%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f4a9c0%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(83%2018)%20rotate(-14)%20scale(0.78)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(96%2066)%20rotate(8)%20scale(1.0)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b6ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b6ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b6ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b6ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b6ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(132%2040)%20rotate(-5)%20scale(0.72)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a1bb%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a1bb%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a1bb%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a1bb%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a1bb%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(126%2095)%20rotate(18)%20scale(0.88)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc7d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc7d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc7d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc7d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc7d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(164%2094)%20rotate(-17)%20scale(0.7)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(154%20136)%20rotate(9)%20scale(0.82)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a8bf%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a8bf%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a8bf%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a8bf%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a8bf%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(189%20125)%20rotate(-11)%20scale(0.62)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(104%2035)%20rotate(36)%20scale(0.9)%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%220%22%20rx%3D%223.8%22%20ry%3D%226.2%22%20fill%3D%22%23ee9fba%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.7%22/%3E%3Cpath%20d%3D%22M0%205.5%20C1.5%208%202.5%2010%202.5%2013%22%20fill%3D%22none%22%20stroke%3D%22%237b5a61%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(143%2069)%20rotate(25)%20scale(0.8)%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%220%22%20rx%3D%223.8%22%20ry%3D%226.2%22%20fill%3D%22%23ee9fba%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.7%22/%3E%3Cpath%20d%3D%22M0%205.5%20C1.5%208%202.5%2010%202.5%2013%22%20fill%3D%22none%22%20stroke%3D%22%237b5a61%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(174%20112)%20rotate(42)%20scale(0.8)%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%220%22%20rx%3D%223.8%22%20ry%3D%226.2%22%20fill%3D%22%23ee9fba%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.7%22/%3E%3Cpath%20d%3D%22M0%205.5%20C1.5%208%202.5%2010%202.5%2013%22%20fill%3D%22none%22%20stroke%3D%22%237b5a61%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%0A%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22220%22%20height%3D%22220%22%20viewBox%3D%220%200%20220%20220%22%3E%3Cg%20transform%3D%22translate(0%20220)%20scale(1%20-1)%22%3E%0A%3Cpath%20d%3D%22M4%2013%20C48%2023%2072%2045%20101%2076%20C126%20103%20143%20126%20159%20162%22%20fill%3D%22none%22%20stroke%3D%22%23855c64%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.58%22/%3E%0A%3Cpath%20d%3D%22M49%2034%20C61%2029%2072%2022%2082%2010%22%20fill%3D%22none%22%20stroke%3D%22%23855c64%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.48%22/%3E%0A%3Cpath%20d%3D%22M82%2057%20C101%2052%20119%2046%20132%2032%22%20fill%3D%22none%22%20stroke%3D%22%23855c64%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.48%22/%3E%0A%3Cpath%20d%3D%22M107%2083%20C126%2078%20145%2081%20160%2091%22%20fill%3D%22none%22%20stroke%3D%22%23855c64%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.45%22/%3E%0A%3Cpath%20d%3D%22M132%20116%20C149%20110%20166%20112%20183%20123%22%20fill%3D%22none%22%20stroke%3D%22%23855c64%22%20stroke-width%3D%222.3%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.42%22/%3E%0A%3Cg%20transform%3D%22translate(25%2023)%20rotate(-8)%20scale(1.15)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(57%2039)%20rotate(13)%20scale(0.9)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f4a9c0%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f4a9c0%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f4a9c0%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f4a9c0%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f4a9c0%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(83%2018)%20rotate(-14)%20scale(0.78)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(96%2066)%20rotate(8)%20scale(1.0)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b6ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b6ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b6ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b6ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b6ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(132%2040)%20rotate(-5)%20scale(0.72)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a1bb%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a1bb%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a1bb%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a1bb%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a1bb%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(126%2095)%20rotate(18)%20scale(0.88)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc7d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc7d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc7d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc7d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc7d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(164%2094)%20rotate(-17)%20scale(0.7)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(154%20136)%20rotate(9)%20scale(0.82)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a8bf%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a8bf%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a8bf%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a8bf%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a8bf%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(189%20125)%20rotate(-11)%20scale(0.62)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(104%2035)%20rotate(36)%20scale(0.9)%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%220%22%20rx%3D%223.8%22%20ry%3D%226.2%22%20fill%3D%22%23ee9fba%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.7%22/%3E%3Cpath%20d%3D%22M0%205.5%20C1.5%208%202.5%2010%202.5%2013%22%20fill%3D%22none%22%20stroke%3D%22%237b5a61%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(143%2069)%20rotate(25)%20scale(0.8)%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%220%22%20rx%3D%223.8%22%20ry%3D%226.2%22%20fill%3D%22%23ee9fba%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.7%22/%3E%3Cpath%20d%3D%22M0%205.5%20C1.5%208%202.5%2010%202.5%2013%22%20fill%3D%22none%22%20stroke%3D%22%237b5a61%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(174%20112)%20rotate(42)%20scale(0.8)%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%220%22%20rx%3D%223.8%22%20ry%3D%226.2%22%20fill%3D%22%23ee9fba%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.7%22/%3E%3Cpath%20d%3D%22M0%205.5%20C1.5%208%202.5%2010%202.5%2013%22%20fill%3D%22none%22%20stroke%3D%22%237b5a61%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%0A%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22220%22%20height%3D%22220%22%20viewBox%3D%220%200%20220%20220%22%3E%3Cg%20transform%3D%22translate(220%20220)%20scale(-1%20-1)%22%3E%0A%3Cpath%20d%3D%22M4%2013%20C48%2023%2072%2045%20101%2076%20C126%20103%20143%20126%20159%20162%22%20fill%3D%22none%22%20stroke%3D%22%23855c64%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.58%22/%3E%0A%3Cpath%20d%3D%22M49%2034%20C61%2029%2072%2022%2082%2010%22%20fill%3D%22none%22%20stroke%3D%22%23855c64%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.48%22/%3E%0A%3Cpath%20d%3D%22M82%2057%20C101%2052%20119%2046%20132%2032%22%20fill%3D%22none%22%20stroke%3D%22%23855c64%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.48%22/%3E%0A%3Cpath%20d%3D%22M107%2083%20C126%2078%20145%2081%20160%2091%22%20fill%3D%22none%22%20stroke%3D%22%23855c64%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.45%22/%3E%0A%3Cpath%20d%3D%22M132%20116%20C149%20110%20166%20112%20183%20123%22%20fill%3D%22none%22%20stroke%3D%22%23855c64%22%20stroke-width%3D%222.3%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.42%22/%3E%0A%3Cg%20transform%3D%22translate(25%2023)%20rotate(-8)%20scale(1.15)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(57%2039)%20rotate(13)%20scale(0.9)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f4a9c0%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f4a9c0%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f4a9c0%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f4a9c0%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f4a9c0%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(83%2018)%20rotate(-14)%20scale(0.78)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(96%2066)%20rotate(8)%20scale(1.0)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b6ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b6ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b6ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b6ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b6ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(132%2040)%20rotate(-5)%20scale(0.72)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a1bb%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a1bb%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a1bb%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a1bb%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a1bb%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(126%2095)%20rotate(18)%20scale(0.88)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc7d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc7d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc7d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc7d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc7d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(164%2094)%20rotate(-17)%20scale(0.7)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b5c8%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(154%20136)%20rotate(9)%20scale(0.82)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a8bf%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a8bf%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a8bf%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a8bf%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f2a8bf%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(189%20125)%20rotate(-11)%20scale(0.62)%22%20opacity%3D%221%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffd0dc%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(104%2035)%20rotate(36)%20scale(0.9)%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%220%22%20rx%3D%223.8%22%20ry%3D%226.2%22%20fill%3D%22%23ee9fba%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.7%22/%3E%3Cpath%20d%3D%22M0%205.5%20C1.5%208%202.5%2010%202.5%2013%22%20fill%3D%22none%22%20stroke%3D%22%237b5a61%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(143%2069)%20rotate(25)%20scale(0.8)%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%220%22%20rx%3D%223.8%22%20ry%3D%226.2%22%20fill%3D%22%23ee9fba%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.7%22/%3E%3Cpath%20d%3D%22M0%205.5%20C1.5%208%202.5%2010%202.5%2013%22%20fill%3D%22none%22%20stroke%3D%22%237b5a61%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(174%20112)%20rotate(42)%20scale(0.8)%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%220%22%20rx%3D%223.8%22%20ry%3D%226.2%22%20fill%3D%22%23ee9fba%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.7%22/%3E%3Cpath%20d%3D%22M0%205.5%20C1.5%208%202.5%2010%202.5%2013%22%20fill%3D%22none%22%20stroke%3D%22%237b5a61%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%0A%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22180%22%20height%3D%2262%22%20viewBox%3D%220%200%20180%2062%22%3E%0A%3Cpath%20d%3D%22M0%2019%20C46%2012%2092%2023%20180%2012%22%20fill%3D%22none%22%20stroke%3D%22%238a6168%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.34%22/%3E%0A%3Cg%20transform%3D%22translate(42%2018)%20rotate(-7)%20scale(0.58)%22%20opacity%3D%220.95%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b7ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b7ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b7ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b7ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b7ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(111%2024)%20rotate(13)%20scale(0.48)%22%20opacity%3D%220.92%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc8d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc8d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc8d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc8d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc8d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(73%2017)%20rotate(75)%20scale(0.58)%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%220%22%20rx%3D%223.8%22%20ry%3D%226.2%22%20fill%3D%22%23ee9fba%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.7%22/%3E%3Cpath%20d%3D%22M0%205.5%20C1.5%208%202.5%2010%202.5%2013%22%20fill%3D%22none%22%20stroke%3D%22%237b5a61%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(146%2013)%20rotate(65)%20scale(0.5)%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%220%22%20rx%3D%223.8%22%20ry%3D%226.2%22%20fill%3D%22%23ee9fba%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.7%22/%3E%3Cpath%20d%3D%22M0%205.5%20C1.5%208%202.5%2010%202.5%2013%22%20fill%3D%22none%22%20stroke%3D%22%237b5a61%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%0A%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22180%22%20height%3D%2262%22%20viewBox%3D%220%200%20180%2062%22%3E%3Cg%20transform%3D%22translate(0%2062)%20scale(1%20-1)%22%3E%0A%3Cpath%20d%3D%22M0%2019%20C46%2012%2092%2023%20180%2012%22%20fill%3D%22none%22%20stroke%3D%22%238a6168%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.34%22/%3E%0A%3Cg%20transform%3D%22translate(42%2018)%20rotate(-7)%20scale(0.58)%22%20opacity%3D%220.95%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b7ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b7ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b7ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b7ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b7ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(111%2024)%20rotate(13)%20scale(0.48)%22%20opacity%3D%220.92%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc8d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc8d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc8d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc8d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc8d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(73%2017)%20rotate(75)%20scale(0.58)%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%220%22%20rx%3D%223.8%22%20ry%3D%226.2%22%20fill%3D%22%23ee9fba%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.7%22/%3E%3Cpath%20d%3D%22M0%205.5%20C1.5%208%202.5%2010%202.5%2013%22%20fill%3D%22none%22%20stroke%3D%22%237b5a61%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(146%2013)%20rotate(65)%20scale(0.5)%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%220%22%20rx%3D%223.8%22%20ry%3D%226.2%22%20fill%3D%22%23ee9fba%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.7%22/%3E%3Cpath%20d%3D%22M0%205.5%20C1.5%208%202.5%2010%202.5%2013%22%20fill%3D%22none%22%20stroke%3D%22%237b5a61%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%0A%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%2262%22%20height%3D%22180%22%20viewBox%3D%220%200%2062%20180%22%3E%0A%3Cpath%20d%3D%22M18%200%20C11%2046%2024%2092%2012%20180%22%20fill%3D%22none%22%20stroke%3D%22%238a6168%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.34%22/%3E%0A%3Cg%20transform%3D%22translate(19%2042)%20rotate(-7)%20scale(0.58)%22%20opacity%3D%220.95%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b7ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b7ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b7ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b7ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b7ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(25%20111)%20rotate(13)%20scale(0.48)%22%20opacity%3D%220.92%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc8d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc8d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc8d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc8d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc8d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(18%2073)%20rotate(15)%20scale(0.58)%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%220%22%20rx%3D%223.8%22%20ry%3D%226.2%22%20fill%3D%22%23ee9fba%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.7%22/%3E%3Cpath%20d%3D%22M0%205.5%20C1.5%208%202.5%2010%202.5%2013%22%20fill%3D%22none%22%20stroke%3D%22%237b5a61%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(14%20146)%20rotate(22)%20scale(0.5)%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%220%22%20rx%3D%223.8%22%20ry%3D%226.2%22%20fill%3D%22%23ee9fba%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.7%22/%3E%3Cpath%20d%3D%22M0%205.5%20C1.5%208%202.5%2010%202.5%2013%22%20fill%3D%22none%22%20stroke%3D%22%237b5a61%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%0A%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%2262%22%20height%3D%22180%22%20viewBox%3D%220%200%2062%20180%22%3E%3Cg%20transform%3D%22translate(62%200)%20scale(-1%201)%22%3E%0A%3Cpath%20d%3D%22M18%200%20C11%2046%2024%2092%2012%20180%22%20fill%3D%22none%22%20stroke%3D%22%238a6168%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.34%22/%3E%0A%3Cg%20transform%3D%22translate(19%2042)%20rotate(-7)%20scale(0.58)%22%20opacity%3D%220.95%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b7ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b7ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b7ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b7ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23f7b7ca%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(25%20111)%20rotate(13)%20scale(0.48)%22%20opacity%3D%220.92%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc8d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(0)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc8d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(72)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc8d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(144)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc8d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(216)%22/%3E%3Cellipse%20cx%3D%220%22%20cy%3D%22-8%22%20rx%3D%224.8%22%20ry%3D%228.7%22%20fill%3D%22%23ffc8d6%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.8%22%20transform%3D%22rotate(288)%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.5%22%20fill%3D%22%23c88f55%22/%3E%3Ccircle%20cx%3D%22-1.2%22%20cy%3D%22-0.5%22%20r%3D%220.7%22%20fill%3D%22%23fff4c9%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(18%2073)%20rotate(15)%20scale(0.58)%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%220%22%20rx%3D%223.8%22%20ry%3D%226.2%22%20fill%3D%22%23ee9fba%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.7%22/%3E%3Cpath%20d%3D%22M0%205.5%20C1.5%208%202.5%2010%202.5%2013%22%20fill%3D%22none%22%20stroke%3D%22%237b5a61%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%0A%3Cg%20transform%3D%22translate(14%20146)%20rotate(22)%20scale(0.5)%22%3E%3Cellipse%20cx%3D%220%22%20cy%3D%220%22%20rx%3D%223.8%22%20ry%3D%226.2%22%20fill%3D%22%23ee9fba%22%20stroke%3D%22%23fff7fa%22%20stroke-width%3D%220.7%22/%3E%3Cpath%20d%3D%22M0%205.5%20C1.5%208%202.5%2010%202.5%2013%22%20fill%3D%22none%22%20stroke%3D%22%237b5a61%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%0A%3C/g%3E%3C/svg%3E");
+  background-position:
+    left top,
+    right top,
+    left bottom,
+    right bottom,
+    top center,
+    bottom center,
+    left center,
+    right center;
+  background-size:
+    220px 220px,
+    220px 220px,
+    220px 220px,
+    220px 220px,
+    180px 62px,
+    180px 62px,
+    62px 180px,
+    62px 180px;
+  background-repeat:
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    repeat-x,
+    repeat-x,
+    repeat-y,
+    repeat-y;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.42);
+  animation: none !important;
+}
+
+/* No falling petals: static SVG only for smooth phone performance */
+.app-shell::after {
+  display: none !important;
+  content: none !important;
+  animation: none !important;
+}
+
+.app-shell > * {
+  position: relative;
+  z-index: 1;
+}
+
+.app-shell.dark::before {
+  border-color: rgba(237, 166, 193, 0.25);
+  opacity: 0.92;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+@media (max-width: 900px) {
+  .app-shell::before {
+    inset: 6px;
+    border-radius: 22px;
+    background-size:
+      145px 145px,
+      145px 145px,
+      145px 145px,
+      145px 145px,
+      125px 46px,
+      125px 46px,
+      46px 125px,
+      46px 125px;
+  }
+}
+
+@media (max-width: 520px) {
+  .app-shell::before {
+    inset: 4px;
+    border-radius: 18px;
+    border-color: rgba(219, 145, 173, 0.25);
+    background-size:
+      115px 115px,
+      115px 115px,
+      115px 115px,
+      115px 115px,
+      105px 40px,
+      105px 40px,
+      40px 105px,
+      40px 105px;
+  }
+}
+
+/* =========================================================
+   ABOUT PAGE — CLEAN v2.6.1
+   Keep only Family Account, Software Update and Privacy.
+   ========================================================= */
+
+/* Single Family Account card now spans the full width */
+.about-top-grid {
+  grid-template-columns: 1fr !important;
+}
+
+/* Privacy is now the only lower details card, so make it full width */
+.about-details-grid {
+  grid-template-columns: 1fr !important;
+}
+
+/* Keep the Family Account compact even at full width */
+.about-account-card {
+  min-height: 92px;
+  padding: 16px 18px !important;
+  border-radius: 24px !important;
+}
+
+/* Software information remains clear and balanced */
+.about-section-card {
+  border-radius: 24px !important;
+}
+
+/* Privacy section is easier to scan with three equal items */
+.about-details-grid .about-section-card {
+  min-height: 0 !important;
+}
+
+/* Reduce unnecessary empty vertical space on desktop */
+.about-details-grid .app-info-grid {
+  margin-top: 16px;
+}
+
+/* Slightly cleaner spacing between About sections */
+.about-page .about-top-grid,
+.about-page .about-section-card,
+.about-page .about-details-grid {
+  margin-bottom: 16px;
+}
+
+/* Keep the About page comfortably centered on wide screens */
+@media (min-width: 960px) {
+  .about-page {
+    max-width: 1180px;
+    margin-inline: auto;
+  }
+
+  .about-account-card {
+    max-width: none;
+  }
+
+  .about-details-grid .about-section-card {
+    width: 100%;
+  }
+}
+
+/* Mobile stays compact */
+@media (max-width: 680px) {
+  .about-account-card {
+    min-height: 80px;
+    padding: 14px !important;
+  }
+
+  .about-version-grid,
+  .app-info-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+
+/* ============================================================
+   UAQ NATURE LUXURY LOGIN — DESKTOP 3D PAPER / MOBILE GLASS
+   Login-only selectors. Existing dashboard/theme CSS unchanged.
+   Local art: /public/images/uaq-nature-leaves.webp
+              /public/images/uaq-paper-layers.svg
+   ============================================================ */
+.uaq-nature-login,
+.uaq-nature-login * { box-sizing: border-box; }
+
+.uaq-nature-login {
+  width: 100%; min-height: 100vh; min-height: 100svh;
+  display: flex; align-items: center; justify-content: center;
+  padding: clamp(12px,2.7vw,32px);
+  color: #1a3328;
+  background:
+    linear-gradient(120deg,rgba(245,243,235,.60),rgba(228,238,227,.25)),
+    url('/images/uaq-nature-leaves.webp') center/cover no-repeat,
+    #e6ebe2;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.uaq-nature-login__stage {
+  position: relative; isolation: isolate; overflow: hidden;
+  width: min(100%,1370px); min-height: min(790px,calc(100svh - 44px));
+  display: block;
+  background: #fdfcf9;
+  border-radius: clamp(24px,3.4vw,39px);
+  border: 1px solid rgba(255,255,255,.78);
+  box-shadow: 0 25px 85px rgba(10,40,25,.20),0 4px 18px rgba(10,40,25,.05);
+}
+.uaq-nature-login__botanical {
+  position: absolute; inset: 0; z-index: 0;
+  background: url('/images/uaq-nature-leaves.webp') 80% center / cover no-repeat, #183b2b;
+}
+.uaq-nature-login__paper {
+  position: absolute; top: 0; left: 0; bottom: 0;
+  z-index: 1; width: 59%; background: #fdfcf9;
+}
+.uaq-nature-login__paper-edge {
+  position: absolute; top: 0; bottom: 0; left: calc(59% - 8px);
+  width: clamp(175px,21.5%,300px); z-index: 2;
+  background: url('/images/uaq-paper-layers.svg') left center / 100% 100% no-repeat;
+  filter: drop-shadow(7px 0 8px rgba(12,28,16,.09));
+  pointer-events: none;
+}
+.uaq-nature-login__panel {
+  position: relative; z-index: 3;
+  width: 58%; min-height: min(790px,calc(100svh - 44px));
+  padding: clamp(25px,4.2vw,67px);
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  background: transparent;
+}
+.uaq-nature-login__inner { width: min(100%,405px); margin-inline:auto; }
+
+.uaq-nature-login__emar-brand {
+  display:flex;flex-direction:column;align-items:center;gap:0;
+  width:100%;margin:0 auto clamp(24px,4vh,34px);
+  text-align:center;
+}
+.uaq-nature-login__uaqlogo {
+  position: relative;
+  display: inline-block;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 500; letter-spacing: -.09em;
+  font-size: clamp(56px,7vw,92px); line-height:1;
+  color: #078a8f;
+  text-shadow:0 1px 0 rgba(255,255,255,.55);
+}
+.uaq-nature-login__blossom {
+  position:absolute; right:-27px; top:35%;
+  font-family:Georgia,serif;font-size:clamp(21px,2.7vw,36px);
+  color:#f19bad;text-shadow:8px 8px 0 #ffd4db;
+}
+.uaq-nature-login__appname {
+  font-family: Georgia, 'Times New Roman', serif;
+  color:#604837;font-size:clamp(31px,3.4vw,48px);
+  letter-spacing:-.04em;line-height:1.05;
+}
+.uaq-nature-login__brandline {
+  margin-top:8px;font-size:10px;font-weight:650;
+  letter-spacing:.24em;color:#826c5a;
+}
+.uaq-nature-login__family-brand {
+  display:block;width:min(100%,275px);max-height:164px;
+  object-fit:contain;margin:0 auto clamp(17px,3vh,26px);
+  border-radius:12px;
+}
+.uaq-nature-login__heading {text-align:center;margin-bottom:25px;}
+.uaq-nature-login__heading h1 {
+  color:#183125;margin:0 0 7px;
+  font-family:Georgia,'Times New Roman',serif;
+  font-size:clamp(34px,3.35vw,43px);font-weight:650;
+  letter-spacing:-.035em;line-height:1.08;
+}
+.uaq-nature-login__heading p {
+  color:#5f7165; margin:0; font-size:14px;line-height:1.55;
+}
+.uaq-nature-login__form {display:flex; flex-direction:column; gap:0;}
+.uaq-nature-login__form label {
+  display:block;margin:0 0 8px 13px;
+  font-size:12px;font-weight:650;line-height:1.2;letter-spacing:.01em;
+  color:#374b3e;
+}
+.uaq-nature-login__input-row {
+  min-height:57px;display:flex;align-items:center;gap:12px;
+  margin:0 0 18px;padding:0 14px 0 16px;
+  border:1.4px solid rgba(67,100,80,.24);
+  background:rgba(255,255,255,.72);
+  border-radius:18px;
+  box-shadow:0 1px 2px rgba(46,69,51,.025);
+  transition:border-color .15s ease,box-shadow .15s ease;
+}
+.uaq-nature-login__input-row:focus-within {
+  border-color:#537e68; box-shadow:0 0 0 4px rgba(92,136,110,.11);
+}
+.uaq-nature-login__input-row>svg {
+  width:19px;height:19px;flex:0 0 19px;
+  color:#365443;stroke:currentColor;fill:none;
+  stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;
+}
+.uaq-nature-login__input-row input {
+  width:100%;height:54px;min-width:0;flex:1 1 auto;
+  padding:0;border:0!important;outline:0!important;
+  background:transparent!important;box-shadow:none!important;
+  color:#203629!important;font-size:14px;font-weight:500;
+  line-height:1.25;
+}
+.uaq-nature-login__input-row input::placeholder {color:#7d887f;opacity:1;}
+.uaq-nature-login__eye {
+  flex:0 0 auto;min-width:41px;height:34px;
+  display:flex;align-items:center;justify-content:center;
+  border:0;background:transparent;color:#3d6350;
+  border-radius:10px;cursor:pointer;font-size:12px;font-weight:700;
+}
+.uaq-nature-login__eye:hover {background:rgba(76,115,87,.10);}
+.uaq-nature-login__eye svg{width:19px;height:19px;stroke:currentColor;fill:none;}
+.uaq-nature-login__submit {
+  width:100%;min-height:61px;display:flex;align-items:center;
+  justify-content:center;gap:16px;margin-top:4px;
+  padding:14px 22px;border:0;border-radius:999px;
+  background:linear-gradient(145deg,#355d45,#203f2e)!important;
+  color:#fff!important;font-size:16px;font-weight:750;
+  box-shadow:0 15px 28px rgba(28,67,40,.17);
+  cursor:pointer;transition:transform .18s ease,filter .18s ease;
+}
+.uaq-nature-login__submit:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.06);}
+.uaq-nature-login__submit:disabled {opacity:.62;cursor:wait;}
+.uaq-nature-login__submit span{font-size:22px;line-height:0;transform:translateY(-1px);}
+.uaq-nature-login__error {
+  margin:-4px 0 15px;padding:12px 13px;border:1px solid #edbbb4;
+  border-radius:14px;background:#fff1ef;color:#913e3e;
+  font-size:12px;line-height:1.45;
+}
+.uaq-nature-login__rule {
+  display:flex;align-items:center;gap:12px;
+  margin:22px 0 0;font-size:11px;color:#708074;text-align:center;
+}
+.uaq-nature-login__rule::before,.uaq-nature-login__rule::after {
+  content:'';height:1px;flex:1 1 auto;background:rgba(67,93,73,.23);
+}
+.uaq-nature-login__help {
+  color:#608a71;text-align:center;
+  font-size:11.5px;font-weight:650;line-height:1.55;
+  margin:17px auto 0;
+}
+.uaq-nature-login__theme {
+  position:absolute;z-index:5;right:25px;top:23px;
+  display:grid;place-items:center;width:43px;height:43px;
+  border-radius:50%;border:1px solid rgba(255,255,255,.6);
+  background:rgba(255,255,255,.66);color:#234936;cursor:pointer;
+  box-shadow:0 6px 22px rgba(12,34,21,.15);
+  backdrop-filter:blur(14px);
+}
+.uaq-nature-login__theme:hover {background:rgba(255,255,255,.9);}
+
+/* Responsive phone/tablet: translucent centered card on green foliage */
+@media (max-width: 900px) {
+  .uaq-nature-login {padding:0;background:#244e39;}
+  .uaq-nature-login__stage {
+    min-height:100svh;max-width:none;width:100%;height:auto;
+    border-radius:0;border:0;box-shadow:none;
+    display:flex;align-items:center;justify-content:center;
+    background:#224a34;
+  }
+  .uaq-nature-login__botanical {
+    background-image:
+      linear-gradient(0deg,rgba(9,32,23,.22),rgba(231,239,224,.16)),
+      url('/images/uaq-nature-leaves.webp');
+    background-position:center, center;
+    background-size:cover,cover;
+  }
+  .uaq-nature-login__paper,.uaq-nature-login__paper-edge {display:none;}
+  .uaq-nature-login__panel {
+    width:min(90%,470px);min-height:0;
+    margin: max(63px, env(safe-area-inset-top)) 0;
+    padding:clamp(26px,5vw,41px) clamp(23px,5vw,35px);
+    border-radius:36px;
+    background:rgba(249,250,243,.75);
+    box-shadow:0 24px 54px rgba(2,29,15,.26),inset 0 1px 0 rgba(255,255,255,.52);
+    border:1px solid rgba(255,255,255,.54);
+    backdrop-filter:blur(17px) saturate(1.15);
+    -webkit-backdrop-filter:blur(17px) saturate(1.15);
+  }
+  .uaq-nature-login__inner {width:100%;}
+  .uaq-nature-login__theme {right:17px;top:max(15px,env(safe-area-inset-top));}
+  .uaq-nature-login__emar-brand {margin-bottom:23px;}
+  .uaq-nature-login__uaqlogo {font-size:clamp(56px,12vw,79px);}
+  .uaq-nature-login__appname {font-size:39px;}
+  .uaq-nature-login__heading h1 {font-size:clamp(32px,7vw,40px);}
+  .uaq-nature-login__family-brand {width:min(100%,246px);max-height:152px;}
+  .uaq-nature-login__input-row {background:rgba(255,255,255,.72);}
+}
+@media (max-width: 480px) {
+  .uaq-nature-login__panel {width:calc(100% - 30px);padding:25px 22px;border-radius:31px;}
+  .uaq-nature-login__input-row {min-height:55px;margin-bottom:15px;}
+  .uaq-nature-login__input-row input {height:53px;}
+  .uaq-nature-login__submit {min-height:58px;}
+  .uaq-nature-login__heading {margin-bottom:22px;}
+  .uaq-nature-login__family-brand {max-height:135px;}
+  .uaq-nature-login__rule {margin-top:18px;}
+}
+@media (prefers-reduced-motion: reduce) {
+  .uaq-nature-login__submit,.uaq-nature-login__input-row {transition:none;}
+}
+
+
+/* ===========================================================
+   UAQ Blue Sakura — Family Connect interior v1
+   All family identities, resident avatars, family code/PIN auth,
+   activity, appointment and announcement queries remain unchanged.
+   Decoration changes only the content shell and visible cards.
+   =========================================================== */
+.app-shell:has(.family-app-shell) {
+  --bg:#f2f8ff;
+  --surface:#fff;
+  --surface-soft:#f4f9ff;
+  --surface-green:#e6f2fe;
+  --text:#173765;
+  --muted:#7087a7;
+  --line:rgba(78,136,194,.18);
+  --teal:#367fd0;
+  --teal-dark:#225ca8;
+  --teal-soft:#dcecff;
+  --sage:#7da9d8;
+  --sage-dark:#4774a8;
+  --shadow:0 17px 43px rgba(54,105,160,.15);
+  --shadow-soft:0 10px 29px rgba(54,105,160,.10);
+  background:#edf6ff !important;
+  color:#173765;
+}
+/* Hide previous pink Sakura edge ornament; blue Sakura art replaces it. */
+.app-shell:has(.family-app-shell)::before,
+.app-shell:has(.family-app-shell)::after {display:none !important;content:none !important;animation:none !important;}
+.family-app-shell {
+  background:
+    linear-gradient(180deg,rgba(247,251,255,.86),rgba(241,248,255,.93)),
+    url('/images/uaq-blue-sakura-art.webp') right top /auto 100vh no-repeat,
+    #edf6ff !important;
+}
+.family-app-shell .app-content{background:transparent !important;min-width:0;}
+@media (min-width:960px) {
+ .family-app-shell {grid-template-columns: minmax(250px,290px) minmax(0,1fr) !important;}
+ .family-app-shell .desktop-sidebar {
+   background:
+     linear-gradient(180deg,rgba(255,255,255,.98) 0%,rgba(254,255,255,.93) 57%,rgba(255,255,255,.20) 100%),
+     url('/images/uaq-blue-sakura-art.webp') center bottom/100% auto no-repeat,
+     #f4f9ff !important;
+   border-right:1px solid rgba(75,136,197,.18) !important;
+   box-shadow:9px 0 32px rgba(58,103,150,.05) !important;
+   padding:17px 16px 22px !important;
+ }
+ .family-app-shell .sidebar-brand-art{margin-bottom:8px !important;}
+ .family-app-shell .sidebar-brand-art img{width:94% !important;max-height:150px !important;object-fit:contain !important;}
+ .family-app-shell .desktop-nav {gap:7px !important;}
+ .family-app-shell .desktop-nav button {
+   min-height:56px !important;border-radius:15px !important;color:#41618c !important;
+   text-align:left; font-weight:750 !important;padding:0 17px !important;
+ }
+ .family-app-shell .desktop-nav button span{font-size:15px !important;}
+ .family-app-shell .desktop-nav button.active {background:linear-gradient(100deg,#cde2fb,#edf5ff) !important;color:#165aa8 !important;border:1px solid rgba(76,131,202,.12) !important;box-shadow:0 5px 17px rgba(58,113,181,.09);}
+ .family-app-shell .desktop-nav button:hover:not(.active){background:rgba(219,235,255,.78) !important;color:#1b62ad !important;}
+ .family-app-shell .sidebar-footer{border-top-color:rgba(85,142,201,.18) !important;}
+ .family-app-shell .sidebar-footer strong{color:#1d4f91 !important;font-family:Georgia,serif !important;}
+ .family-app-shell .sidebar-footer span,.family-app-shell .sidebar-footer small{color:#5f81aa !important;}
+}
+/* Intro matches the illustration's large, airy heading. */
+.uaq-blue-family-intro{padding:clamp(22px,3vw,42px) clamp(20px,3vw,45px) 21px;}
+.uaq-blue-family-intro>span{display:block;color:#4f7db6;font:500 19px/1.3 Georgia,serif;}
+.uaq-blue-family-intro h1{margin:5px 0 6px;color:#102c66;font:600 clamp(30px,3.4vw,51px)/1.13 Georgia,serif;letter-spacing:-.025em;}
+.uaq-blue-family-intro p{color:#6687b0;margin:0;font-size:14px;line-height:1.6;}
+.family-app-shell .home-app {background:transparent !important;}
+.family-app-shell .home-hero {
+  margin:0 clamp(14px,2.7vw,42px);
+  min-height:280px;
+  border-radius:23px !important;
+  background:url('/images/uaq-blue-sakura-hero.webp') center/cover no-repeat,#f2faff !important;
+  border:1px solid rgba(99,151,203,.25) !important;
+  box-shadow:0 15px 35px rgba(49,102,156,.15) !important;
+  isolation:isolate;
+}
+.family-app-shell .home-hero-overlay {background:linear-gradient(90deg,rgba(249,252,255,.88),rgba(245,251,255,.62) 45%,rgba(242,250,255,.08) 94%) !important;}
+.family-app-shell .home-hero-top h1 {color:#143e7e !important;font-family:Georgia,serif !important;font-size:clamp(28px,3.8vw,46px) !important;line-height:1.08 !important;max-width:690px !important;}
+.family-app-shell .home-hero-top>div>span{color:#497fbc !important;font-size:11px !important;}
+.family-app-shell .home-hero-message{background:rgba(248,252,255,.92) !important;color:#2c70bb !important;border-color:rgba(93,150,204,.25) !important;}
+.family-app-shell .home-icon-button{background:rgba(255,255,255,.88) !important;color:#265c9b !important;border:1px solid #d9e9fb !important;}
+/* KPI tiles are REAL data backed, links call the existing navigation. */
+.uaq-blue-family-stats {
+ display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;
+ margin:18px clamp(14px,2.7vw,42px) 0;
+}
+.uaq-blue-family-stats button {
+ min-width:0;min-height:134px;display:grid;grid-template-columns:42px 1fr;
+ grid-template-rows:auto auto auto;align-content:center;column-gap:10px;
+ padding:17px 14px;border:1px solid rgba(93,146,204,.18);
+ border-radius:18px;text-align:left;cursor:pointer;
+ background:rgba(255,255,255,.95);box-shadow:0 9px 26px rgba(58,111,170,.11);
+ color:#285d9d;transition:transform .15s ease,box-shadow .15s ease;
+}
+.uaq-blue-family-stats button:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(57,107,158,.16);}
+.uaq-blue-family-stats button>svg{grid-row:1/4;place-self:center;background:#dfedff;border-radius:15px;width:42px;height:42px;padding:10px;}
+.uaq-blue-family-stats button>strong{font:600 29px/1 Georgia,serif;color:#143879;}
+.uaq-blue-family-stats button>span{margin-top:5px;font-size:11px;font-weight:800;color:#235c9b;}
+.uaq-blue-family-stats button>small{margin-top:4px;font-size:10px;line-height:1.4;color:#7895b5;}
+.family-app-shell .home-scroll{width:100% !important;max-width:1500px !important;padding:20px clamp(14px,2.7vw,42px) 50px !important;}
+@media (min-width:1100px){
+ .family-app-shell .home-scroll{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-content:start;gap:16px !important;}
+ .family-app-shell .home-scroll > section{min-width:0;display:flex;flex-direction:column;gap:12px;}
+ .family-app-shell .home-scroll > section + section{margin-top:0 !important;}
+ .family-app-shell .home-scroll > section:last-child{grid-column:1 / -1;}
+}
+.family-app-shell .section-heading{margin-bottom:11px !important;}
+.family-app-shell .section-heading h2{color:#153977 !important;font-family:Georgia,serif !important;}
+.family-app-shell .section-heading>button{color:#367cc6 !important;}
+.family-app-shell .home-scroll .resident-card,
+.family-app-shell .home-scroll .home-summary-card,
+.family-app-shell .home-scroll .activity-card,
+.family-app-shell .standard-page .activity-card,
+.family-app-shell .standard-page .appointment-card,
+.family-app-shell .standard-page .announcement-card,
+.family-app-shell .standard-page .about-section-card,
+.family-app-shell .standard-page .about-account-card,
+.family-app-shell .standard-page .version-card,
+.family-app-shell .standard-page .app-info-grid article {
+  background:rgba(255,255,255,.94) !important;
+  border:1px solid rgba(101,152,205,.20) !important;
+  border-radius:20px !important;
+  box-shadow:0 9px 27px rgba(58,106,159,.11) !important;
+  color:#254a79;
+}
+/* Avatar selectors deliberately excluded. Patient photo framing stays LOCKED. */
+.family-app-shell .resident-card-copy h3{color:#143c75 !important;font-family:Georgia,serif !important;}
+.family-app-shell .resident-card-copy p{color:#718faf !important;}
+.family-app-shell .resident-status>span{background:#e3f0ff !important;color:#366b9e !important;}
+.family-app-shell .summary-icon{background:#e1efff !important;color:#2d75c7 !important;}
+.family-app-shell .home-summary-card span{color:#647fa2 !important;}
+.family-app-shell .home-summary-card strong{color:#194576 !important;font-size:14px !important;}
+.family-app-shell .home-summary-card p{color:#829ab4 !important;}
+.family-app-shell .home-activity-grid{gap:12px !important;}
+/* Rest of the pages inherit the exact same botanical blue tokens. */
+.family-app-shell .standard-page {background:transparent !important;}
+.family-app-shell .page-topbar {
+  background:rgba(250,253,255,.91) !important;
+  border-bottom:1px solid rgba(95,149,204,.16) !important;
+  box-shadow:0 8px 26px rgba(50,96,155,.045) !important;
+}
+.family-app-shell .page-topbar h1{color:#163a73 !important;}
+.family-app-shell .page-topbar p,.family-app-shell .page-topbar>div>span{color:#6c87a6 !important;}
+.family-app-shell .standard-page .section-heading h2{color:#173d7a !important;}
+.family-app-shell .standard-page .activity-card-content h3,
+.family-app-shell .standard-page .appointment-card h3,
+.family-app-shell .standard-page .announcement-card h3 {color:#1b457b !important;}
+.family-app-shell .standard-page .activity-card-content p,
+.family-app-shell .standard-page .appointment-card p,
+.family-app-shell .standard-page .announcement-card p{color:#7791b0 !important;}
+.family-app-shell .standard-page .app-info-grid strong,
+.family-app-shell .standard-page .version-card strong{color:#173b73 !important;}
+.family-app-shell .sign-out-button{background:rgba(255,255,255,.93) !important;border-color:rgba(78,137,196,.19) !important;}
+/* Dark theme: maintain contrast and the user's locked photos. */
+.app-shell.dark:has(.family-app-shell) {--bg:#111f34;--surface:#1a2d47;--surface-soft:#203954;--text:#e7f1ff;--muted:#adc5e0;--line:#364f70;--teal-soft:#234c80;background:#11223b !important;color:#e8f3ff;}
+.app-shell.dark .family-app-shell{background:linear-gradient(180deg,rgba(17,30,51,.92),rgba(18,33,54,.96)),url('/images/uaq-blue-sakura-art.webp') right top/auto 100vh no-repeat,#11223b !important;}
+@media(min-width:960px){.app-shell.dark .family-app-shell .desktop-sidebar{background:linear-gradient(180deg,rgba(20,37,59,.97),rgba(20,37,59,.92)),url('/images/uaq-blue-sakura-art.webp') center bottom/100% auto no-repeat,#132641 !important;}}
+.app-shell.dark .uaq-blue-family-intro h1{color:#edf6ff;}
+.app-shell.dark .uaq-blue-family-intro p,.app-shell.dark .uaq-blue-family-intro>span{color:#afcae7;}
+.app-shell.dark .family-app-shell .home-hero-overlay{background:linear-gradient(90deg,rgba(16,36,62,.86),rgba(27,58,89,.68),rgba(27,58,89,.10)) !important;}
+.app-shell.dark .family-app-shell .home-hero-top h1{color:#eff6ff !important;}
+.app-shell.dark .family-app-shell .home-hero-top>div>span{color:#b3d2f3 !important;}
+.app-shell.dark .family-app-shell .home-hero-message{background:#1e3a5c !important;color:#cfebff !important;border-color:#42658a !important;}
+.app-shell.dark .uaq-blue-family-stats button,
+.app-shell.dark .family-app-shell .home-scroll .resident-card,
+.app-shell.dark .family-app-shell .home-scroll .home-summary-card,
+.app-shell.dark .family-app-shell .home-scroll .activity-card,
+.app-shell.dark .family-app-shell .standard-page .activity-card,
+.app-shell.dark .family-app-shell .standard-page .appointment-card,
+.app-shell.dark .family-app-shell .standard-page .announcement-card,
+.app-shell.dark .family-app-shell .standard-page .about-section-card,
+.app-shell.dark .family-app-shell .standard-page .about-account-card,
+.app-shell.dark .family-app-shell .standard-page .version-card,
+.app-shell.dark .family-app-shell .standard-page .app-info-grid article{background:rgba(28,48,73,.96) !important;border-color:#405c7e !important;box-shadow:0 13px 30px rgba(0,0,0,.24) !important;color:#e2edff !important;}
+.app-shell.dark .uaq-blue-family-stats button>strong,
+.app-shell.dark .family-app-shell .section-heading h2,
+.app-shell.dark .family-app-shell .resident-card-copy h3,
+.app-shell.dark .family-app-shell .home-summary-card strong,
+.app-shell.dark .family-app-shell .page-topbar h1{color:#e6f2ff !important;}
+.app-shell.dark .uaq-blue-family-stats button>span{color:#b8d5f7;}
+.app-shell.dark .uaq-blue-family-stats button>small{color:#a5bedb;}
+.app-shell.dark .uaq-blue-family-stats button>svg{background:#244b73;color:#b2d9ff;}
+.app-shell.dark .family-app-shell .page-topbar{background:rgba(23,42,65,.95) !important;border-color:#37516d !important;}
+.app-shell.dark .family-app-shell .desktop-nav button{color:#bcd0e6 !important;}
+.app-shell.dark .family-app-shell .desktop-nav button.active{color:#e8f4ff !important;background:#205a99 !important;}
+.app-shell.dark .family-app-shell .home-icon-button{background:#23476b !important;color:#e4f4ff !important;border-color:#4d6683 !important;}
+/* Make smaller screens pleasant to use; no heavy animations. */
+@media(max-width:1100px){.uaq-blue-family-stats{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:959px){
+ .family-app-shell .home-hero{margin:0 13px;min-height:272px;}
+ .uaq-blue-family-intro{padding:25px 18px 19px;}
+ .uaq-blue-family-intro h1{font-size:clamp(28px,7vw,37px);}
+ .uaq-blue-family-stats{margin:14px 13px 0;gap:9px;}
+ .uaq-blue-family-stats button{min-height:119px;padding:12px 10px;grid-template-columns:36px 1fr;column-gap:8px;}
+ .uaq-blue-family-stats button>svg{width:36px;height:36px;padding:8px;}
+ .uaq-blue-family-stats button>strong{font-size:25px;}
+ .family-app-shell .home-scroll{padding:16px 13px 80px !important;}
+ .family-app-shell .mobile-bottom-nav{background:rgba(250,253,255,.97) !important;border-color:#cddff5 !important;}
+ .family-app-shell .mobile-bottom-nav button.active{background:#d9eaff !important;color:#1d62b0 !important;}
+}
+@media(max-width:440px){
+ .uaq-blue-family-stats button>span{font-size:10px;}
+ .uaq-blue-family-stats button>small{font-size:9px;}
+ .family-app-shell .home-hero{min-height:290px;}
+ .family-app-shell .home-hero-top{padding:21px 16px 0;}
+ .family-app-shell .home-hero-top h1{font-size:clamp(27px,8vw,39px) !important;}
+}
+@media(prefers-reduced-motion:reduce){.uaq-blue-family-stats button{transition:none;}}
