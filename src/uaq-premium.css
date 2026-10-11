@@ -1,0 +1,337 @@
+/* =====================================================================
+   UAQ Family Connect — Premium layer
+   Loaded LAST. Presentation only: no data, auth or RLS logic touched.
+   Goal: one brand colour, two fonts, calmer surfaces, less decoration.
+   To roll back, remove the import of this file in App.jsx.
+   ===================================================================== */
+
+:root {
+  --fc-brand: #157f7c;          /* UAQ teal (matches app icon) */
+  --fc-brand-deep: #0b4f57;
+  --fc-brand-soft: #e3f1ef;
+  --fc-bronze: #a87b4f;         /* single warm accent */
+  --fc-ink: #15302f;
+  --fc-muted: #5f6f6c;
+  --fc-line: rgba(21, 48, 47, 0.10);
+  --fc-surface: rgba(255, 255, 255, 0.86);
+  --fc-font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --fc-font-ui: 'Plus Jakarta Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --fc-shadow: 0 1px 2px rgba(16, 40, 38, 0.04), 0 12px 32px rgba(16, 40, 38, 0.08);
+  font-family: var(--fc-font-ui);
+}
+
+.app-shell.dark {
+  --fc-brand: #6cc7c0;
+  --fc-brand-soft: rgba(108, 199, 192, 0.14);
+  --fc-ink: #eef6f5;
+  --fc-muted: #a9bcba;
+  --fc-line: rgba(255, 255, 255, 0.10);
+  --fc-surface: rgba(18, 34, 40, 0.88);
+}
+
+/* Default (Blue Sakura) season: pull the royal blue + mauve toward the UAQ teal family */
+.app-shell[data-uaq-season='blue_sakura'] {
+  --uaq-v4-accent: #1a7f86;
+  --uaq-v4-ink: #143c47;
+  --uaq-v4-gold: rgba(20, 60, 71, 0.14);
+  --uaq-v4-banner-start: #e3f1ef;
+  --uaq-v4-banner-end: #eef5f8;
+}
+.app-shell.dark[data-uaq-season='blue_sakura'] {
+  --uaq-v4-ink: #e6f3f4;
+  --uaq-v4-gold: rgba(255, 255, 255, 0.12);
+}
+
+/* ---------- Typography: two families only ---------- */
+.app-shell,
+.app-shell button,
+.app-shell input,
+.app-shell textarea,
+.app-shell select {
+  font-family: var(--fc-font-ui) !important;
+}
+.app-shell h1,
+.app-shell h2,
+.app-shell .hero-motivation,
+.app-shell .family-app-shell .home-hero-top h1,
+.app-shell .uaq-nature-login__heading h1,
+.app-shell .sidebar-footer strong {
+  font-family: var(--fc-font-display) !important;
+  font-optical-sizing: auto;
+  letter-spacing: -0.015em !important;
+  font-weight: 600 !important;
+}
+
+/* ---------- Brand lockup ---------- */
+.fc-brand {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--fc-brand);
+  line-height: 1;
+}
+.fc-brand__mark {
+  display: block;
+  width: var(--fc-mark-w, 132px);
+  aspect-ratio: 473 / 238;
+  background: currentColor;
+  -webkit-mask: url('/images/uaq-mark.png') center / contain no-repeat;
+  mask: url('/images/uaq-mark.png') center / contain no-repeat;
+}
+.fc-brand__name {
+  font-family: var(--fc-font-display);
+  font-size: var(--fc-name-size, 22px);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--fc-ink);
+}
+.fc-brand__sub {
+  margin-top: 2px;
+  font-family: var(--fc-font-ui);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fc-bronze);
+}
+.fc-brand--lg { --fc-mark-w: 150px; --fc-name-size: 26px; }
+.fc-brand--md { --fc-mark-w: 104px; --fc-name-size: 20px; }
+.fc-brand--sm {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  --fc-mark-w: 58px;
+  --fc-name-size: 18px;
+}
+
+/* Startup splash */
+.startup-screen .fc-brand { margin-bottom: 18px; }
+
+/* Sidebar brand: no more framed picture, just the lockup on clean paper */
+.family-app-shell .sidebar-brand-art {
+  display: flex !important;
+  justify-content: center !important;
+  padding: 58px 10px 18px !important;
+  margin: 0 0 6px !important;
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Mobile-only brand row at the top of Home */
+.fc-mobile-brand { display: none; }
+@media (max-width: 959px) {
+  .fc-mobile-brand {
+    display: flex;
+    align-items: center;
+    padding: 14px 18px 4px;
+  }
+}
+
+/* ---------- Remove decorative noise ---------- */
+/* Floating heart/petal particle layer over the whole app */
+.app-shell[data-uaq-season]::after { display: none !important; }
+/* "✿ BLUE SAKURA · MOMENTS OF CARE ✿" pill: hidden on the everyday theme,
+   kept (quieter) for real festivals where the greeting means something. */
+.app-shell[data-uaq-season='blue_sakura'] .content-area::before,
+.app-shell[data-uaq-season='blue_sakura'] .app-content::before { display: none !important; }
+.app-shell[data-uaq-season]:not([data-uaq-season='blue_sakura']) .app-content::before {
+  box-shadow: none !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.16em !important;
+}
+/* Garland stuck on the hero corner */
+.app-shell[data-uaq-season] .family-app-shell .home-hero::after { opacity: 0.35 !important; }
+
+/* ---------- Cards: hairline border, soft shadow, no coloured top bar ---------- */
+.app-shell[data-uaq-season] .uaq-blue-family-stats button,
+.app-shell[data-uaq-season] .family-app-shell .home-summary-card,
+.app-shell[data-uaq-season] .family-app-shell .activity-card,
+.app-shell[data-uaq-season] .family-app-shell .announcement-card {
+  border: 1px solid var(--fc-line) !important;
+  box-shadow: var(--fc-shadow) !important;
+}
+.app-shell:not(.dark)[data-uaq-season] .uaq-blue-family-stats button,
+.app-shell:not(.dark)[data-uaq-season] .family-app-shell .home-summary-card {
+  background: var(--fc-surface) !important;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.app-shell[data-uaq-season] .uaq-blue-family-stats button strong {
+  font-family: var(--fc-font-display) !important;
+  font-weight: 600 !important;
+}
+.app-shell[data-uaq-season] .uaq-blue-family-stats button svg {
+  color: var(--fc-brand) !important;
+}
+
+/* Navigation: active state = quiet teal tint instead of pink/blue gradient */
+.app-shell[data-uaq-season] .desktop-nav button.active,
+.app-shell[data-uaq-season] .mobile-bottom-nav button.active {
+  background: var(--fc-brand-soft) !important;
+  color: var(--fc-ink) !important;
+  border: 1px solid transparent !important;
+  box-shadow: none !important;
+}
+.app-shell[data-uaq-season] .desktop-nav button.active svg,
+.app-shell[data-uaq-season] .mobile-bottom-nav button.active svg {
+  color: var(--fc-brand) !important;
+}
+.app-shell[data-uaq-season] .desktop-sidebar {
+  border-right: 1px solid var(--fc-line) !important;
+}
+
+/* ---------- Home hero: one greeting, text never runs over the art ---------- */
+.app-shell[data-uaq-season] .family-app-shell .home-hero {
+  border: 1px solid var(--fc-line) !important;
+  box-shadow: var(--fc-shadow) !important;
+  margin-top: clamp(14px, 3vw, 36px) !important;
+}
+.family-app-shell .home-hero-top h1,
+.family-app-shell .home-hero-top h1.hero-motivation {
+  max-width: min(560px, 58%) !important;
+  font-size: clamp(26px, 3vw, 40px) !important;
+  line-height: 1.12 !important;
+}
+.family-app-shell .home-hero-top > div > span {
+  font-size: 12px !important;
+  letter-spacing: 0.14em !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  color: var(--fc-bronze) !important;
+}
+.app-shell.dark .family-app-shell .home-hero-top > div > span { color: #d8b48c !important; }
+@media (max-width: 680px) {
+  .family-app-shell .home-hero-top h1,
+  .family-app-shell .home-hero-top h1.hero-motivation {
+    max-width: 68% !important;
+    font-size: clamp(23px, 6.4vw, 30px) !important;
+  }
+}
+
+/* ---------- Login ---------- */
+.uaq-nature-login .fc-brand {
+  display: flex;
+  width: fit-content;
+  margin: 0 auto 26px;
+}
+.uaq-nature-login__submit {
+  background: linear-gradient(135deg, var(--fc-brand) 0%, var(--fc-brand-deep) 100%) !important;
+  box-shadow: 0 10px 24px rgba(11, 79, 87, 0.22) !important;
+  color: #fff !important;
+}
+.app-shell.dark .uaq-nature-login__submit {
+  background: linear-gradient(135deg, #1f9a95 0%, #0f6168 100%) !important;
+}
+.uaq-nature-login__input-row:focus-within {
+  border-color: var(--fc-brand) !important;
+  box-shadow: 0 0 0 4px rgba(21, 127, 124, 0.12) !important;
+}
+.uaq-nature-login__rule span,
+.uaq-nature-login__help { color: var(--fc-muted) !important; }
+
+/* Primary buttons & links elsewhere follow the same teal */
+.app-shell .family-app-shell a,
+.app-shell .family-app-shell .see-all,
+.app-shell .family-app-shell .section-link { color: var(--fc-brand) !important; }
+
+/* Offline banner (added with the service worker) */
+.fc-offline {
+  position: fixed;
+  left: 50%;
+  bottom: calc(88px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: #15302f;
+  color: #fff;
+  font: 600 13px/1.2 var(--fc-font-ui);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+@media (min-width: 960px) { .fc-offline { bottom: 24px; } }
+
+/* ---------- Light mode: replace leftover royal-blue text with the teal/ink palette ---------- */
+.app-shell:not(.dark) .family-app-shell .home-hero-top h1,
+.app-shell:not(.dark) .family-app-shell .section-heading h2,
+.app-shell:not(.dark) .family-app-shell .page-topbar h1,
+.app-shell:not(.dark) .family-app-shell .standard-page .section-heading h2,
+.app-shell:not(.dark) .family-app-shell .resident-card-copy h3,
+.app-shell:not(.dark) .family-app-shell .standard-page .version-card strong,
+.app-shell:not(.dark) .uaq-blue-family-stats button > strong,
+.app-shell:not(.dark) .family-app-shell .home-summary-card strong {
+  color: var(--fc-ink) !important;
+}
+.app-shell:not(.dark) .uaq-blue-family-stats button > span { color: var(--fc-ink) !important; }
+.app-shell:not(.dark) .uaq-blue-family-stats button > small,
+.app-shell:not(.dark) .family-app-shell .resident-card-copy p,
+.app-shell:not(.dark) .family-app-shell .home-summary-card span,
+.app-shell:not(.dark) .family-app-shell .home-summary-card p,
+.app-shell:not(.dark) .family-app-shell .page-topbar p,
+.app-shell:not(.dark) .family-app-shell .page-topbar > div > span,
+.app-shell:not(.dark) .family-app-shell .standard-page .announcement-card p,
+.app-shell:not(.dark) .family-app-shell .sidebar-footer span,
+.app-shell:not(.dark) .family-app-shell .sidebar-footer small {
+  color: var(--fc-muted) !important;
+}
+.app-shell:not(.dark) .family-app-shell .sidebar-footer strong { color: var(--fc-ink) !important; }
+.app-shell .uaq-blue-family-stats button > svg,
+.app-shell .family-app-shell .summary-icon {
+  background: var(--fc-brand-soft) !important;
+  color: var(--fc-brand) !important;
+}
+.app-shell:not(.dark) .family-app-shell .resident-status > span {
+  background: var(--fc-brand-soft) !important;
+  color: var(--fc-brand-deep) !important;
+}
+.app-shell:not(.dark) .family-app-shell .section-heading > button { color: var(--fc-brand) !important; }
+.app-shell:not(.dark) .family-app-shell .home-hero-message {
+  color: var(--fc-ink) !important;
+  border-color: var(--fc-line) !important;
+  margin-top: 10px;
+}
+.app-shell:not(.dark) .family-app-shell .home-hero-message svg { color: var(--fc-bronze) !important; }
+.app-shell:not(.dark) .family-app-shell .home-icon-button {
+  color: var(--fc-ink) !important;
+  border-color: var(--fc-line) !important;
+}
+.app-shell:not(.dark) .family-app-shell .desktop-nav button:hover:not(.active) {
+  background: rgba(21, 127, 124, 0.06) !important;
+  color: var(--fc-ink) !important;
+}
+.app-shell:not(.dark) .family-app-shell .mobile-bottom-nav { border-color: var(--fc-line) !important; }
+.app-shell:not(.dark) .family-app-shell .mobile-bottom-nav button.active {
+  background: var(--fc-brand-soft) !important;
+  color: var(--fc-brand-deep) !important;
+}
+.app-shell:not(.dark) .family-app-shell .resident-avatar,
+.app-shell:not(.dark) .family-app-shell .resident-mini-avatar {
+  color: var(--fc-brand) !important;
+}
+
+/* ---------- Dark mode: bottom nav was staying white ---------- */
+.app-shell.dark .family-app-shell .mobile-bottom-nav {
+  background: rgba(13, 27, 33, 0.94) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+.app-shell.dark .family-app-shell .mobile-bottom-nav button { color: #a9bcba !important; }
+.app-shell.dark .family-app-shell .mobile-bottom-nav button.active {
+  background: rgba(108, 199, 192, 0.16) !important;
+  color: #eef6f5 !important;
+}
+.app-shell.dark .family-app-shell .resident-avatar,
+.app-shell.dark .family-app-shell .resident-mini-avatar { color: var(--fc-brand) !important; }
+
+/* Sub-pages: filter chips and card titles follow the same palette */
+.app-shell .family-app-shell .activity-filter.active {
+  background: var(--fc-brand) !important;
+  border-color: var(--fc-brand) !important;
+  color: #fff !important;
+}
+.app-shell:not(.dark) .family-app-shell .activity-card h3,
+.app-shell:not(.dark) .family-app-shell .activity-card strong,
+.app-shell:not(.dark) .family-app-shell .announcement-card h3,
+.app-shell:not(.dark) .family-app-shell .announcement-card strong {
+  color: var(--fc-ink) !important;
+}

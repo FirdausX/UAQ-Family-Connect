@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
+/* Fonts are loaded once in index.html (Fraunces + Plus Jakarta Sans). */
 
 :root {
   --bg: #f5f2ea;

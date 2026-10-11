@@ -20,7 +20,7 @@ import {
   Layers3,
   LockKeyhole,
   LogOut,
-  Mail,
+  IdCard,
   MapPin,
   Maximize2,
   Megaphone,
@@ -43,6 +43,7 @@ import { supabase } from './lib/supabase'
 import './App.css'
 import './uaq-seasonal-theme.css'
 import './uaq-seasonal-theme-v2.css'
+import './uaq-premium.css'
 import { useUaqVisualTheme } from './uaq-seasonal-theme'
 
 const APP_VERSION = '2.7.0'
@@ -55,15 +56,24 @@ const FAMILY_LAST_ACTIVITY_KEY =
   'uaq_family_last_activity_at'
 const RELEASE_DATE = '8 October 2026'
 
-const BRAND_LOGO = '/images/uaq-family-connect-logo.png'
-const SEASON_BRAND_LOGOS = {
-  blue_sakura: BRAND_LOGO,
-  hari_raya: '/themes/hari-raya/family-logo.png',
-  christmas: '/themes/christmas/family-logo.png',
-  chinese_new_year: '/themes/chinese-new-year/family-logo.png',
+// One consistent brand across every season: the real UAQ calligraphic mark
+// (recoloured with CSS) plus typeset product name. Seasonal flavour comes from
+// the background art, not from swapping the logo.
+function BrandMark({ size = 'md', subtitle = true }) {
+  return (
+    <div className={`fc-brand fc-brand--${size}`} role="img" aria-label="UAQ Family Connect">
+      <span className="fc-brand__mark" aria-hidden="true" />
+      <span className="fc-brand__name" aria-hidden="true">Family Connect</span>
+      {subtitle && (
+        <span className="fc-brand__sub" aria-hidden="true">UAQ Elderly Care Centre</span>
+      )}
+    </div>
+  )
 }
-function seasonBrandLogo(theme) {
-  return SEASON_BRAND_LOGOS[theme] || BRAND_LOGO
+
+function firstName(fullName) {
+  if (!fullName) return ''
+  return String(fullName).trim().split(/\s+/)[0]
 }
 
 const navItems = [
@@ -2255,10 +2265,7 @@ export default function App() {
         data-uaq-season={publishedFestivalTheme}
       >
         <section className="startup-screen">
-          <img
-            src={seasonBrandLogo(publishedFestivalTheme)}
-            alt="Family Connect"
-          />
+          <BrandMark size="lg" />
 
           <p>
             Securely connecting...
@@ -2290,11 +2297,7 @@ if (!loggedIn) {
 
           <div className="uaq-nature-login__panel">
             <div className="uaq-nature-login__inner">
-              <img
-                className="uaq-nature-login__family-brand"
-                src={seasonBrandLogo(publishedFestivalTheme)}
-                alt="UAQ Family Connect"
-              />
+              <BrandMark size="lg" />
 
               <div className="uaq-nature-login__heading">
                 <h1>Welcome Back</h1>
@@ -2304,7 +2307,7 @@ if (!loggedIn) {
               <form className="uaq-nature-login__form" onSubmit={handleLogin}>
                 <label htmlFor="uaq-nature-family-code">Family Code</label>
                 <div className="uaq-nature-login__input-row">
-                  <Mail size={19} aria-hidden="true" />
+                  <IdCard size={19} aria-hidden="true" />
                   <input
                     id="uaq-nature-family-code"
                     type="text"
@@ -2406,10 +2409,8 @@ if (!loggedIn) {
   function renderHome() {
     return (
       <div className="home-app">
-        <div className="uaq-blue-family-intro">
-          <span>{getGreeting()},</span>
-          <h1>Welcome to Family Connect</h1>
-          <p>Stay close, no matter the distance.</p>
+        <div className="fc-mobile-brand">
+          <BrandMark size="sm" subtitle={false} />
         </div>
         <section className="home-hero">
           <div className="home-hero-overlay" />
@@ -2417,7 +2418,10 @@ if (!loggedIn) {
           <div className="home-hero-top">
             <div>
               <span>
-                {getGreeting()},
+                {getGreeting()}
+                {firstName(familyAccount?.full_name)
+                  ? `, ${firstName(familyAccount.full_name)}`
+                  : ''}
               </span>
 
               <h1 className="hero-motivation">
@@ -3759,10 +3763,7 @@ if (!loggedIn) {
         <aside className="desktop-sidebar">
 
           <div className="sidebar-brand-art">
-            <img
-              src={seasonBrandLogo(publishedFestivalTheme)}
-              alt="Family Connect"
-            />
+            <BrandMark size="md" />
           </div>
 
           <nav className="desktop-nav">
