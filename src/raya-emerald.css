@@ -226,3 +226,12 @@
   background: rgba(243, 216, 145, 0.12) !important;
   color: var(--ry-gold-2) !important;
 }
+
+/* Dark mode: let the themed wallpaper show behind the home list */
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .home-scroll { background: transparent !important; }
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .resident-avatar,
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .resident-mini-avatar {
+  background: rgba(243, 216, 145, 0.1) !important;
+  border-color: var(--ry-gold-line) !important;
+  color: var(--ry-gold-2) !important;
+}
