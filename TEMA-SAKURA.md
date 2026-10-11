@@ -1,16 +1,17 @@
-# Tema Blue Sakura: Biru Malam & Merah Jambu (12 Okt 2026)
+# Tema Blue Sakura: seni asal, penuh setiap page (12 Okt 2026)
 
-Ini tema harian (default). Ia aktif bila admin pilih **Blue Sakura** dalam "✦ Tema", dan juga bila tiada tema lain dipilih.
+Seni sakura kertas putih-biru yang asal dikekalkan (gambar hero, poster dan wallpaper asal dipulihkan).
 
-## Rupa
-- Light mode: latar putih porselin dengan corak ombak Jepun (seigaiha) yang halus. Sidebar, hero dan kad profil guna biru malam dengan bunga sakura.
-- Dark mode: latar penuh biru malam, dengan bulan, gunung berkabus dan kelopak sakura.
-- Menu aktif: pil merah jambu pucat. Tiada reben ucapan, sebab ini tema harian.
+## Apa yang ditambah
+- **Seni penuh setiap page:** lanskap gunung biru berbunga putih (`public/images/uaq-sakura-landscape.webp`, dari gambar asal "Landskap Gunung Biru Berbunga Putih", dimampatkan jadi 194KB) mengisi seluruh latar setiap page. Kad jadi kaca putih supaya pemandangan masih terasa di belakangnya.
+- **Sidebar:** lanskap yang sama di bahagian bawah, dan dahan sakura di atas.
+- **Setiap menu dihias:**
+  - icon dalam bulatan kertas putih
+  - bunga sakura kecil di hujung kanan setiap menu (berputar bila hover)
+  - menu aktif: kad putih dengan dahan sakura, dan icon biru
+- **Family Connect (phone):** menu bawah jadi kaca, dan menu aktif ada bunga kecil.
+- **Dark mode:** pemandangan yang sama dengan lapisan biru malam.
 
-## Fail seni (dilukis baru, vektor asli)
-`public/themes/blue-sakura/`: `wallpaper.jpg`, `family-hero.jpg`, `emar-video-poster.jpg`, `garland.svg`, `motif.svg`, `particles.svg`, `pattern-light.svg`
-
-## Kod
-- Baru: `src/sakura-premium.css` (struktur sama dengan tema Raya, palet berbeza).
-- Nak balik ke rupa Sakura lama? Buang baris `import './sakura-premium.css'` dalam `App.jsx` dan pulihkan fail gambar lama dari git.
-- Login page tak diubah.
+## Fail
+- Baru: `src/sakura-classic.css`, `public/themes/blue-sakura/blossom.svg`, `public/themes/blue-sakura/sprig.svg`, `public/images/uaq-sakura-landscape.webp`
+- Nak buang hiasan ni: padam baris `import './sakura-classic.css'` dalam `App.jsx`.
