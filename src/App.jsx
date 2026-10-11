@@ -44,6 +44,7 @@ import './App.css'
 import './uaq-seasonal-theme.css'
 import './uaq-seasonal-theme-v2.css'
 import './uaq-premium.css'
+import './raya-emerald.css'
 import { useUaqVisualTheme } from './uaq-seasonal-theme'
 
 const APP_VERSION = '2.7.0'
