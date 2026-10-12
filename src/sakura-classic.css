@@ -195,3 +195,15 @@
 .app-shell.dark[data-uaq-season='blue_sakura'] .family-app-shell .sidebar-footer small { color: rgba(220, 234, 250, 0.72) !important; }
 .app-shell.dark[data-uaq-season='blue_sakura'] .desktop-sidebar .fc-brand { color: #a9cdf3; }
 .app-shell.dark[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button::after { opacity: 0.6; }
+
+/* Brand colour for the Sakura theme (was the teal from uaq-premium.css) */
+.app-shell[data-uaq-season='blue_sakura'] {
+  --fc-brand: #2f73b8;
+  --fc-brand-deep: #17487b;
+  --fc-brand-soft: rgba(47, 115, 184, 0.10);
+}
+.app-shell.dark[data-uaq-season='blue_sakura'] {
+  --fc-brand: #8fbdf0;
+  --fc-brand-deep: #5d9ad8;
+  --fc-brand-soft: rgba(143, 189, 240, 0.14);
+}

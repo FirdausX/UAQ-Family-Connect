@@ -326,3 +326,26 @@
   background: rgba(255, 255, 255, 0.04) !important;
   border-color: var(--ct-line) !important;
 }
+
+/* Leftover small labels / badges found by the colour scan */
+.app-shell .family-app-shell .about-section-heading > div > span,
+.app-shell .family-app-shell .about-account-card > div > span,
+.app-shell .family-app-shell .resident-profile-copy > span {
+  color: var(--ct-accent) !important;
+}
+.app-shell.dark .family-app-shell .about-section-heading > div > span,
+.app-shell.dark .family-app-shell .about-account-card > div > span,
+.app-shell.dark .family-app-shell .resident-profile-copy > span {
+  color: var(--ct-accent-2) !important;
+}
+.app-shell .family-app-shell .about-account-card > svg { color: var(--ct-accent) !important; }
+.app-shell .family-app-shell .activity-type-badge,
+.app-shell .family-app-shell .activity-type-badge svg { color: #17345a !important; }
+.app-shell .family-app-shell .resident-avatar { border-color: var(--ct-line) !important; }
+.app-shell .family-app-shell .resident-avatar,
+.app-shell .family-app-shell .resident-avatar span,
+.app-shell .family-app-shell .resident-mini-avatar { color: var(--ct-accent) !important; }
+.app-shell .family-app-shell .resident-status > span,
+.app-shell .family-app-shell .resident-status > span svg { color: var(--ct-accent) !important; }
+.app-shell .family-app-shell .section-heading > button,
+.app-shell .family-app-shell .section-heading > button svg { color: var(--ct-accent) !important; }
