@@ -349,3 +349,6 @@
 .app-shell .family-app-shell .resident-status > span svg { color: var(--ct-accent) !important; }
 .app-shell .family-app-shell .section-heading > button,
 .app-shell .family-app-shell .section-heading > button svg { color: var(--ct-accent) !important; }
+.app-shell .family-app-shell .resident-avatar {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--ct-accent) 22%, transparent), color-mix(in srgb, var(--ct-accent-2) 18%, transparent)) !important;
+}
