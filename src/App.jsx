@@ -1057,15 +1057,12 @@ function AnnouncementCard({
 
         {hasMedia && (
           <div
+            className="announcement-media"
             style={{
               width: '100%',
               marginTop: 14,
               overflow: 'hidden',
               borderRadius: 18,
-              background:
-                'rgba(236, 231, 221, 0.72)',
-              border:
-                '1px solid rgba(191, 177, 153, 0.28)',
             }}
           >
             {announcementMediaType ===

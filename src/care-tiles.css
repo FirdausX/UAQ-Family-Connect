@@ -173,3 +173,156 @@
   border: 1px solid var(--ct-line) !important;
   color: var(--ct-accent) !important;
 }
+
+/* =====================================================================
+   THEME SWEEP — every Family Connect page uses the same glass cards,
+   readable titles and theme accent (no leftover green/teal panels,
+   no dark-blue titles on dark backgrounds). Light + dark, all themes.
+   ===================================================================== */
+.app-shell .family-app-shell .linked-resident-strip,
+.app-shell .family-app-shell .activity-card,
+.app-shell .family-app-shell .announcement-card,
+.app-shell .family-app-shell .announcement-empty-card,
+.app-shell .family-app-shell .appointment-card,
+.app-shell .family-app-shell .appointment-empty-card,
+.app-shell .family-app-shell .empty-card,
+.app-shell .family-app-shell .about-section-card,
+.app-shell .family-app-shell .about-account-card,
+.app-shell .family-app-shell .version-card,
+.app-shell .family-app-shell .private-media-note {
+  background: var(--ct-card) !important;
+  border: 1px solid var(--ct-line) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  backdrop-filter: blur(12px) saturate(140%);
+  box-shadow: 0 12px 28px -14px rgba(15, 35, 60, 0.3) !important;
+  color: var(--ct-ink) !important;
+}
+
+/* Titles & text */
+.app-shell .family-app-shell .activity-card-content h3,
+.app-shell .family-app-shell .announcement-card h3,
+.app-shell .family-app-shell .standard-page .announcement-card h3,
+.app-shell .family-app-shell .appointment-card h3,
+.app-shell .family-app-shell .appointment-card strong,
+.app-shell .family-app-shell .about-section-card h3,
+.app-shell .family-app-shell .about-section-card strong,
+.app-shell .family-app-shell .about-account-card strong,
+.app-shell .family-app-shell .standard-page .version-card strong,
+.app-shell .family-app-shell .linked-resident-strip strong {
+  color: var(--ct-ink) !important;
+}
+.app-shell .family-app-shell .activity-date,
+.app-shell .family-app-shell .announcement-card p,
+.app-shell .family-app-shell .standard-page .announcement-card p,
+.app-shell .family-app-shell .appointment-meta,
+.app-shell .family-app-shell .appointment-card p,
+.app-shell .family-app-shell .about-section-card p,
+.app-shell .family-app-shell .about-section-card small,
+.app-shell .family-app-shell .linked-resident-strip span,
+.app-shell .family-app-shell .private-media-note {
+  color: var(--ct-muted) !important;
+}
+.app-shell .family-app-shell .announcement-meta,
+.app-shell .family-app-shell .announcement-meta * { color: var(--ct-muted) !important; }
+.app-shell .family-app-shell .announcement-meta b,
+.app-shell .family-app-shell .announcement-meta strong,
+.app-shell .family-app-shell .announcement-meta span:first-child {
+  color: var(--ct-accent) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.06em;
+}
+
+/* Icon medallions everywhere */
+.app-shell .family-app-shell .announcement-icon,
+.app-shell .family-app-shell .appointment-empty-icon,
+.app-shell .family-app-shell .about-section-icon,
+.app-shell .family-app-shell .about-account-icon,
+.app-shell .family-app-shell .linked-resident-strip svg {
+  background: color-mix(in srgb, var(--ct-accent) 10%, transparent) !important;
+  border: 1px solid color-mix(in srgb, var(--ct-accent) 22%, transparent) !important;
+  color: var(--ct-accent) !important;
+}
+.app-shell .family-app-shell .linked-resident-strip svg { background: none !important; border: 0 !important; }
+.app-shell .family-app-shell .resident-mini-avatar {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--ct-accent) 22%, transparent), color-mix(in srgb, var(--ct-accent-2) 18%, transparent)) !important;
+  border: 1px solid var(--ct-line) !important;
+  color: var(--ct-accent) !important;
+}
+
+/* Appointment date box + status */
+.app-shell .family-app-shell .appointment-date-box {
+  background: linear-gradient(150deg, color-mix(in srgb, var(--ct-accent) 16%, transparent), color-mix(in srgb, var(--ct-accent-2) 12%, transparent)) !important;
+  border: 1px solid var(--ct-line) !important;
+  color: var(--ct-ink) !important;
+}
+.app-shell .family-app-shell .appointment-date-box * { color: inherit !important; }
+.app-shell .family-app-shell .appointment-status {
+  background: color-mix(in srgb, var(--ct-accent) 10%, transparent) !important;
+  color: var(--ct-accent) !important;
+  border: 1px solid color-mix(in srgb, var(--ct-accent) 25%, transparent) !important;
+}
+
+/* Activity filter chips */
+.app-shell .family-app-shell .activity-filter-row button,
+.app-shell .family-app-shell .activity-filter {
+  background: var(--ct-card) !important;
+  border: 1px solid var(--ct-line) !important;
+  color: var(--ct-muted) !important;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: none !important;
+}
+.app-shell .family-app-shell .activity-filter-row button.active,
+.app-shell .family-app-shell .activity-filter.active {
+  background: linear-gradient(135deg, var(--ct-accent), color-mix(in srgb, var(--ct-accent) 70%, #000)) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+  box-shadow: 0 8px 18px -6px color-mix(in srgb, var(--ct-accent) 60%, transparent) !important;
+}
+.app-shell.dark .family-app-shell .activity-filter-row button.active,
+.app-shell.dark .family-app-shell .activity-filter.active {
+  background: linear-gradient(135deg, var(--ct-accent), color-mix(in srgb, var(--ct-accent) 70%, #fff)) !important;
+  color: #0d1b2e !important;
+}
+
+/* Announcement image/video frame (was a flat grey box) */
+.app-shell .family-app-shell .announcement-media {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--ct-accent) 8%, transparent), color-mix(in srgb, var(--ct-accent-2) 6%, transparent)),
+    rgba(255, 255, 255, 0.55) !important;
+  border: 1px solid var(--ct-line) !important;
+}
+.app-shell.dark .family-app-shell .announcement-media {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--ct-accent) 10%, transparent), transparent),
+    rgba(255, 255, 255, 0.04) !important;
+}
+
+/* Section headings & small labels follow the theme too */
+.app-shell.dark .family-app-shell .section-heading > div > span,
+.app-shell.dark .family-app-shell .section-heading > span { color: var(--ct-accent-2) !important; }
+.app-shell.dark .family-app-shell .section-heading h2 { color: var(--ct-ink) !important; }
+
+/* Dark mode: older rules target .standard-page cards more specifically */
+.app-shell.dark .family-app-shell .standard-page .appointment-card,
+.app-shell.dark .family-app-shell .standard-page .appointment-empty-card,
+.app-shell.dark .family-app-shell .standard-page .about-section-card,
+.app-shell.dark .family-app-shell .standard-page .about-account-card,
+.app-shell.dark .family-app-shell .standard-page .version-card,
+.app-shell.dark .family-app-shell .standard-page .announcement-card,
+.app-shell.dark .family-app-shell .standard-page .activity-card,
+.app-shell.dark .family-app-shell .standard-page .empty-card {
+  background: var(--ct-card) !important;
+  border-color: var(--ct-line) !important;
+}
+.app-shell.dark .family-app-shell .standard-page .about-details-grid > *,
+.app-shell.dark .family-app-shell .standard-page .about-version-grid > *,
+.app-shell.dark .family-app-shell .standard-page .app-info-grid > * {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: var(--ct-line) !important;
+}
+.app-shell.dark .family-app-shell .standard-page .about-section-card [class*='grid'] > *,
+.app-shell.dark .family-app-shell .standard-page .about-top-grid > * {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: var(--ct-line) !important;
+}
