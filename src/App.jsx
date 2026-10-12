@@ -12,6 +12,9 @@ import {
   ChevronRight,
   Clock,
   Eye,
+  Footprints,
+  HandHeart,
+  MessageCircleHeart,
   EyeOff,
   Heart,
   Home,
@@ -46,6 +49,7 @@ import './uaq-seasonal-theme-v2.css'
 import './uaq-premium.css'
 import './raya-emerald.css'
 import './sakura-classic.css'
+import './care-tiles.css'
 import { useUaqVisualTheme } from './uaq-seasonal-theme'
 
 const APP_VERSION = '2.7.0'
@@ -71,6 +75,28 @@ function BrandMark({ size = 'md', subtitle = true }) {
       )}
     </div>
   )
+}
+
+// Care summary tiles: same fields as before, one clean tile each.
+// Allergies and fall risk get a gentle highlight only when they matter.
+function getCareTiles(resident) {
+  const text = (value) =>
+    String(value || '').trim() || 'Not set'
+  const allergy = text(resident?.allergies)
+  const noAllergy = /^(no|none|nil|tiada|tidak ada|n\/a|-|not set)\b|no known/i.test(allergy)
+  const fall = text(resident?.fall_risk)
+  const fallHigh = /high|tinggi/i.test(fall)
+  const fallMed = /medium|moderate|sederhana/i.test(fall)
+
+  return [
+    { key: 'status', label: 'Care Status', value: text(resident?.care_status), icon: Heart, tone: 'primary' },
+    { key: 'mobility', label: 'Mobility', value: text(resident?.mobility), icon: Footprints, tone: 'calm' },
+    { key: 'assistance', label: 'Assistance', value: text(resident?.assistance), icon: HandHeart, tone: 'calm' },
+    { key: 'allergies', label: 'Allergies', value: allergy, icon: TriangleAlert, tone: noAllergy ? 'calm' : 'alert' },
+    { key: 'diet', label: 'Diet', value: text(resident?.diet), icon: Utensils, tone: 'calm' },
+    { key: 'communication', label: 'Communication', value: text(resident?.communication), icon: MessageCircleHeart, tone: 'calm' },
+    { key: 'fall', label: 'Fall Risk', value: fall, icon: ShieldCheck, tone: fallHigh ? 'alert' : fallMed ? 'warn' : 'calm' },
+  ]
 }
 
 function firstName(fullName) {
@@ -3231,152 +3257,37 @@ if (!loggedIn) {
               for family reference.
             </p>
 
-            <div className="family-care-ribbon-list">
-              <article className="family-care-ribbon family-care-ribbon-sage">
-                <div className="family-care-ribbon-tab">
-                  <Heart
-                    size={24}
-                    fill="currentColor"
-                  />
+            <div className="care-tiles">
+              {getCareTiles(resident).map(
+                (tile) => {
+                  const TileIcon =
+                    tile.icon
 
-                  <strong>
-                    Care Status
-                    <span>|</span>
-                    Mobility
-                  </strong>
-                </div>
+                  return (
+                    <article
+                      key={tile.key}
+                      className={`care-tile care-tile--${tile.tone}`}
+                    >
+                      <span className="care-tile__icon">
+                        <TileIcon
+                          size={20}
+                          aria-hidden="true"
+                        />
+                      </span>
 
-                <div className="family-care-ribbon-body">
-                  <div className="family-care-ribbon-value">
-                    <span>
-                      Care Status
-                    </span>
+                      <div className="care-tile__copy">
+                        <span>
+                          {tile.label}
+                        </span>
 
-                    <strong>
-                      {resident.care_status ||
-                        'Not set'}
-                    </strong>
-                  </div>
-
-                  <div className="family-care-ribbon-divider" />
-
-                  <div className="family-care-ribbon-value">
-                    <span>
-                      Mobility
-                    </span>
-
-                    <strong>
-                      {resident.mobility ||
-                        'Not set'}
-                    </strong>
-                  </div>
-                </div>
-              </article>
-
-              <article className="family-care-ribbon family-care-ribbon-gold">
-                <div className="family-care-ribbon-tab">
-                  <Accessibility
-                    size={24}
-                  />
-
-                  <strong>
-                    Assistance
-                    <span>|</span>
-                    Allergies
-                  </strong>
-                </div>
-
-                <div className="family-care-ribbon-body">
-                  <div className="family-care-ribbon-value">
-                    <span>
-                      Assistance
-                    </span>
-
-                    <strong>
-                      {resident.assistance ||
-                        'Not set'}
-                    </strong>
-                  </div>
-
-                  <div className="family-care-ribbon-divider" />
-
-                  <div className="family-care-ribbon-value">
-                    <span>
-                      Allergies
-                    </span>
-
-                    <strong>
-                      {resident.allergies ||
-                        'Not set'}
-                    </strong>
-                  </div>
-                </div>
-              </article>
-
-              <article className="family-care-ribbon family-care-ribbon-teal">
-                <div className="family-care-ribbon-tab">
-                  <Utensils
-                    size={24}
-                  />
-
-                  <strong>
-                    Diet
-                    <span>|</span>
-                    Communication
-                  </strong>
-                </div>
-
-                <div className="family-care-ribbon-body">
-                  <div className="family-care-ribbon-value">
-                    <span>
-                      Diet
-                    </span>
-
-                    <strong>
-                      {resident.diet ||
-                        'Not set'}
-                    </strong>
-                  </div>
-
-                  <div className="family-care-ribbon-divider" />
-
-                  <div className="family-care-ribbon-value">
-                    <span>
-                      Communication
-                    </span>
-
-                    <strong>
-                      {resident.communication ||
-                        'Not set'}
-                    </strong>
-                  </div>
-                </div>
-              </article>
-
-              <article className="family-care-ribbon family-care-ribbon-olive">
-                <div className="family-care-ribbon-tab">
-                  <ShieldCheck
-                    size={24}
-                  />
-
-                  <strong>
-                    Fall Risk
-                  </strong>
-                </div>
-
-                <div className="family-care-ribbon-body single">
-                  <div className="family-care-ribbon-value">
-                    <span>
-                      Fall Risk
-                    </span>
-
-                    <strong>
-                      {resident.fall_risk ||
-                        'Not set'}
-                    </strong>
-                  </div>
-                </div>
-              </article>
+                        <strong>
+                          {tile.value}
+                        </strong>
+                      </div>
+                    </article>
+                  )
+                }
+              )}
             </div>
           </section>
 
