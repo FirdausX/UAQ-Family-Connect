@@ -1,1428 +1,1835 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+
+import {
+  Accessibility,
+  Activity as ActivityIcon,
+  ArrowLeft,
+  BadgeCheck,
+  BedDouble,
+  Bell,
+  CalendarDays,
+  CheckCircle2,
+  ChevronRight,
+  Clock,
+  Eye,
+  Footprints,
+  HandHeart,
+  MessageCircleHeart,
+  EyeOff,
+  Heart,
+  Home,
+  Images,
+  Info,
+  Layers3,
+  LockKeyhole,
+  LogOut,
+  IdCard,
+  MapPin,
+  Maximize2,
+  Megaphone,
+  MonitorSmartphone,
+  Moon,
+  Pause,
+  Play,
+  ShieldCheck,
+  Sparkles,
+  Sun,
+  TriangleAlert,
+  Utensils,
+  Video,
+  Volume2,
+  VolumeX,
+  X,
+} from 'lucide-react'
+
 import { supabase } from './lib/supabase'
-import { APP_VERSION, APP_VERSION_LABEL } from './version'
 import './App.css'
+import './uaq-seasonal-theme.css'
+import './uaq-seasonal-theme-v2.css'
+import './uaq-premium.css'
+import './raya-emerald.css'
+import './care-tiles.css'
+import './uaq-editorial.css'
+import './editorial-sweep.css'
+import { useUaqVisualTheme } from './uaq-seasonal-theme'
 
-const NAV_ITEMS = [
-  { id: 'home', label: 'Home', icon: 'home' },
-  { id: 'moments', label: 'Moments', icon: 'image' },
-  { id: 'appointments', label: 'Appointments', icon: 'calendar' },
-  { id: 'announcements', label: 'Announcements', icon: 'megaphone' },
-  { id: 'more', label: 'More', icon: 'menu' },
-]
+const APP_VERSION = '2.7.0'
+const APP_BUILD = '2026100802'
 
-function Icon({ name, size = 21, strokeWidth = 1.9 }) {
-  const common = {
-    width: size,
-    height: size,
-    viewBox: '0 0 24 24',
-    fill: 'none',
-    stroke: 'currentColor',
-    strokeWidth,
-    strokeLinecap: 'round',
-    strokeLinejoin: 'round',
-    'aria-hidden': true,
-  }
+const FAMILY_INACTIVITY_LOGOUT_MS =
+  10 * 60 * 1000
 
-  if (name === 'home') {
-    return <svg {...common}><path d="M3 10.8 12 3l9 7.8"/><path d="M5.5 9.8V21h13V9.8"/><path d="M9.5 21v-6h5v6"/></svg>
-  }
+const FAMILY_LAST_ACTIVITY_KEY =
+  'uaq_family_last_activity_at'
+const RELEASE_DATE = '8 October 2026'
 
-  if (name === 'image') {
-    return <svg {...common}><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="8.5" cy="9" r="1.5"/><path d="m5 17 4.2-4 3.1 3 2.3-2.2L19 18"/></svg>
-  }
-
-  if (name === 'calendar') {
-    return <svg {...common}><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
-  }
-
-  if (name === 'megaphone') {
-    return <svg {...common}><path d="m3 11 14-5v12L3 13z"/><path d="M17 9.2c2.6.5 4 1.4 4 2.8s-1.4 2.3-4 2.8"/><path d="m6 14 1.2 5h3.5l-1.5-6"/></svg>
-  }
-
-  if (name === 'menu') {
-    return <svg {...common}><path d="M5 7h14M5 12h14M5 17h14"/></svg>
-  }
-
-  if (name === 'bell') {
-    return <svg {...common}><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg>
-  }
-
-  if (name === 'arrow') {
-    return <svg {...common}><path d="m9 18 6-6-6-6"/></svg>
-  }
-
-  if (name === 'clock') {
-    return <svg {...common}><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-  }
-
-  if (name === 'pin') {
-    return <svg {...common}><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>
-  }
-
-  if (name === 'play') {
-    return <svg {...common} fill="currentColor" stroke="none"><path d="m9 7 8 5-8 5z"/></svg>
-  }
-
-  if (name === 'phone') {
-    return <svg {...common}><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c1 .3 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/></svg>
-  }
-
-  if (name === 'whatsapp') {
-    return <svg {...common}><path d="M20.5 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.2-4.7A8.5 8.5 0 1 1 20.5 11.5Z"/><path d="M8.4 7.7c.2-.4.4-.4.7-.4h.5l.7 1.8c.1.2 0 .4-.1.6l-.6.8c-.1.2-.1.3 0 .5.6 1.1 1.5 2 2.6 2.6.2.1.4.1.5 0l.9-1c.2-.2.4-.2.6-.1l1.8.9c.2.1.3.3.3.5 0 .8-.4 1.5-1 2-.5.4-1.2.7-2.1.5-1.1-.2-2.5-.8-4-2-1.7-1.4-2.8-3.1-3.2-4.4-.3-.9-.1-1.7.4-2.3Z"/></svg>
-  }
-
-  if (name === 'logout') {
-    return <svg {...common}><path d="M10 17l5-5-5-5M15 12H3"/><path d="M13 4h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"/></svg>
-  }
-
-  if (name === 'users') {
-    return <svg {...common}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-  }
-
-  if (name === 'shield') {
-    return <svg {...common}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
-  }
-
-  if (name === 'help') {
-    return <svg {...common}><circle cx="12" cy="12" r="9"/><path d="M9.8 9a2.4 2.4 0 1 1 3.7 2c-.9.6-1.5 1.1-1.5 2.2M12 17h.01"/></svg>
-  }
-
-  if (name === 'info') {
-    return <svg {...common}><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7h.01"/></svg>
-  }
-
-  return null
-}
-
-function getVideoPreviewUrl(url) {
-  if (!url) return ''
-  return url.includes('#') ? url : `${url}#t=2`
-}
-
-async function getResidentAvatarUrl(
-  patientId
-) {
-  if (!patientId) return ''
-
-  const { data, error } =
-    await supabase.storage
-      .from('patient-avatars')
-      .createSignedUrl(
-        `${patientId}/avatar.jpg`,
-        60 * 60 * 24 * 7
-      )
-
-  if (error) {
-    return ''
-  }
-
-  return data?.signedUrl
-    ? `${data.signedUrl}&v=${Date.now()}`
-    : ''
-}
-
-function urlBase64ToUint8Array(
-  base64String
-) {
-  const padding =
-    '='.repeat(
-      (
-        4 -
-        (
-          base64String.length %
-          4
-        )
-      ) % 4
-    )
-
-  const base64 =
-    (
-      base64String +
-      padding
-    )
-      .replace(/-/g, '+')
-      .replace(/_/g, '/')
-
-  const rawData =
-    window.atob(base64)
-
-  return Uint8Array.from(
-    [...rawData].map(
-      (character) =>
-        character.charCodeAt(0)
-    )
+// One consistent brand across every season: the real UAQ calligraphic mark
+// (recoloured with CSS) plus typeset product name. Seasonal flavour comes from
+// the background art, not from swapping the logo.
+function BrandMark({ size = 'md', subtitle = true }) {
+  return (
+    <div className={`fc-brand fc-brand--${size}`} role="img" aria-label="UAQ Family Connect">
+      <span className="fc-brand__mark" aria-hidden="true" />
+      <span className="fc-brand__name" aria-hidden="true">Family Connect</span>
+      {subtitle && (
+        <span className="fc-brand__sub" aria-hidden="true">UAQ Elderly Care Centre</span>
+      )}
+    </div>
   )
 }
 
-function getPushSubscriptionKeys(
-  subscription
-) {
-  const json =
-    subscription.toJSON()
+// Care summary tiles: same fields as before, one clean tile each.
+// Allergies and fall risk get a gentle highlight only when they matter.
+function getCareTiles(resident) {
+  const text = (value) =>
+    String(value || '').trim() || 'Not set'
+  const allergy = text(resident?.allergies)
+  const noAllergy = /^(no|none|nil|tiada|tidak ada|n\/a|-|not set)\b|no known/i.test(allergy)
+  const fall = text(resident?.fall_risk)
+  const fallHigh = /high|tinggi/i.test(fall)
+  const fallMed = /medium|moderate|sederhana/i.test(fall)
 
-  return {
-    p256dh:
-      json.keys?.p256dh || '',
-    auth:
-      json.keys?.auth || '',
+  return [
+    { key: 'status', label: 'Care Status', value: text(resident?.care_status), icon: Heart, tone: 'primary' },
+    { key: 'mobility', label: 'Mobility', value: text(resident?.mobility), icon: Footprints, tone: 'calm' },
+    { key: 'assistance', label: 'Assistance', value: text(resident?.assistance), icon: HandHeart, tone: 'calm' },
+    { key: 'allergies', label: 'Allergies', value: allergy, icon: TriangleAlert, tone: noAllergy ? 'calm' : 'alert' },
+    { key: 'diet', label: 'Diet', value: text(resident?.diet), icon: Utensils, tone: 'calm' },
+    { key: 'communication', label: 'Communication', value: text(resident?.communication), icon: MessageCircleHeart, tone: 'calm' },
+    { key: 'fall', label: 'Fall Risk', value: fall, icon: ShieldCheck, tone: fallHigh ? 'alert' : fallMed ? 'warn' : 'calm' },
+  ]
+}
+
+function firstName(fullName) {
+  if (!fullName) return ''
+  return String(fullName).trim().split(/\s+/)[0]
+}
+
+const navItems = [
+  {
+    key: 'home',
+    label: 'Home',
+    icon: Home,
+  },
+  {
+    key: 'activity',
+    label: 'Activity',
+    desktopLabel: 'Activity Feed',
+    icon: Images,
+  },
+  {
+    key: 'appointments',
+    label: 'Appointments',
+    icon: CalendarDays,
+  },
+  {
+    key: 'announcements',
+    label: 'Announcement',
+    desktopLabel: 'Announcements',
+    icon: Megaphone,
+  },
+  {
+    key: 'about',
+    label: 'About',
+    icon: Info,
+  },
+]
+
+const activityFilters = [
+  {
+    key: 'all',
+    label: 'All',
+  },
+  {
+    key: 'photo',
+    label: 'Photos',
+  },
+  {
+    key: 'video',
+    label: 'Videos',
+  },
+]
+
+const whatsNew = [
+  'Secure family access connected to the live system.',
+  'Resident care information loads from the live database.',
+  'Care Summary now uses a premium family-friendly ribbon layout.',
+  'Home greeting now changes automatically for morning, afternoon and evening.',
+  'Home hero now shows gentle rotating messages inspired by nature, weather and calm daily moments, without displaying the resident name.',
+  'Announcement photos and videos now display responsively inside the announcement card.',
+  'Family Account cards no longer display a person name; the Family ID remains visible.',
+  'Family Account status icon now shows live online/offline presence for eMAR monitoring.',
+  'Family Connect visual style is now fixed to the approved scenic Fuji design; wallpaper switching has been retired.',
+  'Family Connect now signs out automatically after 10 minutes without user activity.',
+  'Legacy Family Moments and Activities are loaded again from the original family_updates history, including old media and video thumbnails.',
+  'Resident initials now automatically switch to the resident profile photo whenever a photo is available.',
+  'Private photo and video viewing inside Family Connect.',
+  'Appointments and announcements linked to family records.',
+  'Improved mobile and desktop layout.',
+]
+
+function familyCodeToEmail(code) {
+  const normalized = code
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '')
+
+  if (!normalized) return ''
+
+  return `${normalized}@family.uaqelderlycarecentre.com`
+}
+
+function formatDateTime(value) {
+  if (!value) return ''
+
+  const date = new Date(value)
+
+  if (Number.isNaN(date.getTime())) {
+    return ''
+  }
+
+  return new Intl.DateTimeFormat('en-MY', {
+    day: 'numeric',
+    month: 'short',
+    hour: 'numeric',
+    minute: '2-digit',
+  }).format(date)
+}
+
+function formatFullDate(value) {
+  if (!value) return ''
+
+  const date = new Date(`${value}T00:00:00`)
+
+  if (Number.isNaN(date.getTime())) {
+    return value
+  }
+
+  return new Intl.DateTimeFormat('en-MY', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(date)
+}
+
+function getDayName(value) {
+  if (!value) return ''
+
+  const date = new Date(`${value}T00:00:00`)
+
+  if (Number.isNaN(date.getTime())) {
+    return ''
+  }
+
+  return new Intl.DateTimeFormat('en-MY', {
+    weekday: 'long',
+  }).format(date)
+}
+
+function formatTime(value) {
+  if (!value) {
+    return 'Time not set'
+  }
+
+  const [hoursRaw, minutesRaw] = value.split(':')
+
+  const hours = Number(hoursRaw)
+  const minutes = Number(minutesRaw || 0)
+
+  if (Number.isNaN(hours)) {
+    return value
+  }
+
+  const suffix = hours >= 12 ? 'PM' : 'AM'
+
+  const displayHours =
+    hours % 12 === 0
+      ? 12
+      : hours % 12
+
+  return `${displayHours}:${String(minutes).padStart(2, '0')} ${suffix}`
+}
+
+function formatPlayerTime(value) {
+  if (!Number.isFinite(value) || value < 0) {
+    return '0:00'
+  }
+
+  const minutes = Math.floor(value / 60)
+  const seconds = Math.floor(value % 60)
+
+  return `${minutes}:${String(seconds).padStart(2, '0')}`
+}
+
+function getAppointmentTimestamp(appointment) {
+  if (!appointment?.appointment_date) {
+    return 0
+  }
+
+  const time =
+    appointment.appointment_time ||
+    '23:59:59'
+
+  return new Date(
+    `${appointment.appointment_date}T${time}`
+  ).getTime()
+}
+
+function getResidentInitials(name) {
+  if (!name) {
+    return 'FC'
+  }
+
+  const words = name
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+
+  if (!words.length) {
+    return 'FC'
+  }
+
+  if (words.length === 1) {
+    return words[0]
+      .slice(0, 2)
+      .toUpperCase()
+  }
+
+  return `${words[0][0]}${words[1][0]}`
+    .toUpperCase()
+}
+
+function getMediaType(update) {
+  const mediaType =
+    update?.media_type?.toLowerCase() || ''
+
+  const updateType =
+    update?.update_type?.toLowerCase() || ''
+
+  if (
+    mediaType.includes('video') ||
+    updateType.includes('video')
+  ) {
+    return 'video'
+  }
+
+  return 'photo'
+}
+
+function resolveMediaPath(path) {
+  if (!path) {
+    return '/images/family-hero.webp'
+  }
+
+  if (
+    path.startsWith('http://') ||
+    path.startsWith('https://') ||
+    path.startsWith('/') ||
+    path.startsWith('blob:') ||
+    path.startsWith('data:')
+  ) {
+    return path
+  }
+
+  return '/images/family-hero.webp'
+}
+
+
+async function createSignedStorageMediaUrl(
+  bucket,
+  path
+) {
+  if (!path) {
+    return ''
+  }
+
+  if (
+    path.startsWith('http://') ||
+    path.startsWith('https://') ||
+    path.startsWith('blob:') ||
+    path.startsWith('data:')
+  ) {
+    return path
+  }
+
+  const {
+    data,
+    error,
+  } = await supabase.storage
+    .from(bucket)
+    .createSignedUrl(
+      path,
+      60 * 60
+    )
+
+  if (
+    error ||
+    !data?.signedUrl
+  ) {
+    console.warn(
+      `Unable to load media from ${bucket}:`,
+      error?.message || 'Signed URL unavailable'
+    )
+    return ''
+  }
+
+  return data.signedUrl
+}
+
+
+async function getResidentAvatarUrl(
+  patientId,
+  fallbackUrl = ''
+) {
+  if (!patientId) {
+    return fallbackUrl || ''
+  }
+
+  try {
+    const {
+      data: files,
+      error: listError,
+    } = await supabase.storage
+      .from('patient-avatars')
+      .list(
+        patientId,
+        {
+          limit: 20,
+        }
+      )
+
+    if (listError) {
+      console.warn(
+        'Unable to check resident profile photo:',
+        listError.message
+      )
+      return fallbackUrl || ''
+    }
+
+    const fileNames =
+      new Set(
+        (files || [])
+          .map(
+            (file) =>
+              file?.name
+          )
+          .filter(Boolean)
+      )
+
+    const extension =
+      fileNames.has(
+        'avatar.webp'
+      )
+        ? 'webp'
+        : fileNames.has(
+              'avatar.jpg'
+            )
+          ? 'jpg'
+          : ''
+
+    if (!extension) {
+      return fallbackUrl || ''
+    }
+
+    const {
+      data,
+      error,
+    } = await supabase.storage
+      .from('patient-avatars')
+      .createSignedUrl(
+        `${patientId}/avatar.${extension}`,
+        60 * 60 * 24 * 7
+      )
+
+    if (
+      error ||
+      !data?.signedUrl
+    ) {
+      console.warn(
+        'Unable to load resident profile photo:',
+        error?.message ||
+          'Signed URL unavailable'
+      )
+
+      return fallbackUrl || ''
+    }
+
+    return (
+      `${data.signedUrl}&v=${Date.now()}`
+    )
+  } catch (avatarError) {
+    console.warn(
+      'Unable to load resident profile photo:',
+      avatarError
+    )
+
+    return fallbackUrl || ''
   }
 }
 
-export default function App() {
-  const [session, setSession] = useState(null)
-  const [familyId, setFamilyId] = useState('')
-  const [pin, setPin] = useState('')
-  const [resident, setResident] = useState(null)
-  const [residentAvatarUrl, setResidentAvatarUrl] = useState('')
-  const [updates, setUpdates] = useState([])
-  const [appointments, setAppointments] = useState([])
-  const [announcements, setAnnouncements] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [loginLoading, setLoginLoading] = useState(false)
-  const [updatesLoading, setUpdatesLoading] = useState(false)
-  const [appointmentsLoading, setAppointmentsLoading] = useState(false)
-  const [announcementsLoading, setAnnouncementsLoading] = useState(false)
-  const [message, setMessage] = useState('')
-  const [activePage, setActivePage] = useState('home')
-  const [showSupportModal, setShowSupportModal] = useState(false)
-  const [showAboutModal, setShowAboutModal] = useState(false)
-  const [showNotifications, setShowNotifications] = useState(false)
-  const [notificationsSeenAt, setNotificationsSeenAt] = useState(0)
-  const [pushSupported, setPushSupported] = useState(true)
-  const [pushEnabled, setPushEnabled] = useState(false)
-  const [pushPermission, setPushPermission] = useState('default')
-  const [pushWorking, setPushWorking] = useState(false)
-  const [pushStatusMessage, setPushStatusMessage] = useState('')
-  const [momentFilter, setMomentFilter] = useState('all')
+function getCareDetails(resident) {
+  if (!resident) {
+    return []
+  }
 
-  const uaqPhone = '+601112707492'
-  const whatsappMessage = 'Hi UAQ, I’m contacting you through Family Connect.'
-  const whatsappUrl = `https://wa.me/601112707492?text=${encodeURIComponent(whatsappMessage)}`
+  return [
+    {
+      key: 'mobility',
+      label: 'Mobility',
+      value:
+        resident.mobility ||
+        'Not set',
+      icon: BedDouble,
+    },
+    {
+      key: 'assistance',
+      label: 'Assistance',
+      value:
+        resident.assistance ||
+        'Not set',
+      icon: Accessibility,
+    },
+    {
+      key: 'allergies',
+      label: 'Allergies',
+      value:
+        resident.allergies ||
+        'Not set',
+      icon: TriangleAlert,
+    },
+    {
+      key: 'diet',
+      label: 'Diet',
+      value:
+        resident.diet ||
+        'Not set',
+      icon: Utensils,
+    },
+    {
+      key: 'communication',
+      label: 'Communication',
+      value:
+        resident.communication ||
+        'Not set',
+      icon: ActivityIcon,
+    },
+    {
+      key: 'fallRisk',
+      label: 'Fall Risk',
+      value:
+        resident.fall_risk ||
+        'Not set',
+      icon: ShieldCheck,
+    },
+  ]
+}
 
-  const vapidPublicKey =
-    import.meta.env
-      .VITE_VAPID_PUBLIC_KEY ||
-    ''
+function PrivateVideoPlayer({ src }) {
+  const videoRef = useRef(null)
 
-  useEffect(() => {
-    checkSession()
+  const [playing, setPlaying] = useState(false)
+  const [muted, setMuted] = useState(false)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, newSession) => {
-      window.setTimeout(async () => {
-        if (!newSession) {
-          setSession(null)
-          clearFamilyData()
-          return
-        }
+  function togglePlay() {
+    const video = videoRef.current
 
-        const valid = await validateFamilySession(newSession)
+    if (!video) return
 
-        if (!valid) return
+    if (video.paused) {
+      video.play().catch(() => {})
+    } else {
+      video.pause()
+    }
+  }
 
-        setSession(newSession)
-        await loadFamilyData()
-      }, 0)
-    })
+  function toggleMute() {
+    const video = videoRef.current
 
-    return () => subscription.unsubscribe()
-  }, [])
+    if (!video) return
 
-  useEffect(() => {
-    if (!session) return undefined
+    video.muted = !video.muted
+    setMuted(video.muted)
+  }
 
-    let stopped = false
+  function handleSeek(event) {
+    const video = videoRef.current
 
-    const checkNow = async () => {
-      if (stopped) return
-      await validateFamilySession(session)
+    if (!video) return
+
+    const nextTime =
+      Number(event.target.value)
+
+    video.currentTime = nextTime
+    setCurrentTime(nextTime)
+  }
+
+  function handleFullscreen() {
+    const video = videoRef.current
+
+    if (!video) return
+
+    if (video.requestFullscreen) {
+      video.requestFullscreen().catch(() => {})
+      return
     }
 
-    const intervalId = window.setInterval(checkNow, 30000)
-    const handleFocus = () => checkNow()
-    const handleVisibility = () =>
-      document.visibilityState === 'visible' && checkNow()
+    if (video.webkitEnterFullscreen) {
+      video.webkitEnterFullscreen()
+    }
+  }
 
-    window.addEventListener('focus', handleFocus)
-    document.addEventListener('visibilitychange', handleVisibility)
+  return (
+    <div className="private-video-player">
+      <video
+        ref={videoRef}
+        src={src}
+        playsInline
+        preload="metadata"
+        controls={false}
+        disablePictureInPicture
+        controlsList="nodownload noplaybackrate noremoteplayback"
+        onPlay={() =>
+          setPlaying(true)
+        }
+        onPause={() =>
+          setPlaying(false)
+        }
+        onTimeUpdate={(event) =>
+          setCurrentTime(
+            event.currentTarget.currentTime
+          )
+        }
+        onLoadedMetadata={(event) =>
+          setDuration(
+            event.currentTarget.duration || 0
+          )
+        }
+        onEnded={() =>
+          setPlaying(false)
+        }
+        onContextMenu={(event) =>
+          event.preventDefault()
+        }
+      />
+
+      {!playing && (
+        <button
+          type="button"
+          className="private-video-big-play"
+          onClick={togglePlay}
+        >
+          <Play
+            size={28}
+            fill="currentColor"
+          />
+        </button>
+      )}
+
+      <div className="private-video-controls">
+        <button
+          type="button"
+          onClick={togglePlay}
+        >
+          {playing ? (
+            <Pause
+              size={18}
+              fill="currentColor"
+            />
+          ) : (
+            <Play
+              size={18}
+              fill="currentColor"
+            />
+          )}
+        </button>
+
+        <span className="private-video-time">
+          {formatPlayerTime(currentTime)}
+        </span>
+
+        <input
+          className="private-video-seek"
+          type="range"
+          min="0"
+          max={duration || 0}
+          step="0.1"
+          value={Math.min(
+            currentTime,
+            duration || 0
+          )}
+          onChange={handleSeek}
+        />
+
+        <span className="private-video-time">
+          {formatPlayerTime(duration)}
+        </span>
+
+        <button
+          type="button"
+          onClick={toggleMute}
+        >
+          {muted ? (
+            <VolumeX size={18} />
+          ) : (
+            <Volume2 size={18} />
+          )}
+        </button>
+
+        <button
+          type="button"
+          onClick={handleFullscreen}
+        >
+          <Maximize2 size={18} />
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function MediaViewer({
+  item,
+  onClose,
+}) {
+  useEffect(() => {
+    if (!item) return undefined
+
+    function handleKeyDown(event) {
+      if (event.key === 'Escape') {
+        onClose()
+      }
+    }
+
+    document.addEventListener(
+      'keydown',
+      handleKeyDown
+    )
 
     return () => {
-      stopped = true
-      window.clearInterval(intervalId)
-      window.removeEventListener('focus', handleFocus)
-      document.removeEventListener('visibilitychange', handleVisibility)
-    }
-  }, [session?.access_token])
-
-  useEffect(() => {
-    if (!session?.user?.id) {
-      setNotificationsSeenAt(0)
-      return
-    }
-
-    const key =
-      `uaq_family_notifications_seen_${session.user.id}`
-
-    const stored =
-      Number(
-        localStorage.getItem(
-          key
-        ) || 0
+      document.removeEventListener(
+        'keydown',
+        handleKeyDown
       )
+    }
+  }, [item, onClose])
 
-    setNotificationsSeenAt(
-      Number.isFinite(stored)
-        ? stored
-        : 0
+  if (!item) {
+    return null
+  }
+
+  const type =
+    getMediaType(item)
+
+  const mediaUrl =
+    resolveMediaPath(
+      item.media_url ||
+      item.thumbnail_url ||
+      item.media_path ||
+      item.thumbnail_path
     )
-  }, [session?.user?.id])
+
+  return (
+    <div
+      className="media-viewer-backdrop"
+      onClick={onClose}
+    >
+      <div
+        className="media-viewer"
+        onClick={(event) =>
+          event.stopPropagation()
+        }
+      >
+        <div className="media-viewer-header">
+          <div>
+            <span>
+              {type === 'video'
+                ? 'Video'
+                : 'Photo'}
+            </span>
+
+            <strong>
+              {item.title ||
+                'Family Update'}
+            </strong>
+          </div>
+
+          <button
+            type="button"
+            className="media-close-button"
+            onClick={onClose}
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        <div className="media-viewer-stage">
+          {type === 'video' ? (
+            <PrivateVideoPlayer
+              src={mediaUrl}
+            />
+          ) : (
+            <img
+              src={mediaUrl}
+              alt={
+                item.title ||
+                'Family activity'
+              }
+              draggable="false"
+              onContextMenu={(event) =>
+                event.preventDefault()
+              }
+            />
+          )}
+        </div>
+
+        <div className="media-viewer-copy">
+          <span>
+            {formatDateTime(
+              item.created_at
+            )}
+          </span>
+
+          {item.message && (
+            <p>
+              {item.message}
+            </p>
+          )}
+
+          <div className="private-media-note">
+            <ShieldCheck size={16} />
+
+            Private family viewing
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function ActivityCard({
+  item,
+  compact = false,
+  onOpen,
+}) {
+  const type =
+    getMediaType(item)
+
+  const preview =
+    resolveMediaPath(
+      item.thumbnail_url ||
+      item.media_url ||
+      item.thumbnail_path ||
+      item.media_path
+    )
+
+  return (
+    <article
+      className={[
+        'activity-card',
+        compact
+          ? 'compact'
+          : '',
+        type === 'video'
+          ? 'video-card'
+          : 'photo-card',
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      <button
+        type="button"
+        className="activity-media"
+        style={{
+          backgroundImage:
+            `url("${preview}")`,
+        }}
+        onClick={() =>
+          onOpen(item)
+        }
+      >
+        <div className="activity-media-overlay" />
+
+        <div className="activity-type-badge">
+          {type === 'video' ? (
+            <>
+              <Video size={14} />
+              Video
+            </>
+          ) : (
+            <>
+              <Images size={14} />
+              Photo
+            </>
+          )}
+        </div>
+
+        {type === 'video' && (
+          <div className="activity-play-button">
+            <Play
+              size={22}
+              fill="currentColor"
+            />
+          </div>
+        )}
+      </button>
+
+      <div className="activity-card-content">
+        <div className="activity-date">
+          {formatDateTime(
+            item.created_at
+          )}
+        </div>
+
+        <h3>
+          {item.title ||
+            'Family Update'}
+        </h3>
+
+        {!compact &&
+          item.message && (
+            <p>
+              {item.message}
+            </p>
+          )}
+      </div>
+    </article>
+  )
+}
+
+function AppointmentCard({
+  appointment,
+  featured = false,
+}) {
+  if (!appointment) {
+    return null
+  }
+
+  const formattedDate =
+    formatFullDate(
+      appointment.appointment_date
+    )
+
+  const dateParts =
+    formattedDate.split(' ')
+
+  return (
+    <article
+      className={
+        featured
+          ? 'appointment-card featured'
+          : 'appointment-card'
+      }
+    >
+      <div className="appointment-date-box">
+        <strong>
+          {dateParts[0] || ''}
+        </strong>
+
+        <span>
+          {dateParts[1] || ''}
+        </span>
+      </div>
+
+      <div>
+        <div className="appointment-status">
+          <CalendarDays size={14} />
+
+          {getDayName(
+            appointment.appointment_date
+          )}
+        </div>
+
+        <h3>
+          {appointment.purpose ||
+            'Appointment'}
+        </h3>
+
+        <div className="appointment-meta">
+          <span>
+            <Clock size={15} />
+
+            {formatTime(
+              appointment.appointment_time
+            )}
+          </span>
+
+          {appointment.place && (
+            <span>
+              <MapPin size={15} />
+
+              {appointment.place}
+            </span>
+          )}
+        </div>
+
+        {appointment.notes && (
+          <p>
+            {appointment.notes}
+          </p>
+        )}
+      </div>
+    </article>
+  )
+}
+
+function EmptyAppointment({
+  type = 'upcoming',
+}) {
+  const upcoming =
+    type === 'upcoming'
+
+  return (
+    <div className="appointment-empty-card">
+      <div className="appointment-empty-icon">
+        {upcoming ? (
+          <CalendarDays size={24} />
+        ) : (
+          <Clock size={24} />
+        )}
+      </div>
+
+      <div>
+        <strong>
+          {upcoming
+            ? 'No upcoming appointment'
+            : 'No past appointment'}
+        </strong>
+
+        <p>
+          {upcoming
+            ? 'There is no scheduled appointment at the moment. Future clinic or hospital visits will appear here.'
+            : 'Previous appointment history will appear here once records are available.'}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+function AnnouncementCard({
+  item,
+  featured = false,
+}) {
+  const announcementMediaType =
+    String(
+      item?.media_type || ''
+    ).toLowerCase()
+
+  const hasMedia =
+    Boolean(item?.media_url)
+
+  return (
+    <article
+      className={
+        featured
+          ? 'announcement-card featured'
+          : 'announcement-card'
+      }
+    >
+      <div className="announcement-icon">
+        <Megaphone size={20} />
+      </div>
+
+      <div
+        style={{
+          minWidth: 0,
+        }}
+      >
+        <div className="announcement-meta">
+          <span>
+            {item.announcement_type ||
+              'General'}
+          </span>
+
+          <span>
+            {formatDateTime(
+              item.created_at
+            )}
+          </span>
+        </div>
+
+        <h3>
+          {item.title}
+        </h3>
+
+        <p>
+          {item.message}
+        </p>
+
+        {hasMedia && (
+          <div
+            className="announcement-media"
+            style={{
+              width: '100%',
+              marginTop: 14,
+              overflow: 'hidden',
+              borderRadius: 18,
+            }}
+          >
+            {announcementMediaType ===
+            'video' ? (
+              <video
+                src={item.media_url}
+                controls
+                playsInline
+                preload="metadata"
+                controlsList="nodownload noplaybackrate"
+                disablePictureInPicture
+                onContextMenu={(event) =>
+                  event.preventDefault()
+                }
+                style={{
+                  display: 'block',
+                  width: '100%',
+                  maxHeight:
+                    featured
+                      ? 520
+                      : 420,
+                  objectFit: 'contain',
+                  background: '#111',
+                }}
+              />
+            ) : (
+              <img
+                src={item.media_url}
+                alt={
+                  item.media_original_name ||
+                  item.title ||
+                  'Announcement'
+                }
+                loading="lazy"
+                draggable="false"
+                onContextMenu={(event) =>
+                  event.preventDefault()
+                }
+                style={{
+                  display: 'block',
+                  width: '100%',
+                  height: 'auto',
+                  maxHeight:
+                    featured
+                      ? 520
+                      : 420,
+                  objectFit: 'contain',
+                  objectPosition: 'center',
+                  margin: '0 auto',
+                }}
+              />
+            )}
+          </div>
+        )}
+      </div>
+    </article>
+  )
+}
+
+export default function App() {
+  // Default look is the dark editorial design (matches the website).
+  // The family's own choice is remembered on this device.
+  const [
+    dark,
+    setDark,
+  ] = useState(() => {
+    try {
+      return window.localStorage.getItem('uaq_family_theme') !== 'light'
+    } catch {
+      return true
+    }
+  })
 
   useEffect(() => {
-    if (!session?.user?.id) {
-      setPushEnabled(false)
-      setPushPermission(
-        typeof Notification !==
-          'undefined'
-          ? Notification.permission
-          : 'default'
-      )
-
-      return
+    try {
+      window.localStorage.setItem('uaq_family_theme', dark ? 'dark' : 'light')
+    } catch {
+      /* storage unavailable: keep the in-memory choice */
     }
+  }, [dark])
 
+  const [
+    greetingClock,
+    setGreetingClock,
+  ] = useState(
+    () => new Date()
+  )
+
+  const [
+    showPassword,
+    setShowPassword,
+  ] = useState(false)
+
+  const [
+    familyCode,
+    setFamilyCode,
+  ] = useState('')
+
+  const [
+    password,
+    setPassword,
+  ] = useState('')
+
+  const [
+    loginError,
+    setLoginError,
+  ] = useState('')
+
+  const [
+    authBusy,
+    setAuthBusy,
+  ] = useState(false)
+
+  const [
+    initializing,
+    setInitializing,
+  ] = useState(true)
+
+  const [
+    loggedIn,
+    setLoggedIn,
+  ] = useState(false)
+
+  // Family Connect reads the Admin-published theme (view only).
+  const { theme: publishedFestivalTheme } = useUaqVisualTheme(true)
+
+  const [
+    activeNav,
+    setActiveNav,
+  ] = useState('home')
+
+  const [
+    activityFilter,
+    setActivityFilter,
+  ] = useState('all')
+
+  const [
+    familyAccount,
+    setFamilyAccount,
+  ] = useState(null)
+
+  const [
+    resident,
+    setResident,
+  ] = useState(null)
+
+  const [
+    residentAvatarUrl,
+    setResidentAvatarUrl,
+  ] = useState('')
+
+  const [
+    appointments,
+    setAppointments,
+  ] = useState([])
+
+  const [
+    announcements,
+    setAnnouncements,
+  ] = useState([])
+
+  const [
+    activityItems,
+    setActivityItems,
+  ] = useState([])
+
+  const [
+    residentImageError,
+    setResidentImageError,
+  ] = useState(false)
+
+  const [
+    residentPhotoPreviewOpen,
+    setResidentPhotoPreviewOpen,
+  ] = useState(false)
+
+  useEffect(() => {
     let cancelled = false
 
-    async function checkPushStatus() {
-      const supported =
-        'serviceWorker' in navigator &&
-        'PushManager' in window &&
-        'Notification' in window
+    setResidentImageError(false)
+
+    if (!resident?.patient_id) {
+      setResidentAvatarUrl('')
+      return undefined
+    }
+
+    async function loadResidentAvatar() {
+      const url =
+        await getResidentAvatarUrl(
+          resident.patient_id,
+          resident.photo_url
+        )
 
       if (!cancelled) {
-        setPushSupported(
-          supported
-        )
-      }
-
-      if (!supported) {
-        if (!cancelled) {
-          setPushEnabled(false)
-        }
-
-        return
-      }
-
-      if (!cancelled) {
-        setPushPermission(
-          Notification.permission
-        )
-      }
-
-      try {
-        const registration =
-          await navigator
-            .serviceWorker
-            .ready
-
-        const subscription =
-          await registration
-            .pushManager
-            .getSubscription()
-
-        if (cancelled) return
-
-        setPushEnabled(
-          Boolean(subscription)
-        )
-
-        if (
-          subscription &&
-          session?.user?.id
-        ) {
-          const keys =
-            getPushSubscriptionKeys(
-              subscription
-            )
-
-          if (
-            keys.p256dh &&
-            keys.auth
-          ) {
-            const { error } =
-              await supabase
-                .from(
-                  'family_push_subscriptions'
-                )
-                .upsert(
-                  {
-                    family_user_id:
-                      session.user.id,
-                    endpoint:
-                      subscription.endpoint,
-                    p256dh:
-                      keys.p256dh,
-                    auth_key:
-                      keys.auth,
-                    user_agent:
-                      navigator.userAgent,
-                    enabled:
-                      true,
-                    last_seen_at:
-                      new Date()
-                        .toISOString(),
-                  },
-                  {
-                    onConflict:
-                      'endpoint',
-                  }
-                )
-
-            if (
-              error &&
-              !cancelled
-            ) {
-              console.error(
-                'Unable to refresh push subscription.',
-                error
-              )
-            }
-          }
-        }
-      } catch (error) {
-        console.error(
-          'Unable to check push notification status.',
-          error
-        )
-
-        if (!cancelled) {
-          setPushEnabled(false)
-        }
+        setResidentAvatarUrl(url)
       }
     }
 
-    checkPushStatus()
+    loadResidentAvatar()
 
     return () => {
       cancelled = true
     }
-  }, [session?.user?.id])
+  }, [
+    resident?.patient_id,
+    resident?.photo_url,
+  ])
 
-  function clearFamilyData() {
-    setResident(null)
-    setResidentAvatarUrl('')
-    setShowNotifications(false)
-    setShowAboutModal(false)
-    setUpdates([])
-    setAppointments([])
-    setAnnouncements([])
-    setMomentFilter('all')
-  }
+  const [
+    selectedMedia,
+    setSelectedMedia,
+  ] = useState(null)
 
-  function getTokenIssuedAt(accessToken) {
-    try {
-      const payloadPart = accessToken.split('.')[1]
-
-      if (!payloadPart) return null
-
-      const normalized = payloadPart
-        .replace(/-/g, '+')
-        .replace(/_/g, '/')
-
-      const padded = normalized.padEnd(
-        normalized.length + ((4 - (normalized.length % 4)) % 4),
-        '='
-      )
-
-      const payload = JSON.parse(window.atob(padded))
-
-      return typeof payload.iat === 'number'
-        ? payload.iat
-        : null
-    } catch (tokenError) {
-      console.error(
-        'Unable to read session issue time.',
-        tokenError
-      )
-
-      return null
-    }
-  }
-
-  async function forceLocalLogout(reason) {
-    clearFamilyData()
-    setSession(null)
-    setMessage(reason)
-
-    const { error } = await supabase.auth.signOut({
-      scope: 'local',
-    })
-
-    if (error) {
-      console.error('Local sign out failed.', error)
-    }
-  }
-
-  async function validateFamilySession(currentSession) {
-    if (!currentSession?.access_token) return false
-
-    const { data, error } = await supabase.rpc(
-      'get_family_session_status'
-    )
-
-    if (error) {
-      console.error('Family session check failed.', error)
-      return true
+  useEffect(() => {
+    if (!residentPhotoPreviewOpen) {
+      return undefined
     }
 
-    const status = Array.isArray(data)
-      ? data[0]
-      : data
+    const previousOverflow =
+      document.body.style.overflow
 
-    if (!status) {
-      await forceLocalLogout(
-        'This Family Connect login is no longer available. Please contact UAQ.'
-      )
+    document.body.style.overflow =
+      'hidden'
 
-      return false
-    }
-
-    if (status.active !== true) {
-      await forceLocalLogout(
-        'This Family Connect account is inactive. Please contact UAQ.'
-      )
-
-      return false
-    }
-
-    const issuedAtSeconds = getTokenIssuedAt(
-      currentSession.access_token
-    )
-
-    const invalidatedAtMs = status.invalidated_at
-      ? new Date(status.invalidated_at).getTime()
-      : 0
-
-    const invalidatedAtSeconds = Number.isFinite(
-      invalidatedAtMs
-    )
-      ? Math.floor(invalidatedAtMs / 1000)
-      : 0
-
-    if (
-      issuedAtSeconds !== null &&
-      invalidatedAtSeconds > 0 &&
-      issuedAtSeconds < invalidatedAtSeconds
+    function handleResidentPreviewKey(
+      event
     ) {
-      await forceLocalLogout(
-        'Your login session has expired because the PIN or account access was updated. Please sign in again with the latest PIN.'
-      )
-
-      return false
+      if (event.key === 'Escape') {
+        setResidentPhotoPreviewOpen(
+          false
+        )
+      }
     }
 
-    return true
+    window.addEventListener(
+      'keydown',
+      handleResidentPreviewKey
+    )
+
+    return () => {
+      document.body.style.overflow =
+        previousOverflow
+
+      window.removeEventListener(
+        'keydown',
+        handleResidentPreviewKey
+      )
+    }
+  }, [
+    residentPhotoPreviewOpen,
+  ])
+
+  const [
+    familyOnline,
+    setFamilyOnline,
+  ] = useState(
+    () =>
+      typeof navigator === 'undefined'
+        ? true
+        : navigator.onLine
+  )
+
+  useEffect(() => {
+    const updateGreetingClock = () => {
+      setGreetingClock(
+        new Date()
+      )
+    }
+
+    updateGreetingClock()
+
+    const timer =
+      window.setInterval(
+        updateGreetingClock,
+        60 * 1000
+      )
+
+    return () => {
+      window.clearInterval(
+        timer
+      )
+    }
+  }, [])
+
+  function getGreeting() {
+    const hour =
+      greetingClock.getHours()
+
+    if (hour < 12) {
+      return 'Good morning'
+    }
+
+    if (hour < 18) {
+      return 'Good afternoon'
+    }
+
+    return 'Good evening'
   }
 
-  async function checkSession() {
-    setLoading(true)
+  function getMotivationalLine() {
+    const lines = [
+      'Like a fresh morning breeze, gentle care can brighten the day.',
+      'Even on rainy days, warmth and comfort can still feel close.',
+      'May today feel calm and steady, like a quiet walk through the forest.',
+      'Like soft sunlight in the morning, small moments can bring great comfort.',
+      'Even when the day feels hazy, care and connection remain close at heart.',
+      'A peaceful day begins with gentle care and thoughtful moments.',
+      'Like the calm after rain, quiet moments can bring comfort and ease.',
+      'May today feel light, warm and comforting, like the morning sun.',
+      'Like fresh air after a long day, care can bring a sense of calm.',
+      'On bright sunny days or gentle rainy ones, every caring moment matters.',
+      'Like a green and peaceful garden, comfort grows in small daily moments.',
+      'May today bring a calm heart, a gentle pace and comforting moments.',
+    ]
+
+    const dayNumber =
+      Math.floor(
+        greetingClock.getTime() /
+          (24 * 60 * 60 * 1000)
+      )
+
+    const sixHourSlot =
+      Math.floor(
+        greetingClock.getHours() / 6
+      )
+
+    const index =
+      (dayNumber * 4 +
+        sixHourSlot) %
+      lines.length
+
+    return lines[index]
+  }
+
+  async function loadFamilyData(user) {
+    if (!user) {
+      throw new Error(
+        'No authenticated family account.'
+      )
+    }
 
     const {
-      data: { session: currentSession },
-    } = await supabase.auth.getSession()
-
-    if (!currentSession) {
-      setSession(null)
-      clearFamilyData()
-      setLoading(false)
-      return
-    }
-
-    const valid =
-      await validateFamilySession(currentSession)
-
-    if (valid) {
-      setSession(currentSession)
-      await loadFamilyData()
-    }
-
-    setLoading(false)
-  }
-
-  async function loadFamilyData() {
-    setMessage('')
-
-    const { data, error } = await supabase.rpc(
-      'get_family_resident_profile'
-    )
-
-    if (error) {
-      console.error(error)
-      clearFamilyData()
-      setMessage(
-        'Unable to load resident information.'
-      )
-      return
-    }
-
-    if (!data || data.length === 0) {
-      clearFamilyData()
-      setMessage(
-        'No resident is linked to this family account.'
-      )
-      return
-    }
-
-    const residentData = data[0]
-
-    setResident(residentData)
-
-    const avatarPromise =
-      getResidentAvatarUrl(
-        residentData.patient_id
-      ).then((url) => {
-        setResidentAvatarUrl(
-          url
-        )
-      })
-
-    await Promise.all([
-      avatarPromise,
-      loadUpdates(residentData.patient_id),
-      loadAppointments(residentData.patient_id),
-      loadAnnouncements(),
-    ])
-  }
-
-  async function loadUpdates(patientId) {
-    setUpdatesLoading(true)
-
-    const { data, error } = await supabase
-      .from('family_updates')
+      data: account,
+      error: accountError,
+    } = await supabase
+      .from('family_accounts')
       .select(
-        'id,patient_id,audience_type,title,message,update_type,media_path,media_type,media_original_name,thumbnail_path,created_at'
+        'id, full_name, phone, active, family_code, created_at'
       )
-      .or(
-        `patient_id.eq.${patientId},audience_type.eq.all_families`
-      )
-      .eq('visible_to_family', true)
-      .order('created_at', {
-        ascending: false,
-      })
-      .limit(20)
+      .eq('id', user.id)
+      .single()
 
-    if (error) {
-      console.error(error)
-      setUpdates([])
-      setUpdatesLoading(false)
-      return
+    if (accountError) {
+      throw new Error(
+        'This login is not registered as a Family Connect account.'
+      )
     }
 
-    const rows = await Promise.all(
-      (data || []).map(async (update) => {
-        let mediaUrl = ''
-        let thumbnailUrl = ''
-
-        if (update.media_path) {
-          const {
-            data: signedData,
-            error: signedError,
-          } = await supabase.storage
-            .from('family-updates')
-            .createSignedUrl(
-              update.media_path,
-              60 * 60
-            )
-
-          if (signedError) {
-            console.error(signedError)
-          } else {
-            mediaUrl =
-              signedData?.signedUrl || ''
-          }
-        }
-
-        if (update.thumbnail_path) {
-          const {
-            data: thumbnailData,
-            error: thumbnailError,
-          } = await supabase.storage
-            .from('family-updates')
-            .createSignedUrl(
-              update.thumbnail_path,
-              60 * 60
-            )
-
-          if (thumbnailError) {
-            console.error(thumbnailError)
-          } else {
-            thumbnailUrl =
-              thumbnailData?.signedUrl || ''
-          }
-        }
-
-        return {
-          ...update,
-          media_url: mediaUrl,
-          thumbnail_url: thumbnailUrl,
-        }
-      })
-    )
-
-    setUpdates(rows)
-    setUpdatesLoading(false)
-  }
-
-  async function loadAppointments(patientId) {
-    setAppointmentsLoading(true)
-
-    const now = new Date()
-
-    const localToday = new Date(
-      now.getTime() -
-        now.getTimezoneOffset() * 60000
-    )
-      .toISOString()
-      .slice(0, 10)
-
-    const { data, error } = await supabase
-      .from('family_appointments')
-      .select(
-        'id,appointment_date,appointment_time,place,purpose,notes'
+    if (!account?.active) {
+      throw new Error(
+        'This Family Connect account is currently inactive.'
       )
-      .eq('patient_id', patientId)
-      .eq('visible_to_family', true)
-      .gte('appointment_date', localToday)
-      .order('appointment_date', {
-        ascending: true,
-      })
-      .order('appointment_time', {
-        ascending: true,
-      })
-
-    if (error) {
-      console.error(error)
-      setAppointments([])
-      setAppointmentsLoading(false)
-      return
     }
 
-    setAppointments(data || [])
-    setAppointmentsLoading(false)
-  }
-
-  async function loadAnnouncements() {
-    setAnnouncementsLoading(true)
-
-    const { data, error } = await supabase
-      .from('family_announcements')
-      .select(
-        'id,title,message,announcement_type,media_path,media_type,media_original_name,created_at'
-      )
-      .eq('visible', true)
-      .order('created_at', {
-        ascending: false,
-      })
-      .limit(10)
-
-    if (error) {
-      console.error(error)
-      setAnnouncements([])
-      setAnnouncementsLoading(false)
-      return
-    }
-
-    const rows = await Promise.all(
-      (data || []).map(async (announcement) => {
-        if (!announcement.media_path) {
-          return {
-            ...announcement,
-            media_url: '',
-          }
-        }
-
-        const {
-          data: signedData,
-          error: signedError,
-        } = await supabase.storage
-          .from('family-announcements')
-          .createSignedUrl(
-            announcement.media_path,
-            60 * 60
-          )
-
-        if (signedError) {
-          console.error(signedError)
-        }
-
-        return {
-          ...announcement,
-          media_url:
-            signedData?.signedUrl || '',
-        }
-      })
-    )
-
-    setAnnouncements(rows)
-    setAnnouncementsLoading(false)
-  }
-
-  async function handleLogin(event) {
-    event.preventDefault()
-
-    setLoginLoading(true)
-    setMessage('')
-
-    const cleanFamilyId =
-      familyId.trim().toUpperCase()
-
-    const cleanPin = pin.trim()
-
-    if (!/^UAQ-\d{4}$/.test(cleanFamilyId)) {
-      setMessage(
-        'Enter a valid Family ID, for example UAQ-6355.'
-      )
-
-      setLoginLoading(false)
-      return
-    }
-
-    if (!/^\d{6}$/.test(cleanPin)) {
-      setMessage(
-        'PIN must contain exactly 6 digits.'
-      )
-
-      setLoginLoading(false)
-      return
-    }
-
-    const internalEmail =
-      `${cleanFamilyId
-        .toLowerCase()
-        .replace('-', '')}@family.uaqelderlycarecentre.com`
-
-    const { error } =
-      await supabase.auth.signInWithPassword({
-        email: internalEmail,
-        password: cleanPin,
-      })
-
-    if (error) {
-      setMessage(
-        'Family ID or PIN is incorrect, or this account is inactive.'
-      )
-
-      setLoginLoading(false)
-      return
-    }
-
-    setFamilyId('')
-    setPin('')
-    setLoginLoading(false)
-  }
-
-  async function enablePushNotifications() {
     if (
-      !session?.user?.id
+      typeof navigator === 'undefined' ||
+      navigator.onLine
     ) {
-      setPushStatusMessage(
-        'Please sign in again before enabling notifications.'
+      const {
+        error: initialPresenceError,
+      } = await supabase.rpc(
+        'touch_family_presence'
       )
 
-      return
-    }
-
-    const supported =
-      'serviceWorker' in navigator &&
-      'PushManager' in window &&
-      'Notification' in window
-
-    if (!supported) {
-      setPushSupported(false)
-      setPushStatusMessage(
-        'Push notifications are not supported on this browser or device.'
-      )
-
-      return
-    }
-
-    if (!vapidPublicKey) {
-      setPushStatusMessage(
-        'Push notification setup is not complete yet.'
-      )
-
-      return
-    }
-
-    setPushWorking(true)
-    setPushStatusMessage('')
-
-    try {
-      const permission =
-        await Notification
-          .requestPermission()
-
-      setPushPermission(
-        permission
-      )
-
-      if (
-        permission !==
-        'granted'
-      ) {
-        setPushEnabled(false)
-
-        setPushStatusMessage(
-          permission ===
-            'denied'
-            ? 'Notifications are blocked. Please allow notifications in your device settings.'
-            : 'Notification permission was not enabled.'
-        )
-
-        return
-      }
-
-      const registration =
-        await navigator
-          .serviceWorker
-          .ready
-
-      let subscription =
-        await registration
-          .pushManager
-          .getSubscription()
-
-      if (!subscription) {
-        subscription =
-          await registration
-            .pushManager
-            .subscribe({
-              userVisibleOnly:
-                true,
-              applicationServerKey:
-                urlBase64ToUint8Array(
-                  vapidPublicKey
-                ),
-            })
-      }
-
-      const keys =
-        getPushSubscriptionKeys(
-          subscription
-        )
-
-      if (
-        !keys.p256dh ||
-        !keys.auth
-      ) {
-        throw new Error(
-          'Push subscription keys are unavailable.'
+      if (initialPresenceError) {
+        console.warn(
+          'Initial Family presence write failed:',
+          initialPresenceError.message
         )
       }
+    }
 
-      const { error } =
-        await supabase
-          .from(
-            'family_push_subscriptions'
-          )
-          .upsert(
-            {
-              family_user_id:
-                session.user.id,
-              endpoint:
-                subscription.endpoint,
-              p256dh:
-                keys.p256dh,
-              auth_key:
-                keys.auth,
-              user_agent:
-                navigator.userAgent,
-              enabled:
-                true,
-              last_seen_at:
-                new Date()
-                  .toISOString(),
-            },
-            {
-              onConflict:
-                'endpoint',
-            }
-          )
+    const {
+      data: residentsData,
+      error: residentError,
+    } = await supabase.rpc(
+      'get_my_family_residents'
+    )
+
+    if (residentError) {
+      throw residentError
+    }
+
+    const linkedResident =
+      residentsData?.[0] ||
+      null
+
+    let appointmentRows = []
+
+    if (
+      linkedResident?.patient_id
+    ) {
+      const {
+        data,
+        error,
+      } = await supabase
+        .from(
+          'family_appointments'
+        )
+        .select('*')
+        .eq(
+          'patient_id',
+          linkedResident.patient_id
+        )
+        .eq(
+          'visible_to_family',
+          true
+        )
+        .order(
+          'appointment_date',
+          {
+            ascending: true,
+          }
+        )
+        .order(
+          'appointment_time',
+          {
+            ascending: true,
+          }
+        )
 
       if (error) {
         throw error
       }
 
-      setPushEnabled(true)
-
-      setPushStatusMessage(
-        'Notifications are enabled on this device.'
-      )
-    } catch (error) {
-      console.error(
-        'Unable to enable push notifications.',
-        error
-      )
-
-      setPushEnabled(false)
-
-      setPushStatusMessage(
-        error?.message ||
-          'Unable to enable notifications.'
-      )
-    } finally {
-      setPushWorking(false)
+      appointmentRows =
+        data || []
     }
+
+    const [
+      announcementResult,
+      updateResult,
+    ] = await Promise.all([
+      supabase
+        .from(
+          'family_announcements'
+        )
+        .select('*')
+        .eq(
+          'visible',
+          true
+        )
+        .order(
+          'created_at',
+          {
+            ascending: false,
+          }
+        ),
+
+      supabase
+        .from(
+          'family_updates'
+        )
+        .select('*')
+        .or(
+          linkedResident?.patient_id
+            ? `patient_id.eq.${linkedResident.patient_id},audience_type.eq.all_families`
+            : 'audience_type.eq.all_families'
+        )
+        .eq(
+          'visible_to_family',
+          true
+        )
+        .order(
+          'created_at',
+          {
+            ascending: false,
+          }
+        ),
+    ])
+
+    if (
+      announcementResult.error
+    ) {
+      throw announcementResult.error
+    }
+
+    if (
+      updateResult.error
+    ) {
+      throw updateResult.error
+    }
+
+    setFamilyAccount(account)
+
+    setResident(
+      linkedResident
+        ? {
+            ...linkedResident,
+            initials:
+              getResidentInitials(
+                linkedResident.full_name
+              ),
+          }
+        : null
+    )
+
+    setAppointments(
+      appointmentRows
+    )
+
+    const announcementRows =
+      await Promise.all(
+        (announcementResult.data || []).map(
+          async (item) => ({
+            ...item,
+            media_url:
+              item.media_path
+                ? await createSignedStorageMediaUrl(
+                    'family-announcements',
+                    item.media_path
+                  )
+                : '',
+          })
+        )
+      )
+
+    setAnnouncements(
+      announcementRows
+    )
+
+    const updateRows =
+      await Promise.all(
+        (updateResult.data || []).map(
+          async (item) => {
+            const [
+              mediaUrl,
+              thumbnailUrl,
+            ] = await Promise.all([
+              item.media_path
+                ? createSignedStorageMediaUrl(
+                    'family-updates',
+                    item.media_path
+                  )
+                : Promise.resolve(''),
+
+              item.thumbnail_path
+                ? createSignedStorageMediaUrl(
+                    'family-updates',
+                    item.thumbnail_path
+                  )
+                : Promise.resolve(''),
+            ])
+
+            return {
+              ...item,
+              media_url:
+                mediaUrl || '',
+              thumbnail_url:
+                thumbnailUrl || '',
+            }
+          }
+        )
+      )
+
+    setActivityItems(
+      updateRows
+    )
+
+    setLoggedIn(true)
+    setLoginError('')
   }
 
-  async function disablePushNotifications() {
-    if (
-      !session?.user?.id ||
-      !(
-        'serviceWorker' in
-        navigator
-      )
-    ) {
-      return
-    }
+  useEffect(() => {
+    let mounted = true
 
-    setPushWorking(true)
-    setPushStatusMessage('')
-
-    try {
-      const registration =
-        await navigator
-          .serviceWorker
-          .ready
-
-      const subscription =
-        await registration
-          .pushManager
-          .getSubscription()
-
-      if (subscription) {
-        const endpoint =
-          subscription.endpoint
-
-        const { error } =
-          await supabase
-            .from(
-              'family_push_subscriptions'
-            )
-            .delete()
-            .eq(
-              'family_user_id',
-              session.user.id
-            )
-            .eq(
-              'endpoint',
-              endpoint
-            )
+    async function restoreSession() {
+      try {
+        const {
+          data,
+          error,
+        } =
+          await supabase.auth
+            .getSession()
 
         if (error) {
           throw error
         }
 
-        await subscription
-          .unsubscribe()
-      }
+        if (
+          data?.session?.user &&
+          mounted
+        ) {
+          const storedActivity =
+            Number(
+              window.localStorage.getItem(
+                FAMILY_LAST_ACTIVITY_KEY
+              )
+            )
 
-      setPushEnabled(false)
+          const activityExpired =
+            Number.isFinite(
+              storedActivity
+            ) &&
+            storedActivity > 0 &&
+            (
+              Date.now() -
+              storedActivity
+            ) >=
+              FAMILY_INACTIVITY_LOGOUT_MS
 
-      setPushStatusMessage(
-        'Notifications are turned off on this device.'
-      )
-    } catch (error) {
-      console.error(
-        'Unable to disable push notifications.',
-        error
-      )
+          if (activityExpired) {
+            await performLogout(true)
+            return
+          }
 
-      setPushStatusMessage(
-        error?.message ||
-          'Unable to turn off notifications.'
-      )
-    } finally {
-      setPushWorking(false)
-    }
-  }
+          if (
+            !Number.isFinite(
+              storedActivity
+            ) ||
+            storedActivity <= 0
+          ) {
+            window.localStorage.setItem(
+              FAMILY_LAST_ACTIVITY_KEY,
+              String(Date.now())
+            )
+          }
 
-  async function handleLogout() {
-    await supabase.auth.signOut()
-    clearFamilyData()
-  }
-
-  function navigate(page) {
-    setActivePage(page)
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    })
-  }
-
-  function openNotifications() {
-    setShowNotifications(true)
-
-    if (!session?.user?.id) {
-      return
-    }
-
-    const now = Date.now()
-
-    localStorage.setItem(
-      `uaq_family_notifications_seen_${session.user.id}`,
-      String(now)
-    )
-
-    setNotificationsSeenAt(
-      now
-    )
-  }
-
-  function closeNotifications() {
-    setShowNotifications(false)
-  }
-
-  function openNotificationItem(
-    item
-  ) {
-    closeNotifications()
-    navigate(item.page)
-  }
-
-  function getGreeting() {
-    const hour = new Date().getHours()
-
-    if (hour < 12) return 'Good morning'
-    if (hour < 18) return 'Good afternoon'
-
-    return 'Good evening'
-  }
-
-  function formatUpdateDate(dateValue) {
-    if (!dateValue) return ''
-
-    return new Intl.DateTimeFormat(
-      'en-MY',
-      {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric',
-        hour: 'numeric',
-        minute: '2-digit',
-      }
-    ).format(new Date(dateValue))
-  }
-
-  function formatShortDate(dateValue) {
-    if (!dateValue) {
-      return {
-        day: '--',
-        month: '---',
-      }
-    }
-
-    const date =
-      new Date(`${dateValue}T00:00:00`)
-
-    return {
-      day: new Intl.DateTimeFormat(
-        'en-MY',
-        {
-          day: '2-digit',
+          await loadFamilyData(
+            data.session.user
+          )
         }
-      ).format(date),
+      } catch (error) {
+        console.error(
+          'Session restore error:',
+          error
+        )
 
-      month: new Intl.DateTimeFormat(
-        'en-MY',
-        {
-          month: 'short',
+        await supabase.auth
+          .signOut()
+
+        if (mounted) {
+          setLoggedIn(false)
         }
-      )
-        .format(date)
-        .toUpperCase(),
-    }
-  }
-
-  function formatAppointmentDate(dateValue) {
-    if (!dateValue) return ''
-
-    const date =
-      new Date(`${dateValue}T00:00:00`)
-
-    return new Intl.DateTimeFormat(
-      'en-MY',
-      {
-        weekday: 'long',
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
+      } finally {
+        if (mounted) {
+          setInitializing(false)
+        }
       }
-    ).format(date)
-  }
-
-  function formatAppointmentTime(timeValue) {
-    if (!timeValue) return ''
-
-    const [hour, minute] =
-      timeValue.split(':')
-
-    const date = new Date()
-
-    date.setHours(
-      Number(hour),
-      Number(minute),
-      0,
-      0
-    )
-
-    return new Intl.DateTimeFormat(
-      'en-MY',
-      {
-        hour: 'numeric',
-        minute: '2-digit',
-      }
-    ).format(date)
-  }
-
-  function getUpdateTypeLabel(type) {
-    if (type === 'activity') {
-      return 'Activity'
     }
 
-    if (type === 'moment') {
-      return 'Moment'
+    restoreSession()
+
+    const {
+      data: authListener,
+    } =
+      supabase.auth
+        .onAuthStateChange(
+          (event) => {
+            if (
+              event ===
+                'SIGNED_OUT' &&
+              mounted
+            ) {
+              setLoggedIn(false)
+              setFamilyAccount(null)
+              setResident(null)
+              setResidentAvatarUrl('')
+              setAppointments([])
+              setAnnouncements([])
+              setActivityItems([])
+              setSelectedMedia(null)
+            }
+          }
+        )
+
+    return () => {
+      mounted = false
+
+      authListener
+        ?.subscription
+        ?.unsubscribe()
     }
-
-    if (type === 'important') {
-      return 'Important'
-    }
-
-    return 'Moment'
-  }
-
-  function getAnnouncementTypeLabel(type) {
-    if (type === 'event') {
-      return 'Event'
-    }
-
-    if (type === 'important') {
-      return 'Important'
-    }
-
-    return 'Announcement'
-  }
-
-  const latestUpdate =
-    updates[0] || null
-
-  const nextAppointment =
-    appointments[0] || null
-
-  const latestAnnouncement =
-    announcements[0] || null
-
-  const notificationItems =
-    [
-      ...updates.map(
-        (update) => ({
-          id:
-            `update-${update.id}`,
-          sourceId:
-            update.id,
-          type:
-            'Moment',
-          title:
-            update.title ||
-            'New family update',
-          message:
-            update.message ||
-            'A new update is available.',
-          createdAt:
-            update.created_at,
-          page:
-            'moments',
-        })
-      ),
-      ...announcements.map(
-        (announcement) => ({
-          id:
-            `announcement-${announcement.id}`,
-          sourceId:
-            announcement.id,
-          type:
-            'Announcement',
-          title:
-            announcement.title ||
-            'New announcement',
-          message:
-            announcement.message ||
-            'A new announcement is available.',
-          createdAt:
-            announcement.created_at,
-          page:
-            'announcements',
-        })
-      ),
-    ]
-      .filter(
-        (item) =>
-          item.createdAt
-      )
-      .sort(
-        (a, b) =>
-          new Date(
-            b.createdAt
-          ).getTime() -
-          new Date(
-            a.createdAt
-          ).getTime()
-      )
-
-  const unreadNotificationCount =
-    notificationItems.filter(
-      (item) =>
-        new Date(
-          item.createdAt
-        ).getTime() >
-        notificationsSeenAt
-    ).length
-
-  const residentName =
-    resident?.full_name ||
-    'Your Loved One'
+  }, [])
 
   useEffect(() => {
     if (
-      !session?.user?.id ||
-      !resident?.patient_id
+      !loggedIn ||
+      !familyAccount?.id
     ) {
       return undefined
     }
 
     let stopped = false
 
-    async function checkForNewContent() {
-      const [
-        updateResult,
-        announcementResult,
-      ] =
-        await Promise.all([
-          supabase
-            .from(
-              'family_updates'
-            )
-            .select(
-              'id,created_at'
-            )
-            .or(
-              `patient_id.eq.${resident.patient_id},audience_type.eq.all_families`
-            )
-            .eq(
-              'visible_to_family',
-              true
-            )
-            .order(
-              'created_at',
-              {
-                ascending:
-                  false,
-              }
-            )
-            .limit(1),
+    async function touchPresence() {
+      if (
+        typeof navigator !== 'undefined' &&
+        !navigator.onLine
+      ) {
+        if (!stopped) {
+          setFamilyOnline(false)
+        }
+        return
+      }
 
-          supabase
-            .from(
-              'family_announcements'
-            )
-            .select(
-              'id,created_at'
-            )
-            .eq(
-              'visible',
-              true
-            )
-            .order(
-              'created_at',
-              {
-                ascending:
-                  false,
-              }
-            )
-            .limit(1),
-        ])
-
-      if (stopped) return
-
-      const serverLatest =
-        Math.max(
-          updateResult
-            .data?.[0]
-            ?.created_at
-            ? new Date(
-                updateResult
-                  .data[0]
-                  .created_at
-              ).getTime()
-            : 0,
-
-          announcementResult
-            .data?.[0]
-            ?.created_at
-            ? new Date(
-                announcementResult
-                  .data[0]
-                  .created_at
-              ).getTime()
-            : 0
+      try {
+        const {
+          error: presenceError,
+        } = await supabase.rpc(
+          'touch_family_presence'
         )
 
-      const localLatest =
-        notificationItems[0]
-          ?.createdAt
-          ? new Date(
-              notificationItems[0]
-                .createdAt
-            ).getTime()
-          : 0
+        if (presenceError) {
+          throw presenceError
+        }
 
-      if (
-        serverLatest >
-        localLatest
-      ) {
-        await Promise.all([
-          loadUpdates(
-            resident.patient_id
-          ),
-          loadAnnouncements(),
-        ])
+        if (!stopped) {
+          setFamilyOnline(true)
+        }
+      } catch (presenceError) {
+        console.warn(
+          'Family presence heartbeat failed:',
+          presenceError?.message ||
+            presenceError
+        )
+
+        if (!stopped) {
+          setFamilyOnline(false)
+        }
       }
     }
 
-    const intervalId =
+    function handleOnline() {
+      touchPresence()
+    }
+
+    function handleOffline() {
+      setFamilyOnline(false)
+    }
+
+    function handleVisibility() {
+      if (
+        document.visibilityState ===
+        'visible'
+      ) {
+        touchPresence()
+      }
+    }
+
+    touchPresence()
+
+    const heartbeatTimer =
       window.setInterval(
-        checkForNewContent,
-        60 * 1000
+        touchPresence,
+        30 * 1000
       )
 
-    const handleFocus =
-      () =>
-        checkForNewContent()
-
-    const handleVisibility =
-      () => {
-        if (
-          document
-            .visibilityState ===
-          'visible'
-        ) {
-          checkForNewContent()
-        }
-      }
+    window.addEventListener(
+      'online',
+      handleOnline
+    )
 
     window.addEventListener(
-      'focus',
-      handleFocus
+      'offline',
+      handleOffline
     )
 
     document.addEventListener(
@@ -1434,12 +1841,17 @@ export default function App() {
       stopped = true
 
       window.clearInterval(
-        intervalId
+        heartbeatTimer
       )
 
       window.removeEventListener(
-        'focus',
-        handleFocus
+        'online',
+        handleOnline
+      )
+
+      window.removeEventListener(
+        'offline',
+        handleOffline
       )
 
       document.removeEventListener(
@@ -1448,1469 +1860,2081 @@ export default function App() {
       )
     }
   }, [
-    session?.user?.id,
-    resident?.patient_id,
-    notificationItems[0]?.createdAt,
+    loggedIn,
+    familyAccount?.id,
   ])
 
-  if (loading) {
-    return (
-      <div className="app-loading">
-        <img
-          src="/uaq-logo.png"
-          alt="UAQ"
-          className="loading-logo"
-        />
+  useEffect(() => {
+    if (!loggedIn) {
+      return undefined
+    }
 
-        <p>
-          Loading Family Connect...
-        </p>
-      </div>
+    let timeoutId = null
+    let logoutRunning = false
+
+    const storedActivity =
+      Number(
+        window.localStorage.getItem(
+          FAMILY_LAST_ACTIVITY_KEY
+        )
+      )
+
+    let lastActivity =
+      Number.isFinite(
+        storedActivity
+      ) &&
+      storedActivity > 0
+        ? storedActivity
+        : Date.now()
+
+    if (
+      !Number.isFinite(
+        storedActivity
+      ) ||
+      storedActivity <= 0
+    ) {
+      window.localStorage.setItem(
+        FAMILY_LAST_ACTIVITY_KEY,
+        String(lastActivity)
+      )
+    }
+
+    function clearTimer() {
+      if (timeoutId) {
+        window.clearTimeout(
+          timeoutId
+        )
+        timeoutId = null
+      }
+    }
+
+    async function logoutIfInactive() {
+      if (logoutRunning) {
+        return
+      }
+
+      const elapsed =
+        Date.now() -
+        lastActivity
+
+      if (
+        elapsed <
+        FAMILY_INACTIVITY_LOGOUT_MS
+      ) {
+        scheduleLogout()
+        return
+      }
+
+      logoutRunning = true
+
+      await performLogout(true)
+    }
+
+    function scheduleLogout() {
+      clearTimer()
+
+      const elapsed =
+        Date.now() -
+        lastActivity
+
+      const remaining =
+        Math.max(
+          0,
+          FAMILY_INACTIVITY_LOGOUT_MS -
+            elapsed
+        )
+
+      if (remaining <= 0) {
+        logoutIfInactive()
+        return
+      }
+
+      timeoutId =
+        window.setTimeout(
+          logoutIfInactive,
+          remaining
+        )
+    }
+
+    function recordActivity() {
+      if (logoutRunning) {
+        return
+      }
+
+      lastActivity =
+        Date.now()
+
+      window.localStorage.setItem(
+        FAMILY_LAST_ACTIVITY_KEY,
+        String(lastActivity)
+      )
+
+      scheduleLogout()
+    }
+
+    function checkStoredActivity() {
+      if (logoutRunning) {
+        return
+      }
+
+      const stored =
+        Number(
+          window.localStorage.getItem(
+            FAMILY_LAST_ACTIVITY_KEY
+          )
+        )
+
+      if (
+        Number.isFinite(stored) &&
+        stored > lastActivity
+      ) {
+        lastActivity = stored
+      }
+
+      scheduleLogout()
+    }
+
+    function handleVisibilityChange() {
+      if (
+        document.visibilityState ===
+        'visible'
+      ) {
+        checkStoredActivity()
+      }
+    }
+
+    const activityEvents = [
+      'pointerdown',
+      'keydown',
+      'touchstart',
+      'scroll',
+    ]
+
+    for (
+      const eventName
+      of activityEvents
+    ) {
+      window.addEventListener(
+        eventName,
+        recordActivity,
+        {
+          passive: true,
+        }
+      )
+    }
+
+    window.addEventListener(
+      'focus',
+      checkStoredActivity
+    )
+
+    document.addEventListener(
+      'visibilitychange',
+      handleVisibilityChange
+    )
+
+    scheduleLogout()
+
+    return () => {
+      clearTimer()
+
+      for (
+        const eventName
+        of activityEvents
+      ) {
+        window.removeEventListener(
+          eventName,
+          recordActivity
+        )
+      }
+
+      window.removeEventListener(
+        'focus',
+        checkStoredActivity
+      )
+
+      document.removeEventListener(
+        'visibilitychange',
+        handleVisibilityChange
+      )
+    }
+  }, [loggedIn])
+
+  async function handleLogin(event) {
+    event.preventDefault()
+
+    setLoginError('')
+
+    const cleanCode =
+      familyCode.trim()
+
+    if (!cleanCode) {
+      setLoginError(
+        'Please enter your Family Code.'
+      )
+
+      return
+    }
+
+    if (!password) {
+      setLoginError(
+        'Please enter your PIN.'
+      )
+
+      return
+    }
+
+    const email =
+      familyCodeToEmail(
+        cleanCode
+      )
+
+    setAuthBusy(true)
+
+    try {
+      const {
+        data,
+        error,
+      } =
+        await supabase.auth
+          .signInWithPassword({
+            email,
+            password,
+          })
+
+      if (error) {
+        throw new Error(
+          'Family Code or PIN is incorrect.'
+        )
+      }
+
+      window.localStorage.setItem(
+        FAMILY_LAST_ACTIVITY_KEY,
+        String(Date.now())
+      )
+
+      await loadFamilyData(
+        data.user
+      )
+
+      setActiveNav('home')
+      setPassword('')
+    } catch (error) {
+      console.error(
+        'Family login error:',
+        error
+      )
+
+      await supabase.auth
+        .signOut()
+
+      setLoginError(
+        error?.message ||
+        'Unable to sign in.'
+      )
+    } finally {
+      setAuthBusy(false)
+    }
+  }
+
+  async function performLogout(
+    inactivityTimeout = false
+  ) {
+    try {
+      await supabase.rpc(
+        'leave_family_presence'
+      )
+    } catch (presenceError) {
+      console.warn(
+        'Unable to mark family offline:',
+        presenceError
+      )
+    }
+
+    await supabase.auth
+      .signOut()
+
+    window.localStorage.removeItem(
+      FAMILY_LAST_ACTIVITY_KEY
+    )
+
+    setLoggedIn(false)
+    setFamilyAccount(null)
+    setResident(null)
+    setResidentAvatarUrl('')
+
+    setAppointments([])
+    setAnnouncements([])
+    setActivityItems([])
+
+    setSelectedMedia(null)
+
+    setFamilyCode('')
+    setPassword('')
+
+    setActiveNav('home')
+    setActivityFilter('all')
+
+    if (inactivityTimeout) {
+      setLoginError(
+        'For your security, you were signed out after 10 minutes of inactivity.'
+      )
+    } else {
+      setLoginError('')
+    }
+  }
+
+  async function handleLogout() {
+    await performLogout(false)
+  }
+
+
+  const now =
+    Date.now()
+
+  const upcomingAppointments =
+    useMemo(
+      () =>
+        appointments
+          .filter(
+            (item) =>
+              getAppointmentTimestamp(
+                item
+              ) >= now
+          )
+          .sort(
+            (a, b) =>
+              getAppointmentTimestamp(
+                a
+              ) -
+              getAppointmentTimestamp(
+                b
+              )
+          ),
+      [appointments]
+    )
+
+  const pastAppointments =
+    useMemo(
+      () =>
+        appointments
+          .filter(
+            (item) =>
+              getAppointmentTimestamp(
+                item
+              ) < now
+          )
+          .sort(
+            (a, b) =>
+              getAppointmentTimestamp(
+                b
+              ) -
+              getAppointmentTimestamp(
+                a
+              )
+          ),
+      [appointments]
+    )
+
+  const nextAppointment =
+    upcomingAppointments[0] ||
+    null
+
+  const latestAnnouncement =
+    announcements[0] ||
+    null
+
+  const previousAnnouncements =
+    announcements.slice(1)
+
+  const residentActivities =
+    useMemo(() => {
+      if (!resident) {
+        return activityItems.filter(
+          (item) =>
+            item.audience_type ===
+            'all_families'
+        )
+      }
+
+      return activityItems.filter(
+        (item) =>
+          item.audience_type ===
+            'all_families' ||
+          item.patient_id ===
+            resident.patient_id
+      )
+    }, [
+      activityItems,
+      resident,
+    ])
+
+  const filteredActivities =
+    useMemo(() => {
+      if (
+        activityFilter ===
+        'all'
+      ) {
+        return residentActivities
+      }
+
+      return residentActivities.filter(
+        (item) =>
+          getMediaType(item) ===
+          activityFilter
+      )
+    }, [
+      residentActivities,
+      activityFilter,
+    ])
+
+  const careDetails =
+    getCareDetails(resident)
+
+  const activeBottomNav =
+    activeNav === 'resident'
+      ? 'home'
+      : activeNav
+
+  if (initializing) {
+    return (
+      <main
+        className={
+          dark
+            ? 'app-shell dark'
+            : 'app-shell'
+        }
+        data-uaq-season={publishedFestivalTheme}
+      >
+        <section className="startup-screen">
+          <BrandMark size="lg" />
+
+          <p>
+            Securely connecting...
+          </p>
+        </section>
+      </main>
     )
   }
 
-  if (!session) {
-    return (
-      <div className="login-page">
-        <div className="login-card">
 
-          <div className="login-brand-lockup">
-            <img
-              src="/uaq-logo.png"
-              alt="UAQ Elderly Care Centre"
-              className="login-logo"
-            />
-
-            <div>
-              <span>UAQ</span>
-              <strong>
-                Family Connect
-              </strong>
-            </div>
-          </div>
-
-          <p className="login-kicker">
-            PRIVATE FAMILY PORTAL
-          </p>
-
-          <h1>
-            Stay close, wherever you are.
-          </h1>
-
-          <p className="login-subtitle">
-            Appointments, announcements and
-            meaningful moments from UAQ Elderly
-            Care Centre.
-          </p>
-
-          <form
-            onSubmit={handleLogin}
-            className="login-form"
-          >
-            <label>
-              Family ID
-            </label>
-
-            <input
-              type="text"
-              value={familyId}
-              onChange={(event) =>
-                setFamilyId(
-                  event.target.value
-                    .toUpperCase()
-                    .replace(
-                      /[^A-Z0-9-]/g,
-                      ''
-                    )
-                    .slice(0, 8)
-                )
-              }
-              placeholder="UAQ-6355"
-              autoComplete="username"
-              maxLength={8}
-              required
-            />
-
-            <label>
-              6-digit PIN
-            </label>
-
-            <input
-              type="password"
-              inputMode="numeric"
-              value={pin}
-              onChange={(event) =>
-                setPin(
-                  event.target.value
-                    .replace(/\D/g, '')
-                    .slice(0, 6)
-                )
-              }
-              placeholder="Enter 6-digit PIN"
-              autoComplete="current-password"
-              maxLength={6}
-              pattern="[0-9]{6}"
-              required
-            />
-
-            {message && (
-              <div className="message error">
-                {message}
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={loginLoading}
-            >
-              {loginLoading
-                ? 'Signing in...'
-                : 'Sign In'}
-            </button>
-          </form>
-
-          <p className="login-footer">
-            Care • Comfort • Compassion
-            <br />
-            Pasir Gudang · Johor
-          </p>
-        </div>
-      </div>
-    )
-  }
-
-  const HomePage = () => (
-    <>
-      <section className="welcome-panel">
-        <div className="welcome-brand-row">
-          <div className="mobile-lockup">
-            <img
-              src="/uaq-logo.png"
-              alt="UAQ"
-            />
-
-            <span></span>
-
-            <div>
-              <small>UAQ</small>
-
-              <strong>
-                Family Connect
-              </strong>
-            </div>
-          </div>
+if (!loggedIn) {
+  return (
+    <main className={dark ? 'app-shell dark' : 'app-shell'} data-uaq-season={publishedFestivalTheme}>
+      <section className="uaq-nature-login uaq-nature-login--family">
+        <div className="uaq-nature-login__stage">
+          <div className="uaq-nature-login__botanical" aria-hidden="true" />
+          <div className="uaq-nature-login__paper" aria-hidden="true" />
+          <div className="uaq-nature-login__paper-edge" aria-hidden="true" />
 
           <button
             type="button"
-            className={
-              unreadNotificationCount > 0
-                ? 'round-icon-btn has-unread'
-                : 'round-icon-btn'
-            }
-            aria-label="Notifications"
-            onClick={openNotifications}
+            className="uaq-nature-login__theme"
+            onClick={() => setDark((value) => !value)}
+            aria-label={dark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            title={dark ? 'Light Mode' : 'Dark Mode'}
           >
-            <Icon name="bell" />
+            {dark ? <Sun size={20} /> : <Moon size={20} />}
           </button>
-        </div>
 
-        <div className="welcome-copy">
-          <p>
-            {getGreeting()},
-          </p>
+          <div className="uaq-nature-login__panel">
+            <div className="uaq-nature-login__inner">
+              <BrandMark size="lg" />
 
-          <h1>
-            Family of
-            <br />
-            {residentName}
-          </h1>
-        </div>
+              <div className="uaq-nature-login__heading">
+                <h1>Welcome Back</h1>
+                <p>Sign in to your Family Connect account</p>
+              </div>
 
-        <div
-          className="leaf-art"
-          aria-hidden="true"
-        >
-          <i />
-          <i />
-          <i />
-        </div>
-      </section>
-
-      <section className="resident-card premium-card">
-        <div className="resident-avatar">
-          {residentAvatarUrl ? (
-            <img
-              src={residentAvatarUrl}
-              alt=""
-            />
-          ) : (
-            residentName
-              .charAt(0)
-              .toUpperCase()
-          )}
-        </div>
-
-        <div className="resident-info">
-          <strong>
-            {residentName}
-          </strong>
-
-          <span>
-            Resident at UAQ Elderly Care Centre
-          </span>
-
-          <small className="status-badge">
-            <i /> Connected
-          </small>
-        </div>
-      </section>
-
-      <section className="home-section">
-        <div className="section-title-row">
-          <span>
-            ANNOUNCEMENT
-          </span>
-
-          <button
-            onClick={() =>
-              navigate(
-                'announcements'
-              )
-            }
-          >
-            View all
-            <Icon
-              name="arrow"
-              size={15}
-            />
-          </button>
-        </div>
-
-        {announcementsLoading ? (
-          <SkeletonCard />
-        ) : latestAnnouncement ? (
-          <AnnouncementFeature
-            announcement={
-              latestAnnouncement
-            }
-          />
-        ) : (
-          <EmptyCard
-            text="No announcements at the moment."
-          />
-        )}
-      </section>
-
-      <section className="home-section">
-        <div className="section-title-row">
-          <span>
-            COMING UP
-          </span>
-
-          <button
-            onClick={() =>
-              navigate(
-                'appointments'
-              )
-            }
-          >
-            View all
-            <Icon
-              name="arrow"
-              size={15}
-            />
-          </button>
-        </div>
-
-        {appointmentsLoading ? (
-          <SkeletonCard />
-        ) : nextAppointment ? (
-          <AppointmentCard
-            appointment={
-              nextAppointment
-            }
-          />
-        ) : (
-          <EmptyCard
-            text="No upcoming appointments."
-          />
-        )}
-      </section>
-
-      <section className="home-section home-moments-section">
-        <div className="section-title-row">
-          <span>
-            LATEST MOMENTS
-          </span>
-
-          <button
-            onClick={() =>
-              navigate('moments')
-            }
-          >
-            View all
-            <Icon
-              name="arrow"
-              size={15}
-            />
-          </button>
-        </div>
-
-        {updatesLoading ? (
-          <SkeletonCard />
-        ) : latestUpdate ? (
-          <MomentFeature
-            update={latestUpdate}
-          />
-        ) : (
-          <EmptyCard
-            text="New photos and videos will appear here."
-          />
-        )}
-      </section>
-    </>
-  )
-
-  function SkeletonCard() {
-    return (
-      <div className="skeleton-card premium-card">
-        <span />
-        <span />
-        <span />
-      </div>
-    )
-  }
-
-  function EmptyCard({ text }) {
-    return (
-      <div className="empty-card premium-card">
-        <div className="empty-icon">
-          <Icon name="image" />
-        </div>
-
-        <p>
-          {text}
-        </p>
-      </div>
-    )
-  }
-
-  function AnnouncementFeature({
-    announcement,
-  }) {
-    return (
-      <article className="announcement-feature premium-card">
-
-        {announcement.media_url ? (
-          announcement.media_type ===
-          'video' ? (
-            <video
-              src={getVideoPreviewUrl(announcement.media_url)}
-              controls
-              playsInline
-              preload="metadata"
-            />
-          ) : (
-            <img
-              src={
-                announcement.media_url
-              }
-              alt={
-                announcement.title ||
-                'Announcement'
-              }
-            />
-          )
-        ) : (
-          <div className="announcement-art">
-            <div className="moon">
-              ◔
-            </div>
-
-            <div className="diamond">
-              ◇
-            </div>
-          </div>
-        )}
-
-        <div className="announcement-feature-copy">
-          <small>
-            UAQ FAMILY CONNECT ·{' '}
-            {getAnnouncementTypeLabel(
-              announcement.announcement_type
-            )}
-          </small>
-
-          <h2>
-            {announcement.title}
-          </h2>
-
-          <p>
-            {announcement.message}
-          </p>
-        </div>
-      </article>
-    )
-  }
-
-  function AppointmentCard({
-    appointment,
-  }) {
-    const d = formatShortDate(
-      appointment.appointment_date
-    )
-
-    return (
-      <article className="appointment-feature premium-card">
-
-        <div className="date-tile">
-          <strong>
-            {d.day}
-          </strong>
-
-          <span>
-            {d.month}
-          </span>
-        </div>
-
-        <div className="appointment-main">
-          <h3>
-            {appointment.place ||
-              'Appointment'}
-          </h3>
-
-          <p>
-            {appointment.purpose ||
-              'Scheduled appointment'}
-          </p>
-
-          <div className="appointment-meta">
-
-            <span>
-              <Icon
-                name="calendar"
-                size={16}
-              />
-
-              {formatAppointmentDate(
-                appointment.appointment_date
-              )}
-            </span>
-
-            {appointment.appointment_time && (
-              <span>
-                <Icon
-                  name="clock"
-                  size={16}
-                />
-
-                {formatAppointmentTime(
-                  appointment.appointment_time
-                )}
-              </span>
-            )}
-          </div>
-        </div>
-
-        <Icon
-          name="arrow"
-          size={22}
-        />
-      </article>
-    )
-  }
-
-  function MomentFeature({
-    update,
-  }) {
-    return (
-      <article className="moment-feature premium-card">
-
-        <div className="moment-media">
-
-          {update.media_url ? (
-            update.media_type ===
-            'video' ? (
-              <>
-                <video
-                  src={
-                    update.thumbnail_url
-                      ? update.media_url
-                      : getVideoPreviewUrl(update.media_url)
-                  }
-                  poster={update.thumbnail_url || undefined}
-                  controls
-                  playsInline
-                  preload="metadata"
-                />
-
-                <div className="video-badge">
-                  <Icon
-                    name="play"
-                    size={18}
+              <form className="uaq-nature-login__form" onSubmit={handleLogin}>
+                <label htmlFor="uaq-nature-family-code">Family Code</label>
+                <div className="uaq-nature-login__input-row">
+                  <IdCard size={19} aria-hidden="true" />
+                  <input
+                    id="uaq-nature-family-code"
+                    type="text"
+                    name="family-code"
+                    placeholder="Enter Family Code"
+                    autoComplete="username"
+                    value={familyCode}
+                    onChange={(event) => setFamilyCode(event.target.value)}
+                    disabled={authBusy}
+                    required
                   />
                 </div>
-              </>
-            ) : (
-              <img
-                src={
-                  update.media_url
-                }
-                alt={
-                  update.title ||
-                  'UAQ moment'
-                }
-              />
-            )
-          ) : (
-            <div className="moment-placeholder">
-              <Icon
-                name="image"
-                size={34}
-              />
+
+                <label htmlFor="uaq-nature-family-pin">PIN</label>
+                <div className="uaq-nature-login__input-row">
+                  <LockKeyhole size={19} aria-hidden="true" />
+                  <input
+                    id="uaq-nature-family-pin"
+                    type={showPassword ? 'text' : 'password'}
+                    name="pin"
+                    placeholder="Enter your PIN"
+                    autoComplete="current-password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    disabled={authBusy}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="uaq-nature-login__eye"
+                    onClick={() => setShowPassword((value) => !value)}
+                    aria-label={showPassword ? 'Hide PIN' : 'Show PIN'}
+                  >
+                    {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
+                  </button>
+                </div>
+
+                {loginError && <div className="uaq-nature-login__error" role="alert">{loginError}</div>}
+
+                <button type="submit" className="uaq-nature-login__submit" disabled={authBusy}>
+                  {authBusy ? 'Signing in...' : 'Log in'}
+                  <span aria-hidden="true">→</span>
+                </button>
+              </form>
+
+              <div className="uaq-nature-login__rule"><span>Private family access</span></div>
+              <p className="uaq-nature-login__help">Your family account is protected by UAQ Elderly Care Centre</p>
             </div>
-          )}
-        </div>
-
-        <div className="moment-copy">
-          <div>
-            <span className="soft-pill">
-              {getUpdateTypeLabel(
-                update.update_type
-              )}
-            </span>
-
-            <h3>
-              {update.title ||
-                'A moment from UAQ'}
-            </h3>
-
-            <p>
-              {update.message}
-            </p>
           </div>
-
-          <small>
-            {formatUpdateDate(
-              update.created_at
-            )}
-          </small>
-        </div>
-      </article>
-    )
-  }
-
-  const MomentsPage = () => (
-    <PageHeader
-      eyebrow="PRIVATE FAMILY GALLERY"
-      title="Moments"
-      subtitle={`Special moments from ${residentName}'s journey at UAQ.`}
-    >
-      <div className="filter-pills">
-        <button
-          type="button"
-          className={
-            momentFilter === 'all'
-              ? 'active'
-              : ''
-          }
-          onClick={() =>
-            setMomentFilter('all')
-          }
-        >
-          All
-        </button>
-
-        <button
-          type="button"
-          className={
-            momentFilter === 'photos'
-              ? 'active'
-              : ''
-          }
-          onClick={() =>
-            setMomentFilter('photos')
-          }
-        >
-          Photos
-        </button>
-
-        <button
-          type="button"
-          className={
-            momentFilter === 'videos'
-              ? 'active'
-              : ''
-          }
-          onClick={() =>
-            setMomentFilter('videos')
-          }
-        >
-          Videos
-        </button>
-      </div>
-    </PageHeader>
-  )
-
-  const MomentsContent = () => {
-    const filteredUpdates =
-      updates.filter((update) => {
-        if (
-          momentFilter === 'photos'
-        ) {
-          return (
-            update.media_type ===
-            'image'
-          )
-        }
-
-        if (
-          momentFilter === 'videos'
-        ) {
-          return (
-            update.media_type ===
-            'video'
-          )
-        }
-
-        return true
-      })
-
-    if (updatesLoading) {
-      return <SkeletonCard />
-    }
-
-    if (
-      updates.length === 0
-    ) {
-      return (
-        <EmptyCard
-          text="No moments have been shared yet."
-        />
-      )
-    }
-
-    if (
-      filteredUpdates.length ===
-      0
-    ) {
-      return (
-        <EmptyCard
-          text={
-            momentFilter === 'photos'
-              ? 'No photos have been shared yet.'
-              : 'No videos have been shared yet.'
-          }
-        />
-      )
-    }
-
-    return (
-      <div className="moments-grid">
-        {filteredUpdates.map(
-          (update) => (
-            <MomentFeature
-              key={update.id}
-              update={update}
-            />
-          )
-        )}
-      </div>
-    )
-  }
-
-  const AppointmentsPage = () => (
-    <>
-      <PageHeader
-        eyebrow="YOUR SCHEDULE"
-        title="Appointments"
-        subtitle={`Upcoming appointments for ${residentName}.`}
-      />
-
-      {appointmentsLoading ? (
-        <SkeletonCard />
-      ) : appointments.length === 0 ? (
-        <EmptyCard
-          text="No upcoming appointments."
-        />
-      ) : (
-        <div className="appointment-stack">
-          {appointments.map((a) => (
-            <AppointmentCard
-              key={a.id}
-              appointment={a}
-            />
-          ))}
-        </div>
-      )}
-    </>
-  )
-
-  const AnnouncementsPage = () => (
-    <>
-      <PageHeader
-        eyebrow="CENTRE NEWS"
-        title="Announcements"
-        subtitle="Important notices, festive messages and UAQ updates."
-      />
-
-      {announcementsLoading ? (
-        <SkeletonCard />
-      ) : announcements.length ===
-        0 ? (
-        <EmptyCard
-          text="No announcements at the moment."
-        />
-      ) : (
-        <div className="announcement-grid">
-          {announcements.map((a) => (
-            <AnnouncementFeature
-              key={a.id}
-              announcement={a}
-            />
-          ))}
-        </div>
-      )}
-    </>
-  )
-
-  const MorePage = () => (
-    <>
-      <PageHeader
-        eyebrow="ACCOUNT & SUPPORT"
-        title="More"
-        subtitle="Family access, support and centre information."
-      />
-
-      <section className="profile-summary premium-card">
-        <div className="resident-avatar large">
-          {residentAvatarUrl ? (
-            <img
-              src={residentAvatarUrl}
-              alt=""
-            />
-          ) : (
-            residentName
-              .charAt(0)
-              .toUpperCase()
-          )}
-        </div>
-
-        <div>
-          <strong>
-            {residentName}
-          </strong>
-
-          <span>
-            Resident at UAQ Elderly Care Centre
-          </span>
-
-          <small className="status-badge">
-            <i /> Connected
-          </small>
         </div>
       </section>
-
-      <div className="more-grid">
-        <section className="settings-card premium-card">
-
-          <SettingRow
-            icon="users"
-            title="Family Access"
-            subtitle="Up to 2 devices can use this family account."
-          />
-
-          <SettingRow
-            icon="shield"
-            title="Private & Secure"
-            subtitle="Family-only access protected by your UAQ ID and PIN."
-          />
-
-          <SettingRow
-            icon="help"
-            title="Help & Support"
-            subtitle="Contact UAQ if you need help with your account."
-            onClick={() =>
-              setShowSupportModal(true)
-            }
-          />
-
-          <SettingRow
-            icon="info"
-            title="About UAQ Family Connect"
-            subtitle={APP_VERSION_LABEL}
-            onClick={() =>
-              setShowAboutModal(true)
-            }
-          />
-        </section>
-
-        <section className="push-settings-card premium-card">
-          <div className="push-settings-icon">
-            <Icon
-              name="bell"
-              size={22}
-            />
-          </div>
-
-          <div className="push-settings-copy">
-            <span>
-              PUSH NOTIFICATIONS
-            </span>
-
-            <h3>
-              Stay Updated
-            </h3>
-
-            <p>
-              Receive UAQ updates even when Family Connect is closed.
-            </p>
-
-            <div
-              className={
-                pushEnabled
-                  ? 'push-status enabled'
-                  : 'push-status'
-              }
-            >
-              <i />
-
-              {pushEnabled
-                ? 'Enabled on this device'
-                : pushPermission ===
-                    'denied'
-                  ? 'Blocked in device settings'
-                  : pushSupported
-                    ? 'Not enabled yet'
-                    : 'Not supported on this device'}
-            </div>
-
-            {pushStatusMessage && (
-              <small className="push-status-message">
-                {pushStatusMessage}
-              </small>
-            )}
-
-            <button
-              type="button"
-              className={
-                pushEnabled
-                  ? 'push-toggle-button disable'
-                  : 'push-toggle-button'
-              }
-              disabled={
-                pushWorking ||
-                !pushSupported
-              }
-              onClick={
-                pushEnabled
-                  ? disablePushNotifications
-                  : enablePushNotifications
-              }
-            >
-              {pushWorking
-                ? 'Please wait...'
-                : pushEnabled
-                  ? 'Turn Off Notifications'
-                  : 'Enable Notifications'}
-            </button>
-          </div>
-        </section>
-
-        <section className="support-card premium-card">
-          <span>
-            NEED ASSISTANCE?
-          </span>
-
-          <h3>
-            Contact UAQ
-          </h3>
-
-          <p>
-            Our team is here when you need us.
-          </p>
-
-          <div className="support-actions">
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Icon name="whatsapp" />
-              WhatsApp
-            </a>
-
-            <a
-              href={`tel:${uaqPhone}`}
-            >
-              <Icon name="phone" />
-              Call
-            </a>
-          </div>
-        </section>
-      </div>
-
-      <button
-        className="logout-btn"
-        onClick={handleLogout}
-      >
-        <Icon name="logout" />
-        {' '}
-        Log Out
-      </button>
-
-      {showSupportModal && (
-        <div
-          className="support-modal-backdrop"
-          role="presentation"
-          onMouseDown={() =>
-            setShowSupportModal(false)
-          }
-        >
-          <section
-            className="support-modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="support-modal-title"
-            onMouseDown={(event) =>
-              event.stopPropagation()
-            }
-          >
-            <div className="support-modal-head">
-              <div>
-                <span>
-                  UAQ FAMILY CONNECT
-                </span>
-
-                <h3 id="support-modal-title">
-                  Help & Support
-                </h3>
-              </div>
-
-              <button
-                type="button"
-                className="support-modal-close"
-                aria-label="Close support"
-                onClick={() =>
-                  setShowSupportModal(
-                    false
-                  )
-                }
-              >
-                ×
-              </button>
-            </div>
-
-            <p>
-              If you need help with your Family Connect account, contact UAQ directly.
-            </p>
-
-            <div className="support-modal-actions">
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Icon name="whatsapp" />
-
-                <div>
-                  <strong>
-                    WhatsApp UAQ
-                  </strong>
-
-                  <span>
-                    Open a chat with our team
-                  </span>
-                </div>
-              </a>
-
-              <a
-                href={`tel:${uaqPhone}`}
-              >
-                <Icon name="phone" />
-
-                <div>
-                  <strong>
-                    Call UAQ
-                  </strong>
-
-                  <span>
-                    Open your phone dialer
-                  </span>
-                </div>
-              </a>
-            </div>
-
-            <div className="support-modal-note">
-              <strong>
-                Visiting Hours
-              </strong>
-
-              <span>
-                10:00 AM – 5:00 PM · Every Day
-              </span>
-            </div>
-          </section>
-        </div>
-      )}
-
-      {showAboutModal && (
-        <div
-          className="about-modal-backdrop"
-          role="presentation"
-          onMouseDown={() =>
-            setShowAboutModal(false)
-          }
-        >
-          <section
-            className="about-modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="about-modal-title"
-            onMouseDown={(event) =>
-              event.stopPropagation()
-            }
-          >
-            <div className="about-modal-head">
-              <div className="about-brand">
-                <img
-                  src="/uaq-logo.png"
-                  alt="UAQ Elderly Care Centre"
-                />
-
-                <div>
-                  <span>UAQ</span>
-                  <h3 id="about-modal-title">
-                    Family Connect
-                  </h3>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                className="about-modal-close"
-                aria-label="Close about"
-                onClick={() =>
-                  setShowAboutModal(false)
-                }
-              >
-                ×
-              </button>
-            </div>
-
-            <div className="about-version-card">
-              <span>APP VERSION</span>
-              <strong>
-                {APP_VERSION_LABEL}
-              </strong>
-              <small>
-                Released {APP_VERSION.releaseDate}
-              </small>
-            </div>
-
-            <p className="about-description">
-              {APP_VERSION.description}
-            </p>
-
-            <section className="about-whats-new">
-              <span>WHAT'S NEW</span>
-              <h4>
-                Version {APP_VERSION.version}
-              </h4>
-
-              <ul>
-                {APP_VERSION.whatsNew.map(
-                  (item) => (
-                    <li key={item}>
-                      <i />
-                      <span>{item}</span>
-                    </li>
-                  )
-                )}
-              </ul>
-            </section>
-
-            <div className="about-footer">
-              <strong>
-                {APP_VERSION.centreName}
-              </strong>
-              <span>
-                {APP_VERSION.location}
-              </span>
-            </div>
-          </section>
-        </div>
-      )}
-    </>
+    </main>
   )
+}
 
-  function SettingRow({
-    icon,
+
+  function renderPageTopbar(
     title,
-    subtitle,
-    onClick,
-  }) {
-    const content = (
-      <>
-        <div className="setting-icon">
-          <Icon name={icon} />
-        </div>
-
+    subtitle
+  ) {
+    return (
+      <header className="page-topbar">
         <div>
-          <strong>
-            {title}
-          </strong>
-
           <span>
-            {subtitle}
+            Family Connect
           </span>
+
+          <h1>
+            {title}
+          </h1>
+
+          {subtitle && (
+            <p>
+              {subtitle}
+            </p>
+          )}
         </div>
 
-        {onClick ? (
-          <Icon
-            name="arrow"
-            size={18}
-          />
-        ) : (
-          <span
-            className="setting-row-spacer"
-            aria-hidden="true"
-          />
-        )}
-      </>
-    )
-
-    if (onClick) {
-      return (
         <button
           type="button"
-          className="setting-row setting-row-button"
-          onClick={onClick}
+          className="home-icon-button"
+          onClick={() =>
+            setDark(
+              (value) =>
+                !value
+            )
+          }
         >
-          {content}
+          {dark ? (
+            <Sun size={19} />
+          ) : (
+            <Moon size={19} />
+          )}
         </button>
-      )
-    }
-
-    return (
-      <div className="setting-row setting-row-static">
-        {content}
-      </div>
-    )
-  }
-
-  function PageHeader({
-    eyebrow,
-    title,
-    subtitle,
-    children,
-  }) {
-    return (
-      <header className="page-header">
-        <span>
-          {eyebrow}
-        </span>
-
-        <h1>
-          {title}
-        </h1>
-
-        <p>
-          {subtitle}
-        </p>
-
-        {children}
       </header>
     )
   }
 
-  const renderPage = () => {
-    if (activePage === 'moments') {
-      return (
-        <>
-          <MomentsPage />
-          <MomentsContent />
-        </>
-      )
-    }
+  function renderHome() {
+    return (
+      <div className="home-app">
+        <div className="fc-mobile-brand">
+          <BrandMark size="sm" subtitle={false} />
+        </div>
+        <section className="home-hero">
+          <div className="home-hero-overlay" />
 
-    if (
-      activePage ===
-      'appointments'
-    ) {
-      return <AppointmentsPage />
-    }
+          <div className="home-hero-top">
+            <div>
+              <span>
+                {getGreeting()}
+                {firstName(familyAccount?.full_name)
+                  ? `, ${firstName(familyAccount.full_name)}`
+                  : ''}
+              </span>
 
-    if (
-      activePage ===
-      'announcements'
-    ) {
-      return <AnnouncementsPage />
-    }
+              <h1 className="hero-motivation">
+                {getMotivationalLine()}
+              </h1>
+            </div>
 
-    if (
-      activePage ===
-      'more'
-    ) {
-      return <MorePage />
-    }
-
-    return <HomePage />
-  }
-
-  return (
-    <div className="family-app">
-
-      <aside className="desktop-sidebar">
-        <div className="desktop-brand">
-          <img
-            src="/uaq-logo.png"
-            alt="UAQ"
-          />
-
-          <div>
-            <small>
-              UAQ
-            </small>
-
-            <strong>
-              Family Connect
-            </strong>
+            <button
+              type="button"
+              className="home-icon-button"
+              onClick={() =>
+                setDark(
+                  (value) =>
+                    !value
+                )
+              }
+            >
+              {dark ? (
+                <Sun size={19} />
+              ) : (
+                <Moon size={19} />
+              )}
+            </button>
           </div>
+
+          <div className="home-hero-message">
+            <Heart
+              size={17}
+              fill="currentColor"
+            />
+
+            A little closer,
+            every day.
+          </div>
+        </section>
+
+        {/* Quick links display only real account data; existing lists and permissions remain. */}
+        <div className="uaq-blue-family-stats" aria-label="Family overview">
+          <button type="button" onClick={() => setActiveNav('activity')}>
+            <Images size={23} aria-hidden="true" />
+            <strong>{residentActivities.length}</strong>
+            <span>Activity Updates</span>
+            <small>Available to your family</small>
+          </button>
+          <button type="button" onClick={() => setActiveNav('appointments')}>
+            <CalendarDays size={23} aria-hidden="true" />
+            <strong>{upcomingAppointments.length}</strong>
+            <span>Appointments</span>
+            <small>Upcoming</small>
+          </button>
+          <button type="button" onClick={() => setActiveNav('announcements')}>
+            <Megaphone size={23} aria-hidden="true" />
+            <strong>{announcements.length}</strong>
+            <span>Announcements</span>
+            <small>Visible to this account</small>
+          </button>
+          <button type="button" onClick={() => {
+            setActivityFilter('photo')
+            setActiveNav('activity')
+          }}>
+            <Images size={23} aria-hidden="true" />
+            <strong>{residentActivities.filter((item) => getMediaType(item) === 'photo').length}</strong>
+            <span>Shared Photos</span>
+            <small>In your activity feed</small>
+          </button>
         </div>
 
-        <nav>
-          {NAV_ITEMS.map(
-            (item) => (
+        <div className="home-scroll">
+          <section>
+            <div className="section-heading">
+              <div>
+                <span>
+                  Resident
+                </span>
+
+                <h2>
+                  Your loved one
+                </h2>
+              </div>
+            </div>
+
+            {resident ? (
               <button
-                key={item.id}
-                className={
-                  activePage ===
-                  item.id
-                    ? 'active'
-                    : ''
-                }
+                type="button"
+                className="resident-card"
                 onClick={() =>
-                  navigate(item.id)
+                  setActiveNav(
+                    'resident'
+                  )
                 }
               >
-                <Icon
-                  name={item.icon}
-                />
+                <div
+                  className="resident-avatar"
+                  role="button"
+                  tabIndex={0}
+                  title="View resident photo"
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    setResidentPhotoPreviewOpen(
+                      true
+                    )
+                  }}
+                  onKeyDown={(event) => {
+                    if (
+                      event.key === 'Enter' ||
+                      event.key === ' '
+                    ) {
+                      event.preventDefault()
+                      event.stopPropagation()
+                      setResidentPhotoPreviewOpen(
+                        true
+                      )
+                    }
+                  }}
+                  style={{
+                    cursor: 'zoom-in',
+                  }}
+                >
+                  {residentAvatarUrl &&
+                  !residentImageError ? (
+                    <img
+                      key={
+                        residentAvatarUrl
+                      }
+                      src={
+                        residentAvatarUrl
+                      }
+                      alt={
+                        resident.full_name
+                      }
+                      onError={() =>
+                        setResidentImageError(
+                          true
+                        )
+                      }
+                    />
+                  ) : (
+                    <span>
+                      {resident.initials}
+                    </span>
+                  )}
+                </div>
 
-                <span>
-                  {item.label}
-                </span>
+                <div className="resident-card-copy">
+                  <span>
+                    Resident
+                  </span>
+
+                  <h3>
+                    {resident.full_name}
+                  </h3>
+
+                  <p>
+                    {resident.room_no ||
+                      'Room not set'}
+                  </p>
+                </div>
+
+                <div className="resident-status">
+                  <span>
+                    <CheckCircle2
+                      size={14}
+                    />
+
+                    {resident
+                      .care_status ||
+                      'Not set'}
+                  </span>
+
+                  <ChevronRight
+                    size={20}
+                  />
+                </div>
               </button>
-            )
-          )}
-        </nav>
+            ) : (
+              <div className="empty-card">
+                No resident linked.
+              </div>
+            )}
+          </section>
 
-        <div className="sidebar-family">
-          <span>
-            FAMILY OF
-          </span>
-
-          <strong>
-            {residentName}
-          </strong>
-
-          <small>
-            <i /> Connected
-          </small>
-        </div>
-
-        <button
-          className="sidebar-logout"
-          onClick={handleLogout}
-        >
-          <Icon name="logout" />
-          {' '}
-          Log Out
-        </button>
-      </aside>
-
-      <div className="app-stage">
-
-        <header className="desktop-topbar">
-          <div>
-            <span>
-              {getGreeting()},
-            </span>
-
-            <strong>
-              Family of {residentName}
-            </strong>
-          </div>
-
-          <button
-            type="button"
-            className={
-              unreadNotificationCount > 0
-                ? 'round-icon-btn has-unread'
-                : 'round-icon-btn'
-            }
-            aria-label="Notifications"
-            onClick={openNotifications}
-          >
-            <Icon name="bell" />
-          </button>
-        </header>
-
-        <main
-          className={`content-shell page-${activePage}`}
-        >
-          {message && (
-            <div className="message error app-message">
-              {message}
-            </div>
-          )}
-
-          {renderPage()}
-        </main>
-      </div>
-
-      {showNotifications && (
-        <div
-          className="notification-backdrop"
-          onClick={closeNotifications}
-        >
-          <section
-            className="notification-panel"
-            onClick={(event) =>
-              event.stopPropagation()
-            }
-          >
-            <div className="notification-panel-head">
+          <section>
+            <div className="section-heading">
               <div>
-                <span>UAQ FAMILY CONNECT</span>
-                <h3>Notifications</h3>
-                <p>
-                  Latest updates from UAQ.
-                </p>
+                <span>
+                  Today
+                </span>
+
+                <h2>
+                  At a glance
+                </h2>
+              </div>
+            </div>
+
+            <div className="home-summary-grid">
+              <button
+                type="button"
+                className="home-summary-card"
+                onClick={() =>
+                  setActiveNav(
+                    'appointments'
+                  )
+                }
+              >
+                <div className="summary-icon">
+                  <CalendarDays
+                    size={20}
+                  />
+                </div>
+
+                <div>
+                  <span>
+                    Next Appointment
+                  </span>
+
+                  <strong>
+                    {nextAppointment
+                      ? formatFullDate(
+                          nextAppointment
+                            .appointment_date
+                        )
+                      : 'No upcoming appointment'}
+                  </strong>
+
+                  <p>
+                    {nextAppointment
+                      ? formatTime(
+                          nextAppointment
+                            .appointment_time
+                        )
+                      : 'Nothing scheduled'}
+                  </p>
+                </div>
+
+                <ChevronRight
+                  size={18}
+                />
+              </button>
+
+              <button
+                type="button"
+                className="home-summary-card"
+                onClick={() =>
+                  setActiveNav(
+                    'announcements'
+                  )
+                }
+              >
+                <div className="summary-icon">
+                  <Bell size={20} />
+                </div>
+
+                <div>
+                  <span>
+                    Latest Announcement
+                  </span>
+
+                  <strong>
+                    {latestAnnouncement
+                      ? latestAnnouncement
+                          .title
+                      : 'No announcement'}
+                  </strong>
+
+                  <p>
+                    {latestAnnouncement
+                      ? formatDateTime(
+                          latestAnnouncement
+                            .created_at
+                        )
+                      : 'You are all caught up'}
+                  </p>
+                </div>
+
+                <ChevronRight
+                  size={18}
+                />
+              </button>
+            </div>
+          </section>
+
+          <section>
+            <div className="section-heading">
+              <div>
+                <span>
+                  Moments
+                </span>
+
+                <h2>
+                  Latest Activity
+                </h2>
               </div>
 
               <button
                 type="button"
-                className="notification-close"
-                onClick={
-                  closeNotifications
+                onClick={() =>
+                  setActiveNav(
+                    'activity'
+                  )
                 }
-                aria-label="Close notifications"
               >
-                ×
+                See all
+
+                <ChevronRight
+                  size={16}
+                />
               </button>
             </div>
 
-            <div className="notification-list">
-              {notificationItems.length === 0 ? (
-                <div className="notification-empty">
-                  <Icon
-                    name="bell"
-                    size={24}
-                  />
+            {residentActivities.length ? (
+              <div className="home-activity-grid">
+                {residentActivities
+                  .slice(0, 2)
+                  .map((item) => (
+                    <ActivityCard
+                      key={item.id}
+                      item={item}
+                      compact
+                      onOpen={
+                        setSelectedMedia
+                      }
+                    />
+                  ))}
+              </div>
+            ) : (
+              <div className="empty-card">
+                No activity updates yet.
+              </div>
+            )}
+          </section>
+        </div>
+      </div>
+    )
+  }
 
-                  <strong>
-                    No notifications yet
-                  </strong>
+  function renderActivity() {
+    return (
+      <div className="app-page standard-page">
+        {renderPageTopbar(
+          'Activity',
+          'Photos, videos and moments shared privately for your family.'
+        )}
 
-                  <span>
-                    New moments and announcements will appear here.
-                  </span>
-                </div>
-              ) : (
-                notificationItems
-                  .slice(0, 10)
-                  .map((item) => {
-                    const wasUnread =
-                      new Date(
-                        item.createdAt
-                      ).getTime() >
-                      notificationsSeenAt
-
-                    return (
-                      <button
-                        type="button"
-                        key={item.id}
-                        className={
-                          wasUnread
-                            ? 'notification-item unread'
-                            : 'notification-item'
-                        }
-                        onClick={() =>
-                          openNotificationItem(
-                            item
-                          )
-                        }
-                      >
-                        <div className="notification-item-icon">
-                          <Icon
-                            name={
-                              item.type ===
-                              'Announcement'
-                                ? 'bell'
-                                : 'image'
-                            }
-                            size={19}
-                          />
-                        </div>
-
-                        <div className="notification-item-copy">
-                          <div>
-                            <span>
-                              {item.type}
-                            </span>
-
-                            <time>
-                              {formatUpdateDate(
-                                item.createdAt
-                              )}
-                            </time>
-                          </div>
-
-                          <strong>
-                            {item.title}
-                          </strong>
-
-                          <p>
-                            {item.message}
-                          </p>
-                        </div>
-                      </button>
+        <div className="page-scroll">
+          {resident && (
+            <div className="linked-resident-strip">
+              <div
+                className="resident-mini-avatar"
+                role="button"
+                tabIndex={0}
+                title="View resident photo"
+                onClick={() =>
+                  setResidentPhotoPreviewOpen(
+                    true
+                  )
+                }
+                onKeyDown={(event) => {
+                  if (
+                    event.key === 'Enter' ||
+                    event.key === ' '
+                  ) {
+                    event.preventDefault()
+                    setResidentPhotoPreviewOpen(
+                      true
                     )
-                  })
+                  }
+                }}
+                style={{
+                  cursor: 'zoom-in',
+                }}
+              >
+                {residentAvatarUrl &&
+                !residentImageError ? (
+                  <img
+                    key={
+                      residentAvatarUrl
+                    }
+                    src={
+                      residentAvatarUrl
+                    }
+                    alt={
+                      resident.full_name
+                    }
+                    onError={() =>
+                      setResidentImageError(
+                        true
+                      )
+                    }
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      display: 'block',
+                      objectFit: 'cover',
+                    }}
+                  />
+                ) : (
+                  <span>
+                    {resident.initials}
+                  </span>
+                )}
+              </div>
+
+              <div>
+                <span>
+                  Showing updates for
+                </span>
+
+                <strong>
+                  {resident.full_name}
+                </strong>
+              </div>
+
+              <BadgeCheck
+                size={19}
+              />
+            </div>
+          )}
+
+          <div className="activity-filter-row">
+            {activityFilters.map(
+              (filter) => (
+                <button
+                  key={filter.key}
+                  type="button"
+                  className={
+                    activityFilter ===
+                    filter.key
+                      ? 'activity-filter active'
+                      : 'activity-filter'
+                  }
+                  onClick={() =>
+                    setActivityFilter(
+                      filter.key
+                    )
+                  }
+                >
+                  {filter.label}
+                </button>
+              )
+            )}
+          </div>
+
+          {filteredActivities.length ? (
+            <div className="activity-feed">
+              {filteredActivities.map(
+                (item) => (
+                  <ActivityCard
+                    key={item.id}
+                    item={item}
+                    compact
+                    onOpen={
+                      setSelectedMedia
+                    }
+                  />
+                )
+              )}
+            </div>
+          ) : (
+            <div className="empty-card">
+              No activity updates available.
+            </div>
+          )}
+
+          <div className="privacy-footer">
+            <ShieldCheck
+              size={18}
+            />
+
+            Photos and videos are
+            shown privately inside
+            Family Connect.
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  function renderAppointments() {
+    return (
+      <div className="app-page standard-page">
+        {renderPageTopbar(
+          'Appointments',
+          'Upcoming and previous appointments for your linked resident.'
+        )}
+
+        <div className="page-scroll appointments-page-scroll">
+          <section>
+            <div className="section-heading">
+              <div>
+                <span>
+                  Next
+                </span>
+
+                <h2>
+                  Next Appointment
+                </h2>
+              </div>
+            </div>
+
+            {nextAppointment ? (
+              <AppointmentCard
+                appointment={
+                  nextAppointment
+                }
+                featured
+              />
+            ) : (
+              <EmptyAppointment
+                type="upcoming"
+              />
+            )}
+          </section>
+
+          {upcomingAppointments
+            .length > 1 && (
+            <section>
+              <div className="section-heading">
+                <div>
+                  <span>
+                    Schedule
+                  </span>
+
+                  <h2>
+                    Upcoming
+                  </h2>
+                </div>
+              </div>
+
+              <div className="appointment-list">
+                {upcomingAppointments
+                  .slice(1)
+                  .map(
+                    (appointment) => (
+                      <AppointmentCard
+                        key={
+                          appointment.id
+                        }
+                        appointment={
+                          appointment
+                        }
+                      />
+                    )
+                  )}
+              </div>
+            </section>
+          )}
+
+          <section>
+            <div className="section-heading">
+              <div>
+                <span>
+                  History
+                </span>
+
+                <h2>
+                  Past Appointments
+                </h2>
+              </div>
+            </div>
+
+            {pastAppointments.length ? (
+              <div className="appointment-list">
+                {pastAppointments.map(
+                  (appointment) => (
+                    <AppointmentCard
+                      key={
+                        appointment.id
+                      }
+                      appointment={
+                        appointment
+                      }
+                    />
+                  )
+                )}
+              </div>
+            ) : (
+              <EmptyAppointment
+                type="past"
+              />
+            )}
+          </section>
+        </div>
+      </div>
+    )
+  }
+
+  function renderAnnouncements() {
+    return (
+      <div className="app-page standard-page">
+        {renderPageTopbar(
+          'Announcements',
+          'Official announcements and family information from the care centre.'
+        )}
+
+        <div className="page-scroll">
+          {latestAnnouncement ? (
+            <>
+              <section>
+                <div className="section-heading">
+                  <div>
+                    <span>
+                      Latest
+                    </span>
+
+                    <h2>
+                      Latest Announcement
+                    </h2>
+                  </div>
+                </div>
+
+                <AnnouncementCard
+                  item={
+                    latestAnnouncement
+                  }
+                  featured
+                />
+              </section>
+
+              {previousAnnouncements
+                .length > 0 && (
+                <section>
+                  <div className="section-heading">
+                    <div>
+                      <span>
+                        Earlier
+                      </span>
+
+                      <h2>
+                        Previous Announcements
+                      </h2>
+                    </div>
+                  </div>
+
+                  <div className="announcement-list">
+                    {previousAnnouncements.map(
+                      (item) => (
+                        <AnnouncementCard
+                          key={item.id}
+                          item={item}
+                        />
+                      )
+                    )}
+                  </div>
+                </section>
+              )}
+            </>
+          ) : (
+            <div className="announcement-empty-card">
+              <div className="appointment-empty-icon">
+                <Megaphone
+                  size={24}
+                />
+              </div>
+
+              <div>
+                <strong>
+                  No announcements
+                </strong>
+
+                <p>
+                  New family notices
+                  will appear here.
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  function renderResident() {
+    if (!resident) {
+      return null
+    }
+
+    return (
+      <div className="app-page standard-page resident-page">
+        <header className="page-topbar resident-topbar">
+          <button
+            type="button"
+            className="home-icon-button"
+            onClick={() =>
+              setActiveNav('home')
+            }
+          >
+            <ArrowLeft
+              size={20}
+            />
+          </button>
+
+          <div>
+            <span>
+              Resident
+            </span>
+
+            <h1>
+              Care Summary
+            </h1>
+
+            <p>
+              A simple family-friendly
+              overview of daily care.
+            </p>
+          </div>
+        </header>
+
+        <div className="page-scroll resident-page-scroll">
+          <section className="resident-profile-card">
+            <div
+              className="resident-profile-avatar"
+              role="button"
+              tabIndex={0}
+              title="View resident photo"
+              onClick={() =>
+                setResidentPhotoPreviewOpen(
+                  true
+                )
+              }
+              onKeyDown={(event) => {
+                if (
+                  event.key === 'Enter' ||
+                  event.key === ' '
+                ) {
+                  event.preventDefault()
+                  setResidentPhotoPreviewOpen(
+                    true
+                  )
+                }
+              }}
+              style={{
+                cursor: 'zoom-in',
+              }}
+            >
+              {residentAvatarUrl &&
+              !residentImageError ? (
+                <img
+                  key={
+                    residentAvatarUrl
+                  }
+                  src={
+                    residentAvatarUrl
+                  }
+                  alt={
+                    resident.full_name
+                  }
+                  onError={() =>
+                    setResidentImageError(
+                      true
+                    )
+                  }
+                />
+              ) : (
+                <span>
+                  {resident.initials}
+                </span>
+              )}
+            </div>
+
+            <div className="resident-profile-copy">
+              <span>
+                Resident
+              </span>
+
+              <h2>
+                {resident.full_name}
+              </h2>
+
+              <p>
+                <MapPin
+                  size={15}
+                />
+
+                {resident.room_no ||
+                  'Room not set'}
+              </p>
+            </div>
+
+            <div className="resident-profile-status">
+              <CheckCircle2
+                size={16}
+              />
+
+              {resident
+                .care_status ||
+                'Not set'}
+            </div>
+          </section>
+
+          <section>
+            <div className="section-heading">
+              <div>
+                <span>
+                  Overview
+                </span>
+
+                <h2>
+                  Care Summary
+                </h2>
+              </div>
+            </div>
+
+            <p className="care-summary-intro">
+              General care information
+              for family reference.
+            </p>
+
+            <div className="care-tiles">
+              {getCareTiles(resident).map(
+                (tile) => {
+                  const TileIcon =
+                    tile.icon
+
+                  return (
+                    <article
+                      key={tile.key}
+                      className={`care-tile care-tile--${tile.tone}`}
+                    >
+                      <span className="care-tile__icon">
+                        <TileIcon
+                          size={20}
+                          aria-hidden="true"
+                        />
+                      </span>
+
+                      <div className="care-tile__copy">
+                        <span>
+                          {tile.label}
+                        </span>
+
+                        <strong>
+                          {tile.value}
+                        </strong>
+                      </div>
+                    </article>
+                  )
+                }
               )}
             </div>
           </section>
+
+          <div className="family-care-note">
+            <Heart
+              size={19}
+              fill="currentColor"
+            />
+
+            <div>
+              <strong>
+                Family Care Note
+              </strong>
+
+              <p>
+                Care needs can change
+                over time. Please contact
+                the care team if you need
+                more information.
+              </p>
+            </div>
+          </div>
+
+          <div className="privacy-footer">
+            <Clock
+              size={17}
+            />
+
+            Last updated:{' '}
+
+            {resident.last_updated
+              ? formatDateTime(
+                  resident.last_updated
+                )
+              : 'Not yet updated'}
+          </div>
         </div>
-      )}
+      </div>
+    )
+  }
 
-      <nav className="bottom-nav">
-        {NAV_ITEMS.map(
-          (item) => (
-            <button
-              key={item.id}
-              className={
-                activePage ===
-                item.id
-                  ? 'active'
-                  : ''
-              }
-              onClick={() =>
-                navigate(item.id)
-              }
-            >
-              <Icon
-                name={item.icon}
-              />
-
-              <span>
-                {item.label}
-              </span>
-            </button>
-          )
+  function renderAbout() {
+    return (
+      <div className="app-page standard-page about-page">
+        {renderPageTopbar(
+          'About',
+          'Your Family Connect account and application information.'
         )}
-      </nav>
-    </div>
+
+        <div className="page-scroll about-scroll">
+
+          <section className="about-section-card">
+            <div className="about-section-heading">
+              <div className="about-section-icon">
+                <Heart size={21} />
+              </div>
+
+              <div>
+                <span>
+                  Family Connection
+                </span>
+
+                <h2>
+                  Stay connected with care
+                </h2>
+
+                <p>
+                  Family Connect gives authorised
+                  family members one private place
+                  to view resident updates,
+                  appointments, announcements,
+                  photos and videos.
+                </p>
+              </div>
+            </div>
+
+            <div className="app-info-grid">
+              <article>
+                <ShieldCheck
+                  size={21}
+                />
+
+                <div>
+                  <strong>
+                    Private Access
+                  </strong>
+
+                  <p>
+                    Access is limited to
+                    authorised family accounts.
+                  </p>
+                </div>
+              </article>
+
+              <article>
+                <Images
+                  size={21}
+                />
+
+                <div>
+                  <strong>
+                    Family Updates
+                  </strong>
+
+                  <p>
+                    View activity photos,
+                    videos and centre updates.
+                  </p>
+                </div>
+              </article>
+
+              <article>
+                <CalendarDays
+                  size={21}
+                />
+
+                <div>
+                  <strong>
+                    Care Information
+                  </strong>
+
+                  <p>
+                    Keep track of appointments
+                    and general care information.
+                  </p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <div className="about-top-grid">
+            <section className="about-account-card">
+              <div className="about-account-icon">
+                <ShieldCheck
+                  size={25}
+                />
+              </div>
+
+              <div>
+                <span>
+                  Family Account
+                </span>
+
+                <p>
+                  {familyAccount
+                    ?.family_code ||
+                    'Family Connect'}
+                </p>
+              </div>
+
+              <BadgeCheck
+                size={22}
+                aria-label={
+                  familyOnline
+                    ? 'Online'
+                    : 'Offline'
+                }
+                title={
+                  familyOnline
+                    ? 'Online'
+                    : 'Offline'
+                }
+                style={{
+                  color:
+                    familyOnline
+                      ? '#0f8f86'
+                      : '#a8afad',
+                  filter:
+                    familyOnline
+                      ? 'drop-shadow(0 0 8px rgba(15, 143, 134, 0.18))'
+                      : 'none',
+                  transition:
+                    'color 160ms ease, filter 160ms ease',
+                }}
+              />
+            </section>
+
+          </div>
+
+          <section className="about-section-card">
+            <div className="about-section-heading">
+              <div className="about-section-icon">
+                <Sparkles
+                  size={21}
+                />
+              </div>
+
+              <div>
+                <span>
+                  Software Update
+                </span>
+
+                <h2>
+                  Family Connect
+                </h2>
+
+                <p>
+                  Current application version
+                  and release information.
+                </p>
+              </div>
+            </div>
+
+            <div className="about-version-grid">
+              <div className="version-card">
+                <Layers3
+                  size={20}
+                />
+
+                <div>
+                  <span>
+                    Version
+                  </span>
+
+                  <strong>
+                    {APP_VERSION}
+                  </strong>
+                </div>
+              </div>
+
+              <div className="version-card">
+                <ActivityIcon
+                  size={20}
+                />
+
+                <div>
+                  <span>
+                    Build
+                  </span>
+
+                  <strong>
+                    {APP_BUILD}
+                  </strong>
+                </div>
+              </div>
+
+              <div className="version-card">
+                <CalendarDays
+                  size={20}
+                />
+
+                <div>
+                  <span>
+                    Released
+                  </span>
+
+                  <strong>
+                    {RELEASE_DATE}
+                  </strong>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div className="about-details-grid">
+            <section className="about-section-card">
+              <div className="about-section-heading">
+                <div className="about-section-icon">
+                  <Info size={21} />
+                </div>
+
+                <div>
+                  <span>
+                    Privacy
+                  </span>
+
+                  <h2>
+                    Family privacy
+                  </h2>
+
+                  <p>
+                    Designed for secure
+                    family viewing.
+                  </p>
+                </div>
+              </div>
+
+              <div className="app-info-grid">
+                <article>
+                  <ShieldCheck
+                    size={21}
+                  />
+
+                  <div>
+                    <strong>
+                      Secure Access
+                    </strong>
+
+                    <p>
+                      Only authorised
+                      family accounts
+                      can sign in.
+                    </p>
+                  </div>
+                </article>
+
+                <article>
+                  <Images
+                    size={21}
+                  />
+
+                  <div>
+                    <strong>
+                      Private Viewing
+                    </strong>
+
+                    <p>
+                      Family media is
+                      viewed inside
+                      Family Connect.
+                    </p>
+                  </div>
+                </article>
+
+                <article>
+                  <MonitorSmartphone
+                    size={21}
+                  />
+
+                  <div>
+                    <strong>
+                      Any Device
+                    </strong>
+
+                    <p>
+                      Optimised for phone,
+                      tablet and desktop.
+                    </p>
+                  </div>
+                </article>
+              </div>
+            </section>
+          </div>
+
+          <button
+            type="button"
+            className="sign-out-button"
+            onClick={
+              handleLogout
+            }
+          >
+            <LogOut
+              size={18}
+            />
+
+            Sign Out
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  function renderActivePage() {
+    switch (activeNav) {
+      case 'activity':
+        return renderActivity()
+
+      case 'appointments':
+        return renderAppointments()
+
+      case 'announcements':
+        return renderAnnouncements()
+
+      case 'resident':
+        return renderResident()
+
+      case 'about':
+        return renderAbout()
+
+      case 'home':
+      default:
+        return renderHome()
+    }
+  }
+
+  return (
+    <main
+      className={
+        dark
+          ? 'app-shell dark'
+          : 'app-shell'
+      }
+      data-uaq-season={publishedFestivalTheme}
+    >
+      <div className="family-app-shell">
+        <aside className="desktop-sidebar">
+
+          <div className="sidebar-brand-art">
+            <BrandMark size="md" />
+          </div>
+
+          <nav className="desktop-nav">
+            {navItems.map(
+              (item) => {
+                const Icon =
+                  item.icon
+
+                const selected =
+                  activeBottomNav ===
+                  item.key
+
+                return (
+                  <button
+                    key={item.key}
+                    type="button"
+                    className={
+                      selected
+                        ? 'active'
+                        : ''
+                    }
+                    onClick={() =>
+                      setActiveNav(
+                        item.key
+                      )
+                    }
+                  >
+                    <Icon
+                      size={20}
+                    />
+
+                    <span>
+                      {item
+                        .desktopLabel ||
+                        item.label}
+                    </span>
+                  </button>
+                )
+              }
+            )}
+          </nav>
+
+          <div className="sidebar-footer">
+            <strong>
+              Stay close,
+              no matter the distance.
+            </strong>
+
+            <span>
+              Private access for
+              authorised family members.
+            </span>
+
+            <small>
+              {familyAccount
+                ?.family_code ||
+                'Family Connect'}
+            </small>
+          </div>
+        </aside>
+
+        <section className="app-content">
+          {renderActivePage()}
+        </section>
+
+        <nav className="mobile-bottom-nav">
+          {navItems.map(
+            (item) => {
+              const Icon =
+                item.icon
+
+              const selected =
+                activeBottomNav ===
+                item.key
+
+              return (
+                <button
+                  key={item.key}
+                  type="button"
+                  className={
+                    selected
+                      ? 'active'
+                      : ''
+                  }
+                  onClick={() =>
+                    setActiveNav(
+                      item.key
+                    )
+                  }
+                >
+                  <Icon
+                    size={20}
+                  />
+
+                  <span>
+                    {item.label}
+                  </span>
+                </button>
+              )
+            }
+          )}
+        </nav>
+
+        {residentPhotoPreviewOpen && (
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Resident photo preview"
+            onClick={() =>
+              setResidentPhotoPreviewOpen(
+                false
+              )
+            }
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 10000,
+              display: 'grid',
+              placeItems: 'center',
+              padding: '22px',
+              background:
+                'rgba(12, 29, 25, .76)',
+              backdropFilter:
+                'blur(10px)',
+              WebkitBackdropFilter:
+                'blur(10px)',
+              cursor: 'zoom-out',
+            }}
+          >
+            <div
+              style={{
+                width:
+                  'min(92vw, 430px)',
+                padding:
+                  '28px 24px 22px',
+                display: 'flex',
+                flexDirection:
+                  'column',
+                alignItems: 'center',
+                border:
+                  '1px solid rgba(255,255,255,.68)',
+                borderRadius:
+                  '32px',
+                background:
+                  dark
+                    ? 'rgba(26,47,41,.98)'
+                    : 'rgba(255,253,249,.98)',
+                boxShadow:
+                  '0 30px 90px rgba(0,0,0,.30)',
+                textAlign: 'center',
+                pointerEvents:
+                  'none',
+              }}
+            >
+              <div
+                style={{
+                  width:
+                    'min(76vw, 320px)',
+                  aspectRatio:
+                    '1 / 1',
+                  display: 'grid',
+                  placeItems: 'center',
+                  overflow: 'hidden',
+                  border:
+                    '5px solid rgba(255,255,255,.94)',
+                  borderRadius: '50%',
+                  background:
+                    dark
+                      ? '#29453c'
+                      : '#f3eee7',
+                  boxShadow:
+                    '0 0 0 2px rgba(60,154,139,.58), 0 16px 42px rgba(0,0,0,.18)',
+                  color:
+                    dark
+                      ? '#e8f2ee'
+                      : '#315f55',
+                  fontSize: '72px',
+                  fontWeight: 850,
+                }}
+              >
+                {residentAvatarUrl &&
+                !residentImageError ? (
+                  <img
+                    src={
+                      residentAvatarUrl
+                    }
+                    alt=""
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      display: 'block',
+                      objectFit:
+                        'contain',
+                      objectPosition:
+                        'center',
+                    }}
+                  />
+                ) : (
+                  <span>
+                    {resident?.initials ||
+                      'R'}
+                  </span>
+                )}
+              </div>
+
+              <strong
+                style={{
+                  marginTop:
+                    '20px',
+                  color: dark
+                    ? '#f1f6f4'
+                    : '#203631',
+                  fontSize: '21px',
+                  lineHeight: 1.2,
+                }}
+              >
+                {resident?.full_name ||
+                  'Resident'}
+              </strong>
+
+              <small
+                style={{
+                  marginTop:
+                    '12px',
+                  color: dark
+                    ? '#aebeb8'
+                    : '#87948f',
+                  fontSize: '11px',
+                  fontWeight: 650,
+                }}
+              >
+                Tap anywhere to close
+              </small>
+            </div>
+          </div>
+        )}
+
+        <MediaViewer
+          item={selectedMedia}
+          onClose={() =>
+            setSelectedMedia(null)
+          }
+        />
+      </div>
+    </main>
   )
 }

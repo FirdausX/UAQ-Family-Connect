@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="384" height="384" viewBox="0 0 384 384">
+<defs>
+  <radialGradient id="bg" cx="62%" cy="30%" r="85%">
+    <stop offset="0" stop-color="#2a5486"></stop><stop offset=".45" stop-color="#173963"></stop><stop offset="1" stop-color="#0a1d38"></stop>
+  </radialGradient>
+  <radialGradient id="moon" cx="45%" cy="40%" r="60%">
+    <stop offset="0" stop-color="#fffaf0"></stop><stop offset=".7" stop-color="#f6ead2"></stop><stop offset="1" stop-color="#e6d3ad"></stop>
+  </radialGradient>
+  <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#fff3d9" stop-opacity=".45"></stop><stop offset=".5" stop-color="#cfe0ff" stop-opacity=".12"></stop><stop offset="1" stop-color="#cfe0ff" stop-opacity="0"></stop>
+  </radialGradient>
+  <linearGradient id="m1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3d6ea6"></stop><stop offset="1" stop-color="#1a3c66"></stop></linearGradient>
+  <linearGradient id="m2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b5b91"></stop><stop offset="1" stop-color="#132f55"></stop></linearGradient>
+  <linearGradient id="m3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c4475"></stop><stop offset="1" stop-color="#0b1f3c"></stop></linearGradient>
+  <linearGradient id="mist" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dbe8ff" stop-opacity="0"></stop><stop offset=".5" stop-color="#dbe8ff" stop-opacity=".22"></stop><stop offset="1" stop-color="#dbe8ff" stop-opacity="0"></stop></linearGradient>
+  <linearGradient id="champ" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#b89361"></stop><stop offset=".3" stop-color="#f6e5c2"></stop><stop offset=".55" stop-color="#c9a571"></stop><stop offset=".8" stop-color="#fff2d8"></stop><stop offset="1" stop-color="#a98552"></stop>
+  </linearGradient>
+  <radialGradient id="petal" cx="50%" cy="85%" r="90%">
+    <stop offset="0" stop-color="#e98fae"></stop><stop offset=".35" stop-color="#f6c3d3"></stop><stop offset=".8" stop-color="#fff1f5"></stop><stop offset="1" stop-color="#ffffff"></stop>
+  </radialGradient>
+  <radialGradient id="petalBlue" cx="50%" cy="85%" r="90%">
+    <stop offset="0" stop-color="#9fbfe8"></stop><stop offset=".5" stop-color="#e3eeff"></stop><stop offset="1" stop-color="#ffffff"></stop>
+  </radialGradient>
+  <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#06142a" flood-opacity=".45"></feDropShadow></filter>
+  <filter id="blur6"><feGaussianBlur stdDeviation="6"></feGaussianBlur></filter>
+  <filter id="blur2"><feGaussianBlur stdDeviation="1.6"></feGaussianBlur></filter>
+  <pattern id="seigaiha" width="60" height="30" patternUnits="userSpaceOnUse">
+    <g fill="none" stroke="#9db6d8" stroke-width="1" opacity=".35">
+      <circle cx="30" cy="30" r="28"></circle><circle cx="30" cy="30" r="21"></circle><circle cx="30" cy="30" r="14"></circle>
+      <circle cx="0" cy="15" r="28"></circle><circle cx="0" cy="15" r="21"></circle><circle cx="0" cy="15" r="14"></circle>
+      <circle cx="60" cy="15" r="28"></circle><circle cx="60" cy="15" r="21"></circle><circle cx="60" cy="15" r="14"></circle>
+    </g>
+  </pattern>
+  <pattern id="seigaihaDark" width="60" height="30" patternUnits="userSpaceOnUse">
+    <g fill="none" stroke="#5f86bb" stroke-width="1" opacity=".16">
+      <circle cx="30" cy="30" r="28"></circle><circle cx="30" cy="30" r="21"></circle><circle cx="30" cy="30" r="14"></circle>
+      <circle cx="0" cy="15" r="28"></circle><circle cx="0" cy="15" r="21"></circle><circle cx="0" cy="15" r="14"></circle>
+      <circle cx="60" cy="15" r="28"></circle><circle cx="60" cy="15" r="21"></circle><circle cx="60" cy="15" r="14"></circle>
+    </g>
+  </pattern>
+</defs><rect width="384" height="384" fill="url(#seigaiha)"></rect></svg>

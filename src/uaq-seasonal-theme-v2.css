@@ -1,0 +1,667 @@
+
+/* ================================================================
+   UAQ THEME MANAGER 2.0 - TRUE HARI RAYA THEME
+   Keeps approved Blue Sakura and profile image styles UNCHANGED.
+   No animation, no new Supabase Storage requests.
+   All user-selected art lives under /public/themes/hari-raya/.
+   ================================================================ */
+.app-shell[data-uaq-season='hari_raya'] {
+  --uaq-sakura-sprig: url('/images/uaq-raya-ketupat.svg');
+  --uaq-blue:#23704f;
+  --uaq-blue-deep:#194c3b;
+  --uaq-blue-muted:#658475;
+  --uaq-blue-line:rgba(38,123,82,.22);
+  --uaq-blue-shadow:0 14px 35px rgba(28,86,57,.12);
+  --bg:#f2f8ea;
+  --surface:#fffef7;
+  --surface-soft:#eaf3e8;
+  --text:#224c3c;
+  --muted:#648072;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] {
+  --bg:#10281e;
+  --surface:#18382b;
+  --surface-soft:#224635;
+  --text:#e7f3e5;
+  --muted:#b0cfb9;
+}
+/* Remove any original Sakura ornament remaining from the original app. */
+.app-shell[data-uaq-season='hari_raya']::before,
+.app-shell[data-uaq-season='hari_raya']::after {
+  background-image:none !important;
+  animation:none !important;
+}
+/* Emerald + gold page-wide background, optional replaceable wallpaper. */
+.app-shell[data-uaq-season='hari_raya'] .app-main,
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell {
+  background:
+    linear-gradient(145deg,rgba(239,250,236,.85),rgba(252,248,233,.91)),
+    url('/themes/hari-raya/wallpaper.jpg') center top/cover no-repeat,
+    #eff7e7 !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .app-main,
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell {
+  background:
+    linear-gradient(145deg,rgba(11,40,28,.85),rgba(20,44,33,.90)),
+    url('/themes/hari-raya/wallpaper.jpg') center top/cover no-repeat,
+    #10291e !important;
+}
+/* Sidebar wallpaper also changes, while ALL photo cards remain untouched. */
+.app-shell[data-uaq-season='hari_raya'] .sidebar,
+.app-shell[data-uaq-season='hari_raya'] .desktop-sidebar,
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .desktop-sidebar {
+  background:
+    linear-gradient(170deg,rgba(238,250,236,.96),rgba(249,246,227,.92)),
+    url('/themes/hari-raya/wallpaper.jpg') center bottom/cover no-repeat,
+    #edf8e9 !important;
+  border-right-color:rgba(89,133,83,.22) !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .sidebar,
+.app-shell.dark[data-uaq-season='hari_raya'] .desktop-sidebar,
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .desktop-sidebar {
+  background:
+    linear-gradient(170deg,rgba(13,42,29,.96),rgba(17,42,33,.89)),
+    url('/themes/hari-raya/wallpaper.jpg') center bottom/cover no-repeat,
+    #10291e !important;
+}
+/* Main banners, navigation, icons, headings and tiles switch to emerald. */
+.app-shell[data-uaq-season='hari_raya'] .nav-item-active,
+.app-shell[data-uaq-season='hari_raya'] .sidebar-nav .nav-item.nav-item-active,
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .desktop-nav button.active,
+.app-shell[data-uaq-season='hari_raya'] .mobile-bottom-nav button.active {
+  background:linear-gradient(110deg,#d4eed8,#f5f2d6) !important;
+  color:#206b49 !important;
+  border-color:rgba(62,127,75,.22) !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .sidebar-nav .nav-item.nav-item-active,
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .desktop-nav button.active {
+  background:#285d41 !important;color:#f4edce !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .uaq-blue-dashboard-intro h2,
+.app-shell[data-uaq-season='hari_raya'] .uaq-blue-family-intro h1,
+.app-shell[data-uaq-season='hari_raya'] .page-title-row h1,
+.app-shell[data-uaq-season='hari_raya'] .page-topbar h1,
+.app-shell[data-uaq-season='hari_raya'] .section-heading h2,
+.app-shell[data-uaq-season='hari_raya'] .panel-heading h2 {
+  color:#1b6147 !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .uaq-blue-family-intro>span,
+.app-shell[data-uaq-season='hari_raya'] .uaq-blue-dashboard-intro>span,
+.app-shell[data-uaq-season='hari_raya'] .uaq-blue-family-intro p,
+.app-shell[data-uaq-season='hari_raya'] .page-topbar p {
+  color:#5a8865 !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .uaq-blue-family-intro h1,
+.app-shell.dark[data-uaq-season='hari_raya'] .uaq-blue-dashboard-intro h2,
+.app-shell.dark[data-uaq-season='hari_raya'] .page-title-row h1,
+.app-shell.dark[data-uaq-season='hari_raya'] .section-heading h2 {
+  color:#f2e1af !important;
+}
+/* Card content: no profiles/photos/avatars altered. */
+.app-shell[data-uaq-season='hari_raya'] .stats-grid .stat-card,
+.app-shell[data-uaq-season='hari_raya'] .dashboard-bottom-grid .panel-card,
+.app-shell[data-uaq-season='hari_raya'] .uaq-blue-family-stats button,
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-scroll .home-summary-card,
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .standard-page .activity-card {
+  background:rgba(255,254,247,.95) !important;
+  border-color:rgba(104,144,79,.25) !important;
+  box-shadow:0 11px 27px rgba(43,99,50,.08) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .stats-grid .stat-icon,
+.app-shell[data-uaq-season='hari_raya'] .uaq-blue-family-stats button>svg,
+.app-shell[data-uaq-season='hari_raya'] .summary-icon {
+  background:#e0f1df !important;color:#237f54 !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .stats-grid .stat-content strong,
+.app-shell[data-uaq-season='hari_raya'] .uaq-blue-family-stats button>strong,
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-summary-card strong {
+  color:#205f43 !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .stats-grid .stat-content>span,
+.app-shell[data-uaq-season='hari_raya'] .uaq-blue-family-stats button>span {
+  color:#23724d !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .stats-grid .stat-card,
+.app-shell.dark[data-uaq-season='hari_raya'] .dashboard-bottom-grid .panel-card,
+.app-shell.dark[data-uaq-season='hari_raya'] .uaq-blue-family-stats button {
+  background:rgba(24,57,41,.96) !important;
+  border-color:rgba(191,167,102,.25) !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .stats-grid .stat-content strong,
+.app-shell.dark[data-uaq-season='hari_raya'] .uaq-blue-family-stats button>strong {
+  color:#f3e9c4 !important;
+}
+/* Keep the seasonal static ketupat details; do not animate. */
+.app-shell[data-uaq-season='hari_raya'] .content-area::after,
+.app-shell[data-uaq-season='hari_raya'] .content-area::before {
+  --uaq-sakura-sprig:url('/images/uaq-raya-ketupat.svg');
+}
+
+/* Family Connect: Sakura hero replaced by user's optional Raya photo. */
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-hero,
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .home-hero {
+  background:url('/themes/hari-raya/family-hero.jpg') center center/cover no-repeat,#1f6847 !important;
+  border:1px solid rgba(190,156,78,.49) !important;
+  box-shadow:0 14px 35px rgba(24,75,48,.13) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-hero-overlay {
+  background:linear-gradient(90deg,rgba(8,54,35,.72) 0%,rgba(20,72,48,.38) 62%,rgba(21,67,45,.04) 100%) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-hero-top h1 {
+  color:#fffbea !important;
+  text-shadow:0 2px 6px rgba(0,0,0,.16) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-hero-top>div>span {
+  color:#f0e7b6 !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-hero-message {
+  background:rgba(255,250,229,.95) !important;
+  color:#256346 !important;
+  border-color:rgba(183,159,92,.32) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .page-topbar {
+  background:rgba(246,252,239,.94) !important;
+  border-color:rgba(94,139,90,.22) !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .page-topbar {
+  background:rgba(14,45,31,.95) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .sidebar-footer strong {
+  color:#246947 !important;
+}
+/* The Sakura artwork embedded in the logo is replaced via JSX src choice. */
+
+/* v2.0: always show festive ketupat pattern + custom wallpaper, even
+   if the user replaces the wallpaper with a plain photograph. */
+.app-shell[data-uaq-season='hari_raya'] .app-main,
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell {
+  background-image:
+    linear-gradient(145deg,rgba(239,250,236,.91),rgba(252,248,233,.93)),
+    url('/images/uaq-raya-ketupat.svg'),
+    url('/themes/hari-raya/wallpaper.jpg') !important;
+  background-position:center,center top,center !important;
+  background-size:cover,600px 350px,cover !important;
+  background-repeat:no-repeat,repeat,no-repeat !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .app-main,
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell {
+  background-image:
+    linear-gradient(145deg,rgba(11,40,28,.89),rgba(20,44,33,.94)),
+    url('/images/uaq-raya-ketupat.svg'),
+    url('/themes/hari-raya/wallpaper.jpg') !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .sidebar,
+.app-shell[data-uaq-season='hari_raya'] .desktop-sidebar,
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .desktop-sidebar {
+  background-image:
+    linear-gradient(170deg,rgba(238,250,236,.97),rgba(249,246,227,.94)),
+    url('/images/uaq-raya-ketupat.svg'),
+    url('/themes/hari-raya/wallpaper.jpg') !important;
+  background-position:center,center top,center !important;
+  background-size:cover,420px 245px,cover !important;
+  background-repeat:no-repeat,repeat,no-repeat !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .sidebar,
+.app-shell.dark[data-uaq-season='hari_raya'] .desktop-sidebar,
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .desktop-sidebar {
+  background-image:
+    linear-gradient(170deg,rgba(13,42,29,.97),rgba(17,42,33,.93)),
+    url('/images/uaq-raya-ketupat.svg'),
+    url('/themes/hari-raya/wallpaper.jpg') !important;
+}
+/* A small traditional pelita beside the existing Selamat Hari Raya bar. */
+.app-shell[data-uaq-season='hari_raya'] .content-area::before,
+.app-shell[data-uaq-season='hari_raya'] .app-content::before {
+  background-image:
+    url('/themes/hari-raya/pelita.svg'),
+    linear-gradient(95deg,rgba(221,240,219,.96),rgba(249,244,215,.96)) !important;
+  background-position:16px center,center !important;
+  background-size:27px 27px,cover !important;
+  background-repeat:no-repeat,no-repeat !important;
+  padding-left:45px !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .content-area::before,
+.app-shell.dark[data-uaq-season='hari_raya'] .app-content::before {
+  background-image:
+    url('/themes/hari-raya/pelita.svg'),
+    linear-gradient(95deg,#1d5540,#4a4b2e) !important;
+}
+
+
+/* ===========================================================================
+   UAQ SEASONAL EXPERIENCE 4.0 — FESTIVE MAXIMUM
+   VISUALS ONLY. Based on UAQ Theme Manager 3.0 + True Dark Mode v5.
+   Both apps already import this CSS AFTER uaq-seasonal-theme.css.
+   No login, data, MAR, patient images, role or Supabase logic changes.
+   All artwork served from public/themes (static hosting, not Supabase).
+   =========================================================================== */
+
+
+.app-shell[data-uaq-season='blue_sakura'] {
+  --uaq-v4-accent:#347DBA;
+  --uaq-v4-ink:#17487B;
+  --uaq-v4-soft:#CDE8F7;
+  --uaq-v4-gold:#C28BA8;
+  --uaq-v4-side:rgba(242,249,255,.97);
+  --uaq-v4-card:rgba(250,253,255,.96);
+  --uaq-v4-banner-start:#D5EBFA;
+  --uaq-v4-banner-end:#F8E8F3;
+  --uaq-v4-motif:url('/themes/blue-sakura/motif.svg');
+  --uaq-v4-particles:url('/themes/blue-sakura/particles.svg');
+  --uaq-v4-garland:url('/themes/blue-sakura/garland.svg');
+  --uaq-v4-wall:url('/themes/blue-sakura/wallpaper.jpg');
+  --uaq-v4-hero:url('/themes/blue-sakura/family-hero.jpg');
+  --uaq-v4-banner-text:'✿ BLUE SAKURA · MOMENTS OF CARE ✿';
+  --uaq-v4-cover:rgba(253,251,244,.74);
+}
+.app-shell.dark[data-uaq-season='blue_sakura'] {
+  --uaq-v4-ink:#E2F2FF;
+  --uaq-v4-side:rgba(13,28,50,.97);
+  --uaq-v4-card:#182D46;
+  --uaq-v4-banner-start:#20476F;
+  --uaq-v4-banner-end:#493A62;
+  --uaq-v4-cover:rgba(16,36,73,.80);
+  --uaq-v4-soft:#182D46;
+}
+
+
+.app-shell[data-uaq-season='hari_raya'] {
+  --uaq-v4-accent:#187854;
+  --uaq-v4-ink:#1C6949;
+  --uaq-v4-soft:#D8ECD6;
+  --uaq-v4-gold:#D5B972;
+  --uaq-v4-side:rgba(241,250,237,.96);
+  --uaq-v4-card:rgba(252,254,247,.96);
+  --uaq-v4-banner-start:#CEEAD7;
+  --uaq-v4-banner-end:#FAECC0;
+  --uaq-v4-motif:url('/themes/hari-raya/motif.svg');
+  --uaq-v4-particles:url('/themes/hari-raya/particles.svg');
+  --uaq-v4-garland:url('/themes/hari-raya/garland.svg');
+  --uaq-v4-wall:url('/themes/hari-raya/wallpaper.jpg');
+  --uaq-v4-hero:url('/themes/hari-raya/family-hero.jpg');
+  --uaq-v4-banner-text:'✦ SELAMAT HARI RAYA · UAQ ✦';
+  --uaq-v4-cover:rgba(253,251,244,.74);
+}
+.app-shell.dark[data-uaq-season='hari_raya'] {
+  --uaq-v4-ink:#F5EAC0;
+  --uaq-v4-side:rgba(13,41,29,.97);
+  --uaq-v4-card:#1A3B30;
+  --uaq-v4-banner-start:#1F5A41;
+  --uaq-v4-banner-end:#564D2B;
+  --uaq-v4-cover:rgba(8,35,26,.82);
+  --uaq-v4-soft:#1A3B30;
+}
+
+
+.app-shell[data-uaq-season='christmas'] {
+  --uaq-v4-accent:#146D5B;
+  --uaq-v4-ink:#175747;
+  --uaq-v4-soft:#E8F3EC;
+  --uaq-v4-gold:#D9B777;
+  --uaq-v4-side:rgba(239,249,241,.95);
+  --uaq-v4-card:rgba(252,255,252,.96);
+  --uaq-v4-banner-start:#C6E9D9;
+  --uaq-v4-banner-end:#F4E5C1;
+  --uaq-v4-motif:url('/themes/christmas/motif.svg');
+  --uaq-v4-particles:url('/themes/christmas/particles.svg');
+  --uaq-v4-garland:url('/themes/christmas/garland.svg');
+  --uaq-v4-wall:url('/themes/christmas/wallpaper.jpg');
+  --uaq-v4-hero:url('/themes/christmas/family-hero.jpg');
+  --uaq-v4-banner-text:'✦ MERRY CHRISTMAS · SEASON OF TOGETHERNESS ✦';
+  --uaq-v4-cover:rgba(253,251,244,.74);
+}
+.app-shell.dark[data-uaq-season='christmas'] {
+  --uaq-v4-ink:#F7E1B7;
+  --uaq-v4-side:rgba(10,39,37,.97);
+  --uaq-v4-card:#183B37;
+  --uaq-v4-banner-start:#1B584B;
+  --uaq-v4-banner-end:#733044;
+  --uaq-v4-cover:rgba(8,39,34,.83);
+  --uaq-v4-soft:#183B37;
+}
+
+
+.app-shell[data-uaq-season='chinese_new_year'] {
+  --uaq-v4-accent:#AC2E39;
+  --uaq-v4-ink:#932936;
+  --uaq-v4-soft:#FFF0DC;
+  --uaq-v4-gold:#F1C66D;
+  --uaq-v4-side:rgba(255,248,235,.97);
+  --uaq-v4-card:rgba(255,251,244,.97);
+  --uaq-v4-banner-start:#F7D3B5;
+  --uaq-v4-banner-end:#F9E6B2;
+  --uaq-v4-motif:url('/themes/chinese-new-year/motif.svg');
+  --uaq-v4-particles:url('/themes/chinese-new-year/particles.svg');
+  --uaq-v4-garland:url('/themes/chinese-new-year/garland.svg');
+  --uaq-v4-wall:url('/themes/chinese-new-year/wallpaper.jpg');
+  --uaq-v4-hero:url('/themes/chinese-new-year/family-hero.jpg');
+  --uaq-v4-banner-text:'✦ GONG XI FA CAI · 新年快乐 ✦';
+  --uaq-v4-cover:rgba(253,251,244,.74);
+}
+.app-shell.dark[data-uaq-season='chinese_new_year'] {
+  --uaq-v4-ink:#FFE6AC;
+  --uaq-v4-side:rgba(45,17,30,.97);
+  --uaq-v4-card:#43232D;
+  --uaq-v4-banner-start:#8A2335;
+  --uaq-v4-banner-end:#553021;
+  --uaq-v4-cover:rgba(51,14,26,.81);
+  --uaq-v4-soft:#43232D;
+}
+
+
+/* Use one shared fest root; avoid styling medication status, patient photos or MAR actions. */
+.app-shell[data-uaq-season] {
+  --uaq-v4-float-speed:26s;
+}
+
+/* FESTIVE RIBBON: visible at the start of every main screen. */
+.app-shell[data-uaq-season] .content-area::before,
+.app-shell[data-uaq-season] .app-content::before {
+  content:var(--uaq-v4-banner-text) !important;
+  display:block !important;
+  position:relative !important;
+  inset:auto !important;
+  width:auto !important;
+  max-width:100% !important;
+  min-height:38px !important;
+  margin:0 0 16px !important;
+  padding:10px 16px 10px 42px !important;
+  border:1px solid color-mix(in srgb,var(--uaq-v4-gold) 55%,transparent) !important;
+  border-radius:16px !important;
+  background-image:var(--uaq-v4-motif),linear-gradient(100deg,var(--uaq-v4-banner-start),var(--uaq-v4-banner-end)) !important;
+  background-size:115px auto,cover !important;
+  background-position:left center,center !important;
+  background-repeat:no-repeat,no-repeat !important;
+  color:var(--uaq-v4-ink) !important;
+  opacity:1 !important;
+  font:800 11px/1.6 'Plus Jakarta Sans',Inter,system-ui,sans-serif !important;
+  letter-spacing:.12em !important;
+  text-align:center !important;
+  pointer-events:none !important;
+  box-shadow:0 8px 26px rgba(16,47,42,.11),inset 0 1px 0 rgba(255,255,255,.2) !important;
+  transform:none !important;
+}
+
+/* HOLIDAY SCENERY: wallpaper fully replaceable with same-name JPG file. */
+.app-shell[data-uaq-season] .app-main,
+.app-shell[data-uaq-season] .family-app-shell {
+  background-image:linear-gradient(155deg,var(--uaq-v4-cover),var(--uaq-v4-cover)),
+     var(--uaq-v4-motif),var(--uaq-v4-wall) !important;
+  background-position:center,center top,center center !important;
+  background-size:cover,380px 280px,cover !important;
+  background-repeat:no-repeat,repeat,no-repeat !important;
+  background-color:var(--uaq-v4-soft) !important;
+}
+/* Original approved Sakura scenery remains; this transparent floral overlay enriches it. */
+.app-shell[data-uaq-season='blue_sakura'] .app-main,
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell {
+  background-image:linear-gradient(155deg,rgba(239,248,255,.65),rgba(249,251,255,.82)),
+    var(--uaq-v4-motif),url('/themes/blue-sakura/wallpaper.jpg') !important;
+}
+.app-shell.dark[data-uaq-season='blue_sakura'] .app-main,
+.app-shell.dark[data-uaq-season='blue_sakura'] .family-app-shell {
+  background-image:linear-gradient(155deg,rgba(9,24,45,.86),rgba(17,31,55,.94)),
+    var(--uaq-v4-motif),url('/themes/blue-sakura/wallpaper.jpg') !important;
+}
+
+/* Sidebar visual: garland around its upper rim, wallpaper with subdued mask.
+   Intentionally does NOT target avatar or locked profile/photo elements. */
+.app-shell[data-uaq-season] .sidebar,
+.app-shell[data-uaq-season] .desktop-sidebar {
+  background-image:var(--uaq-v4-garland),linear-gradient(160deg,var(--uaq-v4-side),var(--uaq-v4-side)),
+     var(--uaq-v4-wall) !important;
+  background-position:left top,center,center bottom !important;
+  background-size:auto 110px,cover,cover !important;
+  background-repeat:no-repeat,no-repeat,no-repeat !important;
+  border-right:1px solid var(--uaq-v4-gold) !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .sidebar,
+.app-shell[data-uaq-season='blue_sakura'] .desktop-sidebar {
+  background-image:var(--uaq-v4-garland),linear-gradient(160deg,var(--uaq-v4-side),var(--uaq-v4-side)),url('/themes/blue-sakura/wallpaper.jpg') !important;
+}
+
+/* Top bar garland is decorative and does not cover clickable buttons. */
+.app-shell[data-uaq-season] .topbar,
+.app-shell[data-uaq-season] .page-topbar {
+  background-image:var(--uaq-v4-garland),linear-gradient(120deg,var(--uaq-v4-side),var(--uaq-v4-side)) !important;
+  background-position:right top,center !important;
+  background-size:auto 105px,cover !important;
+  background-repeat:no-repeat,no-repeat !important;
+  border-bottom:1px solid var(--uaq-v4-gold) !important;
+}
+
+/* Decorative navigation. Do NOT recolor semantic risk/medication status badges. */
+.app-shell[data-uaq-season] .sidebar-nav .nav-item.nav-item-active,
+.app-shell[data-uaq-season] .nav-item-active,
+.app-shell[data-uaq-season] .desktop-nav button.active,
+.app-shell[data-uaq-season] .mobile-bottom-nav button.active {
+  background:linear-gradient(115deg,var(--uaq-v4-banner-start),var(--uaq-v4-banner-end)) !important;
+  color:var(--uaq-v4-ink) !important;
+  border:1px solid var(--uaq-v4-gold) !important;
+  box-shadow:0 6px 21px rgba(30,38,51,.1) !important;
+}
+.app-shell[data-uaq-season] .sidebar-nav .nav-item.nav-item-active svg,
+.app-shell[data-uaq-season] .desktop-nav button.active svg {
+  color:var(--uaq-v4-accent) !important;
+}
+
+/* Header treatments & stat cards for both apps. Strictly presentation-only. */
+.app-shell[data-uaq-season] .uaq-blue-dashboard-intro h2,
+.app-shell[data-uaq-season] .uaq-blue-family-intro h1,
+.app-shell[data-uaq-season] .page-topbar h1,
+.app-shell[data-uaq-season] .section-heading h2 {
+  color:var(--uaq-v4-ink) !important;
+}
+.app-shell[data-uaq-season] .stats-grid .stat-card,
+.app-shell[data-uaq-season] .dashboard-bottom-grid .panel-card,
+.app-shell[data-uaq-season] .uaq-blue-family-stats button,
+.app-shell[data-uaq-season] .family-app-shell .home-summary-card,
+.app-shell[data-uaq-season] .family-app-shell .activity-card,
+.app-shell[data-uaq-season] .family-app-shell .announcement-card {
+  border-color:color-mix(in srgb,var(--uaq-v4-gold) 55%,transparent) !important;
+  box-shadow:0 10px 28px rgba(14,49,51,.12),inset 0 3px 0 var(--uaq-v4-gold) !important;
+}
+.app-shell:not(.dark)[data-uaq-season] .stats-grid .stat-card,
+.app-shell:not(.dark)[data-uaq-season] .uaq-blue-family-stats button,
+.app-shell:not(.dark)[data-uaq-season] .family-app-shell .home-summary-card {
+  background:var(--uaq-v4-card) !important;
+}
+.app-shell.dark[data-uaq-season] .stats-grid .stat-card,
+.app-shell.dark[data-uaq-season] .uaq-blue-family-stats button,
+.app-shell.dark[data-uaq-season] .family-app-shell .home-summary-card {
+  background:var(--uaq-v4-card) !important;
+  border-color:color-mix(in srgb,var(--uaq-v4-gold) 42%,transparent) !important;
+}
+.app-shell.dark[data-uaq-season] .stats-grid .stat-content strong,
+.app-shell.dark[data-uaq-season] .uaq-blue-family-stats button strong,
+.app-shell.dark[data-uaq-season] .family-app-shell .home-summary-card strong {
+  color:var(--uaq-v4-ink) !important;
+}
+
+/* Video card: extra festive frame only, never cover the user's music video. */
+.app-shell[data-uaq-season] .content-area .video-hero.uaq-compact-hero {
+  border:2px solid var(--uaq-v4-gold) !important;
+  box-shadow:0 16px 42px rgba(25,38,48,.2) !important;
+}
+.app-shell[data-uaq-season] .content-area .uaq-compact-hero .uaq-compact-hero-heading,
+.app-shell[data-uaq-season] .content-area .uaq-compact-hero .uaq-compact-hero-details {
+  background-image:linear-gradient(120deg,var(--uaq-v4-side),var(--uaq-v4-side)),var(--uaq-v4-motif) !important;
+  background-size:cover,220px auto !important;
+  color:var(--uaq-v4-ink) !important;
+}
+.app-shell[data-uaq-season] .content-area .uaq-compact-hero h1,
+.app-shell[data-uaq-season] .content-area .uaq-compact-hero h1 span,
+.app-shell[data-uaq-season] .content-area .uaq-compact-hero .uaq-compact-hero-kicker {
+  color:var(--uaq-v4-ink) !important;
+}
+.app-shell[data-uaq-season] .content-area .uaq-compact-hero .uaq-compact-hero-media {
+  border-left:2px solid var(--uaq-v4-gold) !important;
+  background-image:var(--uaq-v4-wall) !important;
+  background-position:center !important;
+  background-size:cover !important;
+}
+.app-shell[data-uaq-season='christmas'] .content-area .uaq-compact-hero .uaq-compact-hero-media,
+.app-shell[data-uaq-season='chinese_new_year'] .content-area .uaq-compact-hero .uaq-compact-hero-media,
+.app-shell[data-uaq-season='hari_raya'] .content-area .uaq-compact-hero .uaq-compact-hero-media {
+  background-image:var(--uaq-fest-poster) !important;
+}
+
+/* Family Connect hero: photo is chosen by user, ornaments hug the border. */
+.app-shell[data-uaq-season] .family-app-shell .home-hero {
+  position:relative !important;
+  isolation:isolate !important;
+  background-image:var(--uaq-v4-hero) !important;
+  background-position:center center !important;
+  background-size:cover !important;
+  border:2px solid var(--uaq-v4-gold) !important;
+  box-shadow:0 15px 39px rgba(33,45,43,.16) !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .home-hero {
+  background-image:url('/themes/blue-sakura/family-hero.jpg') !important;
+}
+.app-shell[data-uaq-season] .family-app-shell .home-hero::after {
+  content:'' !important;
+  position:absolute !important;
+  inset:0 !important;
+  z-index:1 !important;
+  display:block !important;
+  background:var(--uaq-v4-garland) right top/auto 125px no-repeat !important;
+  opacity:.78 !important;
+  pointer-events:none !important;
+}
+.app-shell[data-uaq-season] .family-app-shell .home-hero-overlay {
+  background:linear-gradient(95deg,var(--uaq-v4-cover) 0%,var(--uaq-v4-cover) 28%,transparent 92%) !important;
+}
+.app-shell[data-uaq-season] .family-app-shell .home-hero-top h1,
+.app-shell[data-uaq-season] .family-app-shell .home-hero-top > div > span {
+  color:var(--uaq-v4-ink) !important;
+  text-shadow:0 1px 2px rgba(0,0,0,.06) !important;
+}
+.app-shell[data-uaq-season] .family-app-shell .home-hero-message {
+  color:var(--uaq-v4-ink) !important;
+  background:var(--uaq-v4-card) !important;
+  border-color:var(--uaq-v4-gold) !important;
+}
+
+/* Holiday brand messages. Pure CSS, no change to login or role logic. */
+.app-shell[data-uaq-season] .uaq-theme-choice.is-selected { outline:2px solid var(--uaq-v4-gold) !important; }
+
+/* Fixed layer: 1 SVG tile, rather than expensive animated per-element DOM.
+   pointer-events none: controls, MAR forms and buttons remain clickable. */
+.app-shell[data-uaq-season]::after {
+  content:'' !important;
+  display:block !important;
+  position:fixed !important;
+  inset:-480px 0 0 !important;
+  width:auto !important;
+  height:calc(100vh + 480px) !important;
+  padding:0 !important;
+  background:var(--uaq-v4-particles) center 0/360px 500px repeat !important;
+  opacity:.23 !important;
+  pointer-events:none !important;
+  z-index:3 !important;
+  filter:none !important;
+  transform:translate3d(0,0,0);
+  animation:uaq-v4-drift var(--uaq-v4-float-speed) linear infinite !important;
+  contain:paint;
+}
+@keyframes uaq-v4-drift {
+  from { transform:translate3d(0,-60px,0); }
+  to { transform:translate3d(0,440px,0); }
+}
+/* Sway is limited to the floating decorative corner, not actual content. */
+.app-shell:is([data-uaq-season='christmas'],[data-uaq-season='chinese_new_year'],[data-uaq-season='hari_raya'])
+  .family-app-shell .home-hero::after {
+  animation:uaq-v4-gentle-sway 7s ease-in-out infinite alternate !important;
+  transform-origin:85% 0;
+}
+@keyframes uaq-v4-gentle-sway {
+  from { transform:rotate(-.45deg); }
+  to { transform:rotate(.45deg); }
+}
+@media(max-width:900px) {
+  /* Phone performance: static motif, no falling animation or persistent layer. */
+  .app-shell[data-uaq-season]::after { display:none !important;animation:none !important; }
+  .app-shell[data-uaq-season] .family-app-shell .home-hero::after {animation:none !important;}
+  .app-shell[data-uaq-season] .content-area::before,
+  .app-shell[data-uaq-season] .app-content::before {
+    font-size:9px !important; letter-spacing:.045em !important;
+    padding:9px 12px !important; min-height:30px !important;
+  }
+  .app-shell[data-uaq-season] .family-app-shell .home-hero::after {
+    background-size:auto 78px !important; opacity:.49 !important;
+  }
+  .app-shell[data-uaq-season] .topbar,
+  .app-shell[data-uaq-season] .page-topbar {
+    background-size:auto 58px,cover !important;
+  }
+  .app-shell[data-uaq-season] .content-area .uaq-compact-hero .uaq-compact-hero-media {
+    border-left:0 !important;border-bottom:1px solid var(--uaq-v4-gold) !important;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .app-shell[data-uaq-season]::after { animation:none !important;display:none !important; }
+  .app-shell[data-uaq-season] .home-hero::after { animation:none !important; }
+}
+@media print {
+  .app-shell[data-uaq-season]::after,
+  .app-shell[data-uaq-season] .content-area::before,
+  .app-shell[data-uaq-season] .app-content::before,
+  .app-shell[data-uaq-season] .family-app-shell .home-hero::after {display:none !important;}
+}
+
+.app-shell[data-uaq-season='blue_sakura'] {--uaq-fest-poster:url('/themes/blue-sakura/emar-video-poster.jpg');}
+
+.app-shell[data-uaq-season='hari_raya'] {--uaq-fest-poster:url('/themes/hari-raya/emar-video-poster.jpg');}
+
+.app-shell[data-uaq-season='christmas'] {--uaq-fest-poster:url('/themes/christmas/emar-video-poster.jpg');}
+
+.app-shell[data-uaq-season='chinese_new_year'] {--uaq-fest-poster:url('/themes/chinese-new-year/emar-video-poster.jpg');}
+
+.app-shell[data-uaq-season='blue_sakura'] .content-area .uaq-compact-hero .uaq-compact-hero-media {background-image:url('/themes/blue-sakura/emar-video-poster.jpg') !important;}
+
+/* ==============================================================
+   UAQ Family Connect FESTIVE MAX 4.2 — Hari Raya PAGE HEADER
+   This app uses .page-topbar (NOT eMAR's .topbar).
+   Styling only, preserving sizing, position, and app logic.
+   ============================================================= */
+.app-shell[data-uaq-season="hari_raya"] .family-app-shell .page-topbar {
+  background-color: #E8F2DE !important;
+  background-image: url('/themes/hari-raya/garland.svg'), linear-gradient(110deg,#E7F4E3 0%,#F6F7E7 75%,#FAF1DB 100%) !important;
+  background-repeat: no-repeat, no-repeat !important;
+  background-position: right 12px top -15px,center !important;
+  background-size: auto 125px,cover !important;
+  border: 1px solid rgba(172,136,67,.36) !important;
+  border-radius: 20px !important;
+  padding: 18px 24px !important;
+  color: #26533E !important;
+  box-shadow: 0 8px 22px rgba(41,100,67,.07) !important;
+}
+.app-shell.dark[data-uaq-season="hari_raya"] .family-app-shell .page-topbar {
+  background-color: #173E2F !important;
+  background-image: url('/themes/hari-raya/garland.svg'), linear-gradient(110deg,#13382B 0%,#204937 76%,#2B4935 100%) !important;
+  border-color: rgba(222,182,113,.51) !important;
+  color: #F4E6C4 !important;
+  box-shadow: 0 8px 22px rgba(0,0,0,.16) !important;
+}
+.app-shell[data-uaq-season="hari_raya"] .family-app-shell .page-topbar :is(h1,h2,strong,span,p) {
+  color: #285943 !important;
+  -webkit-text-fill-color: #285943 !important;
+}
+.app-shell.dark[data-uaq-season="hari_raya"] .family-app-shell .page-topbar :is(h1,h2,strong,span) {
+  color: #F4E5C0 !important;
+  -webkit-text-fill-color: #F4E5C0 !important;
+}
+.app-shell.dark[data-uaq-season="hari_raya"] .family-app-shell .page-topbar p {
+  color: #D2E3D1 !important;
+  -webkit-text-fill-color: #D2E3D1 !important;
+}
+@media(max-width:700px) {
+  .app-shell[data-uaq-season="hari_raya"] .family-app-shell .page-topbar {
+    padding: 15px 17px !important;
+    background-image: linear-gradient(110deg,#E7F4E3,#F8F0DC) !important;
+  }
+  .app-shell.dark[data-uaq-season="hari_raya"] .family-app-shell .page-topbar {
+    background-image: linear-gradient(110deg,#153F2E,#274D39) !important;
+  }
+}

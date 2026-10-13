@@ -1,0 +1,237 @@
+/* =====================================================================
+   HARI RAYA — Emerald & Gold (Family Connect)
+   Loaded after uaq-premium.css. Active only for the Hari Raya theme.
+   ===================================================================== */
+
+.app-shell[data-uaq-season='hari_raya'] {
+  --ry-emerald: #0d4a34;
+  --ry-deep: #062a1e;
+  --ry-gold: #d4a64e;
+  --ry-gold-2: #f3d891;
+  --ry-gold-line: rgba(212, 166, 78, 0.38);
+  --ry-ivory: #faf6ea;
+  --ry-ink: #10382a;
+  --ry-muted: #5d7468;
+  --fc-brand: #0d4a34;
+  --fc-brand-deep: #062a1e;
+  --fc-brand-soft: rgba(13, 74, 52, 0.08);
+  --fc-bronze: #b38535;
+  --fc-ink: #10382a;
+  --fc-line: rgba(212, 166, 78, 0.32);
+  --uaq-v4-banner-text: '✦  SELAMAT HARI RAYA AIDILFITRI  ·  MAAF ZAHIR & BATIN  ✦';
+}
+.app-shell.dark[data-uaq-season='hari_raya'] {
+  --fc-brand: #f3d891;
+  --fc-brand-soft: rgba(243, 216, 145, 0.12);
+  --fc-ink: #f4eed8;
+  --fc-muted: #b9c9bf;
+  --fc-line: rgba(212, 166, 78, 0.3);
+  --fc-surface: rgba(8, 48, 34, 0.9);
+}
+
+/* ---------- Page ---------- */
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell {
+  background:
+    linear-gradient(rgba(250, 246, 234, 0.55), rgba(250, 246, 234, 0.55)),
+    url('/themes/hari-raya/pattern-light.svg') center top / 384px 384px repeat,
+    var(--ry-ivory) !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell {
+  background:
+    linear-gradient(180deg, rgba(4, 24, 17, 0.5), rgba(4, 24, 17, 0.72)),
+    url('/themes/hari-raya/wallpaper.jpg') center top / cover fixed no-repeat,
+    var(--ry-deep) !important;
+}
+.app-shell[data-uaq-season='hari_raya']::before,
+.app-shell[data-uaq-season='hari_raya']::after { display: none !important; }
+
+/* ---------- Sidebar (desktop): deep emerald ---------- */
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .desktop-sidebar {
+  background:
+    linear-gradient(180deg, rgba(6, 42, 30, 0.7), rgba(6, 42, 30, 0.9)),
+    url('/themes/hari-raya/wallpaper.jpg') center top / cover no-repeat,
+    var(--ry-deep) !important;
+  border-right: 1px solid var(--ry-gold-line) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .desktop-sidebar .fc-brand { color: var(--ry-gold-2); }
+.app-shell[data-uaq-season='hari_raya'] .desktop-sidebar .fc-brand__name { color: #f4eed8; }
+.app-shell[data-uaq-season='hari_raya'] .desktop-sidebar .fc-brand__sub { color: var(--ry-gold); }
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .desktop-nav button {
+  color: rgba(244, 238, 216, 0.86) !important;
+  background: transparent !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .desktop-nav button svg { color: rgba(243, 216, 145, 0.85) !important; }
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .desktop-nav button:hover:not(.active) { background: rgba(243, 216, 145, 0.08) !important; color: #fff !important; }
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .desktop-nav button.active {
+  background: linear-gradient(120deg, rgba(243, 216, 145, 0.95), rgba(212, 166, 78, 0.92)) !important;
+  color: var(--ry-deep) !important;
+  border: 1px solid rgba(255, 240, 196, 0.6) !important;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .desktop-nav button.active svg { color: var(--ry-deep) !important; }
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .sidebar-footer { border-top-color: var(--ry-gold-line) !important; }
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .sidebar-footer strong { color: var(--ry-gold-2) !important; }
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .sidebar-footer span,
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .sidebar-footer small { color: rgba(244, 238, 216, 0.7) !important; }
+
+/* ---------- Festive ribbon ---------- */
+.app-shell[data-uaq-season='hari_raya'] .app-content::before {
+  content: var(--uaq-v4-banner-text) !important;
+  display: block !important;
+  background:
+    url('/themes/hari-raya/motif.svg') left center / 180px auto no-repeat,
+    linear-gradient(100deg, var(--ry-emerald), var(--ry-deep)) !important;
+  color: var(--ry-gold-2) !important;
+  border: 1px solid var(--ry-gold-line) !important;
+  box-shadow: 0 10px 26px rgba(6, 42, 30, 0.2) !important;
+  letter-spacing: 0.18em !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- Home hero: dark emerald art, gold text ---------- */
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-hero {
+  background: var(--ry-deep) url('/themes/hari-raya/family-hero.jpg') center / cover no-repeat !important;
+  border: 1px solid var(--ry-gold-line) !important;
+  box-shadow: 0 18px 44px rgba(6, 42, 30, 0.25) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-hero::after { display: none !important; }
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-hero-overlay {
+  background: linear-gradient(95deg, rgba(5, 32, 22, 0.78) 0%, rgba(5, 32, 22, 0.45) 40%, transparent 75%) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-hero-top h1,
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-hero-top h1.hero-motivation {
+  color: #f6ecd0 !important;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-hero-top > div > span { color: var(--ry-gold-2) !important; }
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-hero-message {
+  background: rgba(6, 42, 30, 0.55) !important;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--ry-gold-line) !important;
+  color: var(--ry-gold-2) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-hero-message svg { color: var(--ry-gold) !important; }
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-icon-button {
+  background: rgba(6, 42, 30, 0.45) !important;
+  border: 1px solid var(--ry-gold-line) !important;
+  color: var(--ry-gold-2) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .page-topbar .home-icon-button {
+  background: rgba(255, 253, 245, 0.9) !important;
+  color: var(--ry-emerald) !important;
+}
+
+/* ---------- Cards, text, icons (light) ---------- */
+.app-shell[data-uaq-season='hari_raya']:not(.dark) .uaq-blue-family-stats button,
+.app-shell[data-uaq-season='hari_raya']:not(.dark) .family-app-shell .home-summary-card,
+.app-shell[data-uaq-season='hari_raya']:not(.dark) .family-app-shell .resident-card,
+.app-shell[data-uaq-season='hari_raya']:not(.dark) .family-app-shell .activity-card,
+.app-shell[data-uaq-season='hari_raya']:not(.dark) .family-app-shell .announcement-card {
+  background: rgba(255, 253, 245, 0.97) !important;
+  border: 1px solid var(--ry-gold-line) !important;
+  box-shadow: 0 1px 2px rgba(6, 42, 30, 0.04), 0 12px 30px rgba(6, 42, 30, 0.07) !important;
+}
+.app-shell[data-uaq-season='hari_raya']:not(.dark) .family-app-shell .section-heading h2,
+.app-shell[data-uaq-season='hari_raya']:not(.dark) .family-app-shell .page-topbar h1,
+.app-shell[data-uaq-season='hari_raya']:not(.dark) .family-app-shell .resident-card-copy h3,
+.app-shell[data-uaq-season='hari_raya']:not(.dark) .uaq-blue-family-stats button > strong,
+.app-shell[data-uaq-season='hari_raya']:not(.dark) .family-app-shell .home-summary-card strong {
+  color: var(--ry-emerald) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .section-heading > span,
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .page-topbar > div > span { color: var(--ry-gold) !important; }
+.app-shell[data-uaq-season='hari_raya'] .uaq-blue-family-stats button > svg,
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .summary-icon {
+  background: rgba(13, 74, 52, 0.07) !important;
+  color: var(--ry-emerald) !important;
+  border: 1px solid var(--ry-gold-line);
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .resident-status > span {
+  background: rgba(13, 74, 52, 0.08) !important;
+  color: var(--ry-emerald) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .page-topbar {
+  background:
+    url('/themes/hari-raya/garland.svg') right 70px top -4px / 640px auto no-repeat,
+    rgba(250, 246, 234, 0.92) !important;
+  border-bottom: 1px solid var(--ry-gold-line) !important;
+}
+
+/* ---------- Dark mode cards ---------- */
+.app-shell.dark[data-uaq-season='hari_raya'] .uaq-blue-family-stats button,
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .home-summary-card,
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .resident-card,
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .activity-card,
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .announcement-card {
+  background: rgba(8, 48, 34, 0.9) !important;
+  border: 1px solid var(--ry-gold-line) !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .section-heading h2,
+.app-shell.dark[data-uaq-season='hari_raya'] .uaq-blue-family-stats button > strong,
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .resident-card-copy h3 { color: var(--ry-gold-2) !important; }
+.app-shell.dark[data-uaq-season='hari_raya'] .uaq-blue-family-stats button > svg,
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .summary-icon { background: rgba(243, 216, 145, 0.1) !important; color: var(--ry-gold-2) !important; }
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .page-topbar {
+  background:
+    url('/themes/hari-raya/garland.svg') right 70px top -4px / 640px auto no-repeat,
+    rgba(6, 36, 26, 0.9) !important;
+}
+
+/* ---------- Mobile ---------- */
+.app-shell[data-uaq-season='hari_raya'] .fc-mobile-brand .fc-brand { color: var(--ry-emerald); }
+.app-shell.dark[data-uaq-season='hari_raya'] .fc-mobile-brand .fc-brand { color: var(--ry-gold-2); }
+.app-shell[data-uaq-season='hari_raya']:not(.dark) .family-app-shell .mobile-bottom-nav {
+  background: rgba(255, 253, 245, 0.96) !important;
+  border-color: var(--ry-gold-line) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .mobile-bottom-nav button.active {
+  background: linear-gradient(120deg, rgba(243, 216, 145, 0.9), rgba(212, 166, 78, 0.85)) !important;
+  color: var(--ry-deep) !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .mobile-bottom-nav {
+  background: rgba(6, 36, 26, 0.95) !important;
+  border-color: var(--ry-gold-line) !important;
+}
+@media (max-width: 760px) {
+  .app-shell[data-uaq-season='hari_raya'] .family-app-shell .page-topbar { background-size: 0 0, auto !important; }
+}
+
+/* ---------- fixes after preview ---------- */
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .desktop-sidebar {
+  background:
+    linear-gradient(180deg, rgba(6, 42, 30, 0.86), rgba(6, 42, 30, 0.95)),
+    url('/themes/hari-raya/wallpaper.jpg') center top / cover no-repeat,
+    var(--ry-deep) !important;
+}
+.app-shell[data-uaq-season='hari_raya'] .app-content::before { opacity: 1 !important; }
+.app-shell[data-uaq-season='hari_raya'] .family-app-shell .home-hero { background-position: center 40% !important; }
+.app-shell.dark[data-uaq-season='hari_raya'] .uaq-blue-family-stats button > span { color: #f4eed8 !important; }
+.app-shell.dark[data-uaq-season='hari_raya'] .uaq-blue-family-stats button > small { color: rgba(244, 238, 216, 0.65) !important; }
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .desktop-nav button.active,
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .mobile-bottom-nav button.active {
+  background: linear-gradient(120deg, rgba(243, 216, 145, 0.95), rgba(212, 166, 78, 0.92)) !important;
+  color: var(--ry-deep) !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .desktop-nav button.active svg { color: var(--ry-deep) !important; }
+.app-shell.dark[data-uaq-season='hari_raya'] .app-content::before {
+  background:
+    url('/themes/hari-raya/motif.svg') left center / 180px auto no-repeat,
+    linear-gradient(100deg, var(--ry-emerald), var(--ry-deep)) !important;
+  background-image: url('/themes/hari-raya/motif.svg'), linear-gradient(100deg, #0d4a34, #062a1e) !important;
+}
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .resident-status > span {
+  background: rgba(243, 216, 145, 0.12) !important;
+  color: var(--ry-gold-2) !important;
+}
+
+/* Dark mode: let the themed wallpaper show behind the home list */
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .home-scroll { background: transparent !important; }
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .resident-avatar,
+.app-shell.dark[data-uaq-season='hari_raya'] .family-app-shell .resident-mini-avatar {
+  background: rgba(243, 216, 145, 0.1) !important;
+  border-color: var(--ry-gold-line) !important;
+  color: var(--ry-gold-2) !important;
+}

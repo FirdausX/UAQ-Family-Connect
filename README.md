@@ -1,34 +1,16 @@
-# UAQ Family Connect — Premium Responsive UI
+# React + Vite
 
-This version keeps the existing Supabase authentication and data flow, while redesigning the family-facing experience for three responsive layouts:
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-- Mobile: app-like single-column layout with fixed bottom navigation
-- Tablet: wider two-column layouts where appropriate
-- Desktop: dedicated sidebar navigation and premium dashboard layout
+Currently, two official plugins are available:
 
-## Family navigation
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-Home · Moments · Appointments · Announcements · More
+## React Compiler
 
-## Preserved backend/data
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-The existing Supabase login/session validation, resident profile RPC, `family_updates`, `family_appointments`, `family_announcements`, and private Storage signed URLs are retained.
+## Expanding the ESLint configuration
 
-## Run locally
-
-```bash
-npm install
-npm run dev
-```
-
-For production:
-
-```bash
-npm run build
-```
-
-## Notes
-
-- Greeting automatically changes between Good morning / Good afternoon / Good evening based on the user's device time.
-- Family Access in the UI states the intended maximum of 2 devices. Active-device counting is not fabricated in the UI; connect it to backend session/device tracking if you later want a live `1/2` or `2/2` counter.
-- Photos and videos remain driven by the existing `family_updates` data and Storage signed URLs.
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

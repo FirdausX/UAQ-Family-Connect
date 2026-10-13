@@ -1,0 +1,209 @@
+/* =====================================================================
+   BLUE SAKURA — original papercut art, full-page + decorated sidebar
+   Uses the original UAQ artwork: white paper blossoms on blue mountains.
+   Active only for the Blue Sakura theme (the everyday default).
+   ===================================================================== */
+
+.app-shell[data-uaq-season='blue_sakura'] {
+  --sc-blue: #2f73b8;
+  --sc-ink: #17487b;
+  --sc-soft: #e3effb;
+  --sc-line: rgba(47, 115, 184, 0.22);
+  --sc-art: url('/images/uaq-sakura-landscape.webp');
+  --sc-blossom: url('/themes/blue-sakura/blossom.svg');
+  --sc-sprig: url('/themes/blue-sakura/sprig.svg');
+}
+
+/* ---------- 1. Artwork fills every page ---------- */
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell {
+  background:
+    linear-gradient(180deg, rgba(246, 250, 255, 0.55) 0%, rgba(246, 250, 255, 0.70) 45%, rgba(246, 250, 255, 0.42) 100%),
+    var(--sc-art) center bottom / cover fixed no-repeat,
+    #f3f8fe !important;
+}
+.app-shell.dark[data-uaq-season='blue_sakura'] .family-app-shell {
+  background:
+    linear-gradient(180deg, rgba(10, 22, 42, 0.80) 0%, rgba(10, 22, 42, 0.88) 50%, rgba(10, 22, 42, 0.74) 100%),
+    var(--sc-art) center bottom / cover fixed no-repeat,
+    #0c1a30 !important;
+}
+/* Let the art show behind inner page wrappers */
+.app-shell[data-uaq-season='blue_sakura'] .content-area,
+.app-shell[data-uaq-season='blue_sakura'] .home-scroll,
+.app-shell[data-uaq-season='blue_sakura'] .home-app,
+.app-shell[data-uaq-season='blue_sakura'] .app-content { background: transparent !important; }
+
+/* Cards: frosted white so the scenery is felt through them */
+.app-shell[data-uaq-season='blue_sakura']:not(.dark) .uaq-blue-family-stats button,
+.app-shell[data-uaq-season='blue_sakura']:not(.dark) .family-app-shell .home-summary-card,
+.app-shell[data-uaq-season='blue_sakura']:not(.dark) .family-app-shell .resident-card,
+.app-shell[data-uaq-season='blue_sakura']:not(.dark) .family-app-shell .activity-card,
+.app-shell[data-uaq-season='blue_sakura']:not(.dark) .family-app-shell .announcement-card {
+  background: rgba(255, 255, 255, 0.86) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  backdrop-filter: blur(10px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 1px 2px rgba(23, 72, 123, 0.05), 0 14px 34px rgba(23, 72, 123, 0.10) !important;
+}
+.app-shell.dark[data-uaq-season='blue_sakura'] .uaq-blue-family-stats button,
+.app-shell.dark[data-uaq-season='blue_sakura'] .family-app-shell .home-summary-card,
+.app-shell.dark[data-uaq-season='blue_sakura'] .family-app-shell .resident-card,
+.app-shell.dark[data-uaq-season='blue_sakura'] .family-app-shell .activity-card,
+.app-shell.dark[data-uaq-season='blue_sakura'] .family-app-shell .announcement-card {
+  background: rgba(16, 32, 58, 0.82) !important;
+  border: 1px solid rgba(160, 196, 236, 0.16) !important;
+}
+
+/* ---------- 2. Sidebar filled with the art ---------- */
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .desktop-sidebar {
+  background:
+    var(--sc-sprig) right -18px top 6px / 190px auto no-repeat,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 251, 255, 0.86) 48%, rgba(240, 247, 255, 0.35) 100%),
+    var(--sc-art) 18% bottom / auto 100% no-repeat,
+    #f3f8fe !important;
+  border-right: 1px solid var(--sc-line) !important;
+}
+.app-shell.dark[data-uaq-season='blue_sakura'] .family-app-shell .desktop-sidebar {
+  background:
+    var(--sc-sprig) right -18px top 6px / 190px auto no-repeat,
+    linear-gradient(180deg, rgba(12, 26, 48, 0.96) 0%, rgba(12, 26, 48, 0.9) 55%, rgba(12, 26, 48, 0.62) 100%),
+    var(--sc-art) 18% bottom / auto 100% no-repeat,
+    #0c1a30 !important;
+}
+
+/* ---------- 3. Every menu item decorated ---------- */
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button {
+  position: relative !important;
+  overflow: visible !important;
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease !important;
+}
+/* icon sits in a little paper medallion */
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button svg {
+  box-sizing: content-box !important;
+  padding: 6px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  border: 1px solid var(--sc-line) !important;
+  box-shadow: 0 3px 8px rgba(23, 72, 123, 0.10) !important;
+  color: var(--sc-blue) !important;
+  flex: 0 0 auto;
+}
+/* a small paper blossom on the right of every item */
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button::after {
+  content: '' !important;
+  position: absolute !important;
+  right: 12px;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  background: var(--sc-blossom) center / contain no-repeat;
+  opacity: 0.7;
+  transform: rotate(0deg) scale(0.9);
+  transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button:hover {
+  background: rgba(255, 255, 255, 0.72) !important;
+  transform: translateX(2px);
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button:hover::after { opacity: 1; transform: rotate(72deg) scale(1.08); }
+/* active: paper card with a blossom sprig */
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button.active {
+  background:
+    var(--sc-sprig) right -26px center / 128px auto no-repeat,
+    linear-gradient(110deg, #ffffff 0%, #eef5fd 60%, #e2eefb 100%) !important;
+  color: var(--sc-ink) !important;
+  border: 1px solid rgba(47, 115, 184, 0.24) !important;
+  box-shadow: 0 10px 24px rgba(23, 72, 123, 0.14), inset 0 1px 0 #ffffff !important;
+  font-weight: 800 !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button.active::after { opacity: 0 !important; }
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button.active svg {
+  background: linear-gradient(140deg, #3f86cf, #1f5d9e) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+/* dark mode */
+.app-shell.dark[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button svg {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(160, 196, 236, 0.22) !important;
+  color: #a9cdf3 !important;
+}
+.app-shell.dark[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button:hover { background: rgba(255, 255, 255, 0.06) !important; }
+.app-shell.dark[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button.active {
+  background:
+    var(--sc-sprig) right -26px center / 128px auto no-repeat,
+    linear-gradient(110deg, rgba(47, 115, 184, 0.45), rgba(23, 72, 123, 0.35)) !important;
+  color: #f3f8ff !important;
+  border-color: rgba(160, 196, 236, 0.3) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button, .app-shell[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button::after { transition: none !important; }
+}
+
+/* Family Connect extras: brand colours on the light sidebar, decorated bottom nav */
+.app-shell[data-uaq-season='blue_sakura'] .desktop-sidebar .fc-brand { color: var(--sc-blue); }
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button { padding-right: 40px !important; color: #24476f !important; }
+.app-shell.dark[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button { color: #dbe9f8 !important; }
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .mobile-bottom-nav {
+  background: rgba(255, 255, 255, 0.82) !important;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .mobile-bottom-nav button { position: relative; }
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .mobile-bottom-nav button.active {
+  background: linear-gradient(140deg, #ffffff, #e2eefb) !important;
+  color: var(--sc-ink) !important;
+  border: 1px solid rgba(47, 115, 184, 0.22) !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .mobile-bottom-nav button.active::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 6px;
+  width: 16px;
+  height: 16px;
+  background: var(--sc-blossom) center / contain no-repeat;
+}
+.app-shell.dark[data-uaq-season='blue_sakura'] .family-app-shell .mobile-bottom-nav { background: rgba(12, 26, 48, 0.88) !important; }
+.app-shell.dark[data-uaq-season='blue_sakura'] .family-app-shell .mobile-bottom-nav button.active {
+  background: linear-gradient(140deg, rgba(47, 115, 184, 0.5), rgba(23, 72, 123, 0.4)) !important;
+  color: #f3f8ff !important;
+}
+/* Home hero keeps the original sakura photo */
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .home-hero { background-color: rgba(255, 255, 255, 0.6) !important; }
+
+/* ---------- polish ---------- */
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .desktop-sidebar {
+  background:
+    var(--sc-sprig) right -18px top 6px / 190px auto no-repeat,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 251, 255, 0.9) 55%, rgba(240, 247, 255, 0.6) 100%),
+    var(--sc-art) 18% bottom / auto 100% no-repeat,
+    #f3f8fe !important;
+}
+.app-shell.dark[data-uaq-season='blue_sakura'] .family-app-shell .desktop-sidebar {
+  background:
+    var(--sc-sprig) right -18px top 6px / 190px auto no-repeat,
+    linear-gradient(180deg, rgba(12, 26, 48, 0.96) 0%, rgba(12, 26, 48, 0.92) 55%, rgba(12, 26, 48, 0.7) 100%),
+    var(--sc-art) 18% bottom / auto 100% no-repeat,
+    #0c1a30 !important;
+}
+.app-shell.dark[data-uaq-season='blue_sakura'] .family-app-shell .sidebar-footer strong { color: #eaf3ff !important; }
+.app-shell.dark[data-uaq-season='blue_sakura'] .family-app-shell .sidebar-footer span,
+.app-shell.dark[data-uaq-season='blue_sakura'] .family-app-shell .sidebar-footer small { color: rgba(220, 234, 250, 0.72) !important; }
+.app-shell.dark[data-uaq-season='blue_sakura'] .desktop-sidebar .fc-brand { color: #a9cdf3; }
+.app-shell.dark[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button::after { opacity: 0.6; }
+
+/* Brand colour for the Sakura theme (was the teal from uaq-premium.css) */
+.app-shell[data-uaq-season='blue_sakura'] {
+  --fc-brand: #2f73b8;
+  --fc-brand-deep: #17487b;
+  --fc-brand-soft: rgba(47, 115, 184, 0.10);
+}
+.app-shell.dark[data-uaq-season='blue_sakura'] {
+  --fc-brand: #8fbdf0;
+  --fc-brand-deep: #5d9ad8;
+  --fc-brand-soft: rgba(143, 189, 240, 0.14);
+}

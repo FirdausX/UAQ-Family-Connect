@@ -1,0 +1,354 @@
+/* =====================================================================
+   Care Summary — clean tile grid (replaces the coloured ribbon rows)
+   Theme-aware: Sakura blue/blush, Raya gold/emerald. Light + dark.
+   ===================================================================== */
+
+.app-shell {
+  --ct-accent: #2f73b8;
+  --ct-accent-2: #e7a3bb;
+  --ct-ink: #15304f;
+  --ct-muted: #6b7c93;
+  --ct-card: rgba(255, 255, 255, 0.88);
+  --ct-line: rgba(47, 115, 184, 0.14);
+  --ct-alert: #d9576f;
+  --ct-warn: #c98a2b;
+}
+.app-shell.dark {
+  --ct-accent: #8fbdf0;
+  --ct-ink: #eef4fc;
+  --ct-muted: #a9b9cf;
+  --ct-card: rgba(255, 255, 255, 0.06);
+  --ct-line: rgba(169, 205, 243, 0.16);
+  --ct-alert: #f08a9e;
+  --ct-warn: #f0b860;
+}
+.app-shell[data-uaq-season='hari_raya'] {
+  --ct-accent: #0d4a34;
+  --ct-accent-2: #d4a64e;
+  --ct-ink: #10382a;
+  --ct-line: rgba(212, 166, 78, 0.3);
+}
+.app-shell.dark[data-uaq-season='hari_raya'] {
+  --ct-accent: #f3d891;
+  --ct-ink: #f4eed8;
+  --ct-card: rgba(8, 48, 34, 0.72);
+}
+
+.care-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.care-tile {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  min-height: 92px;
+  padding: 16px 18px;
+  border: 1px solid var(--ct-line);
+  border-radius: 20px;
+  background: var(--ct-card);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  backdrop-filter: blur(12px) saturate(140%);
+  box-shadow: 0 1px 2px rgba(15, 35, 60, 0.04), 0 12px 28px -14px rgba(15, 35, 60, 0.25);
+  overflow: hidden;
+}
+
+.care-tile__icon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  color: var(--ct-accent);
+  background: color-mix(in srgb, var(--ct-accent) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ct-accent) 22%, transparent);
+}
+
+.care-tile__copy { min-width: 0; }
+.care-tile__copy span {
+  display: block;
+  margin: 2px 0 6px;
+  color: var(--ct-muted);
+  font: 800 10.5px/1.2 'Plus Jakarta Sans', system-ui, sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.care-tile__copy strong {
+  display: block;
+  color: var(--ct-ink);
+  font: 700 15px/1.4 'Plus Jakarta Sans', system-ui, sans-serif;
+  overflow-wrap: anywhere;
+}
+
+/* Care status: the headline tile, wider with a soft gradient */
+.care-tile--primary {
+  grid-column: span 2;
+  background:
+    linear-gradient(115deg, color-mix(in srgb, var(--ct-accent) 12%, transparent), color-mix(in srgb, var(--ct-accent-2) 10%, transparent) 70%, transparent),
+    var(--ct-card);
+}
+.care-tile--primary .care-tile__icon {
+  color: #fff;
+  background: linear-gradient(140deg, var(--ct-accent), color-mix(in srgb, var(--ct-accent) 70%, #000));
+  border-color: transparent;
+}
+.app-shell.dark .care-tile--primary .care-tile__icon { color: #0d1b2e; background: linear-gradient(140deg, var(--ct-accent), color-mix(in srgb, var(--ct-accent) 70%, #fff)); }
+.care-tile--primary .care-tile__copy strong {
+  font-family: Fraunces, Georgia, serif;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Gentle highlights only when it matters */
+.care-tile--alert,
+.care-tile--warn { padding-left: 22px; }
+.care-tile--alert::before,
+.care-tile--warn::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 14px;
+  bottom: 14px;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: var(--ct-alert);
+}
+.care-tile--warn::before { background: var(--ct-warn); }
+.care-tile--alert .care-tile__icon {
+  color: var(--ct-alert);
+  background: color-mix(in srgb, var(--ct-alert) 12%, transparent);
+  border-color: color-mix(in srgb, var(--ct-alert) 30%, transparent);
+}
+.care-tile--warn .care-tile__icon {
+  color: var(--ct-warn);
+  background: color-mix(in srgb, var(--ct-warn) 12%, transparent);
+  border-color: color-mix(in srgb, var(--ct-warn) 30%, transparent);
+}
+.care-tile--alert .care-tile__copy strong { color: var(--ct-alert); }
+
+@media (max-width: 640px) {
+  .care-tiles { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .care-tile { flex-direction: column; gap: 10px; min-height: 0; padding: 14px; }
+  .care-tile--alert, .care-tile--warn { padding-left: 18px; }
+  .care-tile--primary { grid-column: 1 / -1; flex-direction: row; align-items: center; }
+  .care-tile__copy strong { font-size: 14px; }
+}
+
+/* Resident header + family note pick up the same glass */
+.app-shell .family-app-shell .resident-profile-card,
+.app-shell .family-app-shell .family-care-note {
+  background: var(--ct-card) !important;
+  border: 1px solid var(--ct-line) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  backdrop-filter: blur(12px) saturate(140%);
+  box-shadow: 0 12px 28px -14px rgba(15, 35, 60, 0.3) !important;
+}
+.app-shell .family-app-shell .resident-profile-status {
+  background: color-mix(in srgb, var(--ct-accent) 10%, transparent) !important;
+  color: var(--ct-accent) !important;
+  border: 1px solid color-mix(in srgb, var(--ct-accent) 25%, transparent) !important;
+}
+.app-shell .family-app-shell .family-care-note svg { color: var(--ct-accent-2) !important; }
+.app-shell .family-app-shell .family-care-note strong { color: var(--ct-ink) !important; }
+.app-shell .family-app-shell .family-care-note p { color: var(--ct-muted) !important; }
+
+/* Sub-pages (Care Summary, Activity, Appointments...) had a flat dark-green
+   panel in dark mode; let the themed background show through instead. */
+.app-shell .family-app-shell .page-scroll { background: transparent !important; }
+.app-shell .family-app-shell .privacy-footer,
+.app-shell .family-app-shell .resident-updated-bar,
+.app-shell .family-app-shell .care-last-updated,
+.app-shell .family-app-shell .resident-last-updated {
+  background: var(--ct-card) !important;
+  border: 1px solid var(--ct-line) !important;
+  color: var(--ct-muted) !important;
+}
+.app-shell .family-app-shell .resident-profile-avatar {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--ct-accent) 22%, transparent), color-mix(in srgb, var(--ct-accent-2) 18%, transparent)) !important;
+  border: 1px solid var(--ct-line) !important;
+  color: var(--ct-accent) !important;
+}
+
+/* =====================================================================
+   THEME SWEEP — every Family Connect page uses the same glass cards,
+   readable titles and theme accent (no leftover green/teal panels,
+   no dark-blue titles on dark backgrounds). Light + dark, all themes.
+   ===================================================================== */
+.app-shell .family-app-shell .linked-resident-strip,
+.app-shell .family-app-shell .activity-card,
+.app-shell .family-app-shell .announcement-card,
+.app-shell .family-app-shell .announcement-empty-card,
+.app-shell .family-app-shell .appointment-card,
+.app-shell .family-app-shell .appointment-empty-card,
+.app-shell .family-app-shell .empty-card,
+.app-shell .family-app-shell .about-section-card,
+.app-shell .family-app-shell .about-account-card,
+.app-shell .family-app-shell .version-card,
+.app-shell .family-app-shell .private-media-note {
+  background: var(--ct-card) !important;
+  border: 1px solid var(--ct-line) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  backdrop-filter: blur(12px) saturate(140%);
+  box-shadow: 0 12px 28px -14px rgba(15, 35, 60, 0.3) !important;
+  color: var(--ct-ink) !important;
+}
+
+/* Titles & text */
+.app-shell .family-app-shell .activity-card-content h3,
+.app-shell .family-app-shell .announcement-card h3,
+.app-shell .family-app-shell .standard-page .announcement-card h3,
+.app-shell .family-app-shell .appointment-card h3,
+.app-shell .family-app-shell .appointment-card strong,
+.app-shell .family-app-shell .about-section-card h3,
+.app-shell .family-app-shell .about-section-card strong,
+.app-shell .family-app-shell .about-account-card strong,
+.app-shell .family-app-shell .standard-page .version-card strong,
+.app-shell .family-app-shell .linked-resident-strip strong {
+  color: var(--ct-ink) !important;
+}
+.app-shell .family-app-shell .activity-date,
+.app-shell .family-app-shell .announcement-card p,
+.app-shell .family-app-shell .standard-page .announcement-card p,
+.app-shell .family-app-shell .appointment-meta,
+.app-shell .family-app-shell .appointment-card p,
+.app-shell .family-app-shell .about-section-card p,
+.app-shell .family-app-shell .about-section-card small,
+.app-shell .family-app-shell .linked-resident-strip span,
+.app-shell .family-app-shell .private-media-note {
+  color: var(--ct-muted) !important;
+}
+.app-shell .family-app-shell .announcement-meta,
+.app-shell .family-app-shell .announcement-meta * { color: var(--ct-muted) !important; }
+.app-shell .family-app-shell .announcement-meta b,
+.app-shell .family-app-shell .announcement-meta strong,
+.app-shell .family-app-shell .announcement-meta span:first-child {
+  color: var(--ct-accent) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.06em;
+}
+
+/* Icon medallions everywhere */
+.app-shell .family-app-shell .announcement-icon,
+.app-shell .family-app-shell .appointment-empty-icon,
+.app-shell .family-app-shell .about-section-icon,
+.app-shell .family-app-shell .about-account-icon,
+.app-shell .family-app-shell .linked-resident-strip svg {
+  background: color-mix(in srgb, var(--ct-accent) 10%, transparent) !important;
+  border: 1px solid color-mix(in srgb, var(--ct-accent) 22%, transparent) !important;
+  color: var(--ct-accent) !important;
+}
+.app-shell .family-app-shell .linked-resident-strip svg { background: none !important; border: 0 !important; }
+.app-shell .family-app-shell .resident-mini-avatar {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--ct-accent) 22%, transparent), color-mix(in srgb, var(--ct-accent-2) 18%, transparent)) !important;
+  border: 1px solid var(--ct-line) !important;
+  color: var(--ct-accent) !important;
+}
+
+/* Appointment date box + status */
+.app-shell .family-app-shell .appointment-date-box {
+  background: linear-gradient(150deg, color-mix(in srgb, var(--ct-accent) 16%, transparent), color-mix(in srgb, var(--ct-accent-2) 12%, transparent)) !important;
+  border: 1px solid var(--ct-line) !important;
+  color: var(--ct-ink) !important;
+}
+.app-shell .family-app-shell .appointment-date-box * { color: inherit !important; }
+.app-shell .family-app-shell .appointment-status {
+  background: color-mix(in srgb, var(--ct-accent) 10%, transparent) !important;
+  color: var(--ct-accent) !important;
+  border: 1px solid color-mix(in srgb, var(--ct-accent) 25%, transparent) !important;
+}
+
+/* Activity filter chips */
+.app-shell .family-app-shell .activity-filter-row button,
+.app-shell .family-app-shell .activity-filter {
+  background: var(--ct-card) !important;
+  border: 1px solid var(--ct-line) !important;
+  color: var(--ct-muted) !important;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: none !important;
+}
+.app-shell .family-app-shell .activity-filter-row button.active,
+.app-shell .family-app-shell .activity-filter.active {
+  background: linear-gradient(135deg, var(--ct-accent), color-mix(in srgb, var(--ct-accent) 70%, #000)) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+  box-shadow: 0 8px 18px -6px color-mix(in srgb, var(--ct-accent) 60%, transparent) !important;
+}
+.app-shell.dark .family-app-shell .activity-filter-row button.active,
+.app-shell.dark .family-app-shell .activity-filter.active {
+  background: linear-gradient(135deg, var(--ct-accent), color-mix(in srgb, var(--ct-accent) 70%, #fff)) !important;
+  color: #0d1b2e !important;
+}
+
+/* Announcement image/video frame (was a flat grey box) */
+.app-shell .family-app-shell .announcement-media {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--ct-accent) 8%, transparent), color-mix(in srgb, var(--ct-accent-2) 6%, transparent)),
+    rgba(255, 255, 255, 0.55) !important;
+  border: 1px solid var(--ct-line) !important;
+}
+.app-shell.dark .family-app-shell .announcement-media {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--ct-accent) 10%, transparent), transparent),
+    rgba(255, 255, 255, 0.04) !important;
+}
+
+/* Section headings & small labels follow the theme too */
+.app-shell.dark .family-app-shell .section-heading > div > span,
+.app-shell.dark .family-app-shell .section-heading > span { color: var(--ct-accent-2) !important; }
+.app-shell.dark .family-app-shell .section-heading h2 { color: var(--ct-ink) !important; }
+
+/* Dark mode: older rules target .standard-page cards more specifically */
+.app-shell.dark .family-app-shell .standard-page .appointment-card,
+.app-shell.dark .family-app-shell .standard-page .appointment-empty-card,
+.app-shell.dark .family-app-shell .standard-page .about-section-card,
+.app-shell.dark .family-app-shell .standard-page .about-account-card,
+.app-shell.dark .family-app-shell .standard-page .version-card,
+.app-shell.dark .family-app-shell .standard-page .announcement-card,
+.app-shell.dark .family-app-shell .standard-page .activity-card,
+.app-shell.dark .family-app-shell .standard-page .empty-card {
+  background: var(--ct-card) !important;
+  border-color: var(--ct-line) !important;
+}
+.app-shell.dark .family-app-shell .standard-page .about-details-grid > *,
+.app-shell.dark .family-app-shell .standard-page .about-version-grid > *,
+.app-shell.dark .family-app-shell .standard-page .app-info-grid > * {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: var(--ct-line) !important;
+}
+.app-shell.dark .family-app-shell .standard-page .about-section-card [class*='grid'] > *,
+.app-shell.dark .family-app-shell .standard-page .about-top-grid > * {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: var(--ct-line) !important;
+}
+
+/* Leftover small labels / badges found by the colour scan */
+.app-shell .family-app-shell .about-section-heading > div > span,
+.app-shell .family-app-shell .about-account-card > div > span,
+.app-shell .family-app-shell .resident-profile-copy > span {
+  color: var(--ct-accent) !important;
+}
+.app-shell.dark .family-app-shell .about-section-heading > div > span,
+.app-shell.dark .family-app-shell .about-account-card > div > span,
+.app-shell.dark .family-app-shell .resident-profile-copy > span {
+  color: var(--ct-accent-2) !important;
+}
+.app-shell .family-app-shell .about-account-card > svg { color: var(--ct-accent) !important; }
+.app-shell .family-app-shell .activity-type-badge,
+.app-shell .family-app-shell .activity-type-badge svg { color: #17345a !important; }
+.app-shell .family-app-shell .resident-avatar { border-color: var(--ct-line) !important; }
+.app-shell .family-app-shell .resident-avatar,
+.app-shell .family-app-shell .resident-avatar span,
+.app-shell .family-app-shell .resident-mini-avatar { color: var(--ct-accent) !important; }
+.app-shell .family-app-shell .resident-status > span,
+.app-shell .family-app-shell .resident-status > span svg { color: var(--ct-accent) !important; }
+.app-shell .family-app-shell .section-heading > button,
+.app-shell .family-app-shell .section-heading > button svg { color: var(--ct-accent) !important; }
+.app-shell .family-app-shell .resident-avatar {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--ct-accent) 22%, transparent), color-mix(in srgb, var(--ct-accent-2) 18%, transparent)) !important;
+}

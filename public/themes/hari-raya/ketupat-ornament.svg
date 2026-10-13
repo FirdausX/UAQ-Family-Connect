@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1200" viewBox="0 0 800 1200" role="img" aria-label="Hiasan dua ketupat Aidilfitri hijau dengan reben dan cahaya emas">
+ <defs>
+   <linearGradient id="dark" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#096832"/><stop offset=".43" stop-color="#037845"/><stop offset="1" stop-color="#034a2c"/></linearGradient>
+   <linearGradient id="dark2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#148446"/><stop offset=".5" stop-color="#08663b"/><stop offset="1" stop-color="#034627"/></linearGradient>
+   <linearGradient id="light" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c4ec58"/><stop offset=".55" stop-color="#94c63b"/><stop offset="1" stop-color="#6b9b23"/></linearGradient>
+   <linearGradient id="light2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b9de4e"/><stop offset=".55" stop-color="#8fc43b"/><stop offset="1" stop-color="#65922e"/></linearGradient>
+   <linearGradient id="ribbon" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0c6d39"/><stop offset=".4" stop-color="#126d36"/><stop offset=".7" stop-color="#238736"/><stop offset=".85" stop-color="#86c54b"/><stop offset="1" stop-color="#0a6535"/></linearGradient>
+   <linearGradient id="cream" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffffff"/><stop offset=".55" stop-color="#fffdf3"/><stop offset="1" stop-color="#e8ecdf"/></linearGradient>
+   <radialGradient id="gold"><stop stop-color="#fffef0"/><stop offset=".19" stop-color="#fff7ac"/><stop offset=".40" stop-color="#ffde32"/><stop offset="1" stop-color="#ffbf00"/></radialGradient>
+   <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="3" dy="9" stdDeviation="10" flood-color="#003d1b" flood-opacity=".33"/></filter>
+   <filter id="sparkle" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+   <clipPath id="clipTile"><rect x="-174" y="-174" width="348" height="348"/></clipPath>
+   <clipPath id="clipSmall"><rect x="-120" y="-120" width="240" height="240"/></clipPath>
+ </defs>
+ <!-- Large ketupat loop -->
+ <path d="M503 64 C520 87 510 110 497 132 C501 105 479 94 503 64Z" fill="url(#ribbon)"/>
+ <path d="M493 133 Q504 148 506 164" stroke="#07532e" stroke-width="11" stroke-linecap="round"/>
+ <!-- Large woven ketupat -->
+ <g transform="translate(491 358) rotate(45)" filter="url(#shadow)">
+   <rect x="-174" y="-174" width="348" height="348" rx="3" fill="url(#dark)"/>
+   <g clip-path="url(#clipTile)">
+    <rect x="-174" y="-174" width="116" height="116" fill="url(#dark2)"/>
+    <rect x="-58" y="-174" width="116" height="116" fill="url(#light)"/>
+    <rect x="58" y="-174" width="116" height="116" fill="url(#dark)"/>
+    <rect x="-174" y="-58" width="116" height="116" fill="url(#light2)"/>
+    <rect x="-58" y="-58" width="116" height="116" fill="url(#dark2)"/>
+    <rect x="58" y="-58" width="116" height="116" fill="url(#light)"/>
+    <rect x="-174" y="58" width="116" height="116" fill="url(#dark)"/>
+    <rect x="-58" y="58" width="116" height="116" fill="url(#light2)"/>
+    <rect x="58" y="58" width="116" height="116" fill="url(#dark2)"/>
+    <!-- White diagonally woven border -->
+    <path d="M-66-180h16v360h-16z M50-180h16v360H50z M-180-66h360v16h-360z M-180 50h360v16h-360z" fill="url(#cream)"/>
+    <path d="M-174-174h348v348h-348Z" fill="none" stroke="#effbd6" stroke-opacity=".22" stroke-width="6"/>
+   </g>
+ </g>
+ <!-- Small ketupat and loop -->
+ <path d="M244 509 C252 539 231 551 232 568 C243 558 259 542 254 525Z" fill="url(#ribbon)"/>
+ <g transform="translate(255 685) rotate(45)" filter="url(#shadow)">
+   <rect x="-120" y="-120" width="240" height="240" fill="url(#dark)"/>
+   <g clip-path="url(#clipSmall)">
+    <rect x="-120" y="-120" width="80" height="80" fill="url(#dark2)"/>
+    <rect x="-40" y="-120" width="80" height="80" fill="url(#light)"/>
+    <rect x="40" y="-120" width="80" height="80" fill="url(#dark2)"/>
+    <rect x="-120" y="-40" width="80" height="80" fill="url(#light2)"/>
+    <rect x="-40" y="-40" width="80" height="80" fill="url(#dark)"/>
+    <rect x="40" y="-40" width="80" height="80" fill="url(#light)"/>
+    <rect x="-120" y="40" width="80" height="80" fill="url(#dark)"/>
+    <rect x="-40" y="40" width="80" height="80" fill="url(#light)"/>
+    <rect x="40" y="40" width="80" height="80" fill="url(#dark2)"/>
+    <path d="M-48-123h13v250h-13z M35-123h13v250H35z M-123-48h250v13h-250z M-123 35h250v13h-250z" fill="url(#cream)"/>
+   </g>
+ </g>
+ <!-- Soft leaf-like ribbons hanging from large ketupat -->
+ <path d="M471 603 C426 665 418 725 454 784 C482 829 475 882 443 922 C516 882 539 823 519 759 C496 692 480 645 471 603Z" fill="url(#ribbon)"/>
+ <path d="M487 613 C552 681 576 741 569 803 C561 885 608 928 646 988 C614 986 587 969 565 948 C511 899 520 832 524 781 C529 713 505 653 487 613Z" fill="url(#ribbon)"/>
+ <path d="M501 651 C495 718 486 768 500 819 C506 841 512 851 517 862" stroke="#9cdd59" stroke-width="7" stroke-linecap="round" opacity=".62"/>
+ <path d="M541 741 C543 803 551 876 591 919" stroke="#abd95c" stroke-width="6" stroke-linecap="round" opacity=".55"/>
+ <!-- Ribbons from small ketupat -->
+ <path d="M228 840 C205 877 204 918 229 951 C244 971 243 1014 215 1054 C275 1021 293 972 273 929 C258 890 240 867 228 840Z" fill="url(#ribbon)"/>
+ <path d="M267 842 C302 883 310 920 293 969 C284 999 287 1046 302 1070 C330 1025 343 976 326 929 C316 894 286 857 267 842Z" fill="url(#ribbon)"/>
+ <path d="M238 896 C261 943 258 996 239 1025" stroke="#a4d857" opacity=".53" stroke-width="6" fill="none"/>
+ <!-- Star sparkles -->
+ <g fill="url(#gold)" filter="url(#sparkle)">
+   <path d="M231 258 C232 307 239 314 281 317 C239 322 233 329 231 373 C227 329 221 323 180 317 C223 314 227 307 231 258Z"/>
+   <path d="M155 890 C157 917 160 920 188 923 C160 925 157 930 155 955 C152 930 149 926 123 923 C150 920 151 917 155 890Z"/>
+   <path d="M674 616 C676 659 682 664 716 668 C680 672 676 678 674 715 C670 678 666 672 634 668 C668 664 671 659 674 616Z"/>
+   <path d="M714 826 C715 844 719 847 737 848 C720 851 716 855 714 875 C712 855 709 851 690 848 C709 846 712 843 714 826Z"/>
+ </g>
+</svg>

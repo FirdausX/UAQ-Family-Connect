@@ -1,0 +1,433 @@
+/* =========================================================
+   UAQ FAMILY CONNECT
+   CARE SUMMARY - PREMIUM READ-ONLY RIBBON
+   This stylesheet only affects the resident Care Summary page.
+   ========================================================= */
+
+.family-care-ribbon-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.family-care-ribbon {
+  --ribbon-a: #9fc2a5;
+  --ribbon-b: #71977b;
+  --ribbon-dark: #4f7259;
+
+  position: relative;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  min-width: 0;
+  min-height: 94px;
+
+  filter:
+    drop-shadow(
+      0 12px 16px
+      rgba(54, 68, 62, 0.11)
+    );
+}
+
+.family-care-ribbon-gold {
+  --ribbon-a: #dfc28b;
+  --ribbon-b: #b88a42;
+  --ribbon-dark: #875f25;
+}
+
+.family-care-ribbon-teal {
+  --ribbon-a: #82cec4;
+  --ribbon-b: #339e93;
+  --ribbon-dark: #16766e;
+}
+
+.family-care-ribbon-olive {
+  --ribbon-a: #adc9a2;
+  --ribbon-b: #759a68;
+  --ribbon-dark: #4f7645;
+}
+
+.family-care-ribbon-tab {
+  position: relative;
+  z-index: 3;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-width: 0;
+  padding: 14px 28px 14px 18px;
+
+  border-radius: 22px 0 0 22px;
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--ribbon-a),
+      var(--ribbon-b)
+    );
+
+  color: #ffffff;
+  text-align: center;
+
+  box-shadow:
+    inset 0 1px 0
+      rgba(255, 255, 255, 0.42),
+    inset 0 -12px 24px
+      rgba(46, 62, 54, 0.08);
+}
+
+.family-care-ribbon-tab::before {
+  content: "";
+
+  position: absolute;
+  top: -9px;
+  right: -12px;
+
+  width: 38px;
+  height: 19px;
+
+  border-radius: 0 14px 0 0;
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--ribbon-dark),
+      var(--ribbon-a)
+    );
+
+  transform: skewX(-27deg);
+}
+
+.family-care-ribbon-tab::after {
+  content: "";
+
+  position: absolute;
+  right: -18px;
+  bottom: -8px;
+
+  width: 32px;
+  height: 18px;
+
+  border-radius: 0 0 12px 0;
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--ribbon-dark),
+      var(--ribbon-b)
+    );
+
+  transform: skewX(27deg);
+}
+
+.family-care-ribbon-tab svg {
+  flex: 0 0 auto;
+  color: #ffffff;
+}
+
+.family-care-ribbon-tab strong {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  max-width: 170px;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.1px;
+
+  text-shadow:
+    0 1px 1px
+    rgba(28, 48, 40, 0.14);
+}
+
+.family-care-ribbon-tab strong span {
+  opacity: 0.76;
+}
+
+.family-care-ribbon-body {
+  position: relative;
+  z-index: 1;
+
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    1px
+    minmax(0, 1fr);
+  align-items: center;
+  gap: 22px;
+
+  min-width: 0;
+  padding: 15px 58px 15px 48px;
+
+  border:
+    1px solid
+    rgba(226, 222, 213, 0.92);
+
+  border-left: 0;
+  border-radius: 0 24px 24px 0;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.99),
+      rgba(250, 247, 241, 0.98)
+    );
+
+  box-shadow:
+    inset 0 1px 0
+      rgba(255, 255, 255, 0.9);
+}
+
+.family-care-ribbon-body::after {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  right: -34px;
+
+  width: 70px;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.99),
+      rgba(250, 247, 241, 0.98)
+    );
+
+  clip-path:
+    polygon(
+      0 0,
+      52% 0,
+      100% 50%,
+      52% 100%,
+      0 100%
+    );
+
+  pointer-events: none;
+}
+
+.family-care-ribbon-body.single {
+  grid-template-columns:
+    minmax(0, 1fr);
+}
+
+.family-care-ribbon-divider {
+  width: 1px;
+  align-self: stretch;
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      rgba(164, 166, 159, 0.34) 18%,
+      rgba(164, 166, 159, 0.34) 82%,
+      transparent
+    );
+}
+
+.family-care-ribbon-value {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+}
+
+.family-care-ribbon-value span {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #87928e;
+
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.35px;
+  text-transform: uppercase;
+}
+
+.family-care-ribbon-value strong {
+  display: block;
+
+  color: #263f3a;
+
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.42;
+
+  overflow-wrap: anywhere;
+}
+
+/* Dark mode */
+.app-shell.dark .family-care-ribbon-body {
+  border-color:
+    rgba(255, 255, 255, 0.08);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(29, 39, 35, 0.98),
+      rgba(32, 39, 35, 0.98)
+    );
+}
+
+.app-shell.dark .family-care-ribbon-body::after {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(29, 39, 35, 0.98),
+      rgba(32, 39, 35, 0.98)
+    );
+}
+
+.app-shell.dark .family-care-ribbon-value span {
+  color: #98a7a2;
+}
+
+.app-shell.dark .family-care-ribbon-value strong {
+  color: #eef4f1;
+}
+
+.app-shell.dark .family-care-ribbon-divider {
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      rgba(255, 255, 255, 0.12) 18%,
+      rgba(255, 255, 255, 0.12) 82%,
+      transparent
+    );
+}
+
+/* Tablet */
+@media (max-width: 1050px) {
+  .family-care-ribbon {
+    grid-template-columns:
+      190px
+      minmax(0, 1fr);
+  }
+
+  .family-care-ribbon-body {
+    gap: 16px;
+    padding:
+      14px
+      44px
+      14px
+      38px;
+  }
+
+  .family-care-ribbon-tab strong {
+    max-width: 140px;
+    font-size: 14px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 680px) {
+  .family-care-ribbon-list {
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .family-care-ribbon {
+    display: block;
+    min-height: 0;
+  }
+
+  .family-care-ribbon-tab {
+    min-height: 62px;
+
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 11px;
+
+    padding: 11px 18px 11px 14px;
+
+    border-radius:
+      19px
+      19px
+      0
+      0;
+
+    text-align: left;
+  }
+
+  .family-care-ribbon-tab::before {
+    top: -7px;
+    right: 16px;
+
+    width: 31px;
+    height: 16px;
+  }
+
+  .family-care-ribbon-tab::after {
+    display: none;
+  }
+
+  .family-care-ribbon-tab svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  .family-care-ribbon-tab strong {
+    justify-content: flex-start;
+
+    max-width: none;
+
+    font-size: 14px;
+  }
+
+  .family-care-ribbon-body {
+    grid-template-columns: 1fr;
+    gap: 10px;
+
+    padding: 13px 15px 14px;
+
+    border-left:
+      1px solid
+      rgba(226, 222, 213, 0.92);
+
+    border-radius:
+      0
+      0
+      19px
+      19px;
+  }
+
+  .family-care-ribbon-body::after {
+    display: none;
+  }
+
+  .family-care-ribbon-divider {
+    width: 100%;
+    height: 1px;
+
+    background:
+      linear-gradient(
+        to right,
+        transparent,
+        rgba(164, 166, 159, 0.28) 15%,
+        rgba(164, 166, 159, 0.28) 85%,
+        transparent
+      );
+  }
+
+  .family-care-ribbon-value span {
+    font-size: 8px;
+  }
+
+  .family-care-ribbon-value strong {
+    font-size: 12px;
+  }
+}

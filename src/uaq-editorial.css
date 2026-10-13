@@ -1,0 +1,636 @@
+/* =====================================================================
+   UAQ EDITORIAL — the everyday look of Family Connect (theme key: blue_sakura)
+   Same design language as uaqelderlycarecentre.com and eMAR:
+   charcoal frame, silver uppercase display titles with hairline rules,
+   serif ledes, teal + rose accents from the UAQ logo, quiet glass cards,
+   pill buttons. Dark is the default; light mode is the same on paper.
+   Hari Raya and other seasons are untouched.
+   ===================================================================== */
+
+.app-shell[data-uaq-season='blue_sakura'] {
+  --ed-outer: #070707;
+  --ed-bg: #0b0b0b;
+  --ed-panel: #101010;
+  --ed-card: rgba(255, 255, 255, 0.035);
+  --ed-card-strong: rgba(255, 255, 255, 0.06);
+  --ed-line: rgba(243, 241, 238, 0.14);
+  --ed-line-strong: rgba(243, 241, 238, 0.42);
+  --ed-fg: #f3f1ee;
+  --ed-soft: #cfcac3;
+  --ed-muted: #9a958f;
+  --ed-teal: #3fb6c8;
+  --ed-rose: #d6ae9f;
+  --ed-title-a: #e6e2dc;
+  --ed-title-b: #9d9993;
+  --ed-btn-bg: #f3f1ee;
+  --ed-btn-fg: #151515;
+  --ed-input: rgba(255, 255, 255, 0.04);
+  --ed-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  --ed-display: 'Exo 2', 'Segoe UI', system-ui, sans-serif;
+  --ed-body: 'Raleway', 'Helvetica Neue', Arial, sans-serif;
+  --ed-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+
+  /* re-point the app's own tokens */
+  --fc-brand: var(--ed-teal);
+  --fc-brand-deep: #2a9fb1;
+  --fc-brand-soft: rgba(63, 182, 200, 0.12);
+  --fc-bronze: var(--ed-rose);
+  --fc-ink: var(--ed-fg);
+  --fc-muted: var(--ed-muted);
+  --fc-line: var(--ed-line);
+  --fc-surface: var(--ed-card);
+  --fc-font-display: var(--ed-serif);
+  --fc-font-ui: var(--ed-body);
+  --fc-shadow: none;
+  --uaq-v4-accent: var(--ed-teal);
+  --uaq-v4-ink: var(--ed-fg);
+  --uaq-v4-gold: var(--ed-line);
+  --uaq-v4-banner-start: transparent;
+  --uaq-v4-banner-end: transparent;
+  --ct-accent: var(--ed-teal);
+  --ct-accent-2: var(--ed-rose);
+  --ct-ink: var(--ed-fg);
+  --ct-muted: var(--ed-muted);
+  --ct-card: var(--ed-card);
+  --ct-line: var(--ed-line);
+  --ct-alert: #e5877a;
+  --ct-warn: #e0b46a;
+
+  font-family: var(--ed-body) !important;
+  color: var(--ed-fg);
+  background: var(--ed-outer) !important;
+  color-scheme: dark;
+}
+.app-shell:not(.dark)[data-uaq-season='blue_sakura'] {
+  --ed-outer: #e9e6e1;
+  --ed-bg: #f4f2ee;
+  --ed-panel: #f8f6f2;
+  --ed-card: rgba(255, 255, 255, 0.82);
+  --ed-card-strong: #ffffff;
+  --ed-line: rgba(21, 21, 21, 0.11);
+  --ed-line-strong: rgba(21, 21, 21, 0.55);
+  --ed-fg: #151515;
+  --ed-soft: #3a3836;
+  --ed-muted: #6f6a64;
+  --ed-teal: #1b8a9c;
+  --ed-rose: #9c6b58;
+  --ed-title-a: #1d1d1d;
+  --ed-title-b: #6b6762;
+  --ed-btn-bg: #151515;
+  --ed-btn-fg: #f3f1ee;
+  --ed-input: #ffffff;
+  --ed-shadow: 0 18px 44px rgba(20, 18, 15, 0.10);
+  --fc-brand-deep: #136f7e;
+  --ct-alert: #b8483a;
+  --ct-warn: #9a6a14;
+  color-scheme: light;
+}
+
+.app-shell[data-uaq-season='blue_sakura'],
+.app-shell[data-uaq-season='blue_sakura'] button,
+.app-shell[data-uaq-season='blue_sakura'] input,
+.app-shell[data-uaq-season='blue_sakura'] textarea,
+.app-shell[data-uaq-season='blue_sakura'] select { font-family: var(--ed-body) !important; }
+
+/* Remove decorative layers from older themes */
+.app-shell[data-uaq-season='blue_sakura']::before,
+.app-shell[data-uaq-season='blue_sakura']::after,
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell::before,
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell::after,
+.app-shell[data-uaq-season='blue_sakura'] .desktop-sidebar::before,
+.app-shell[data-uaq-season='blue_sakura'] .desktop-sidebar::after,
+.app-shell[data-uaq-season='blue_sakura'] .sidebar-brand-art::before,
+.app-shell[data-uaq-season='blue_sakura'] .sidebar-brand-art::after,
+.app-shell[data-uaq-season='blue_sakura'] .desktop-nav button::after,
+.app-shell[data-uaq-season='blue_sakura'] .mobile-bottom-nav button::after,
+.app-shell[data-uaq-season='blue_sakura'] .home-hero::after,
+.app-shell[data-uaq-season='blue_sakura'] .page-topbar::before,
+.app-shell[data-uaq-season='blue_sakura'] .page-topbar::after { display: none !important; content: none !important; }
+
+/* ---------- page ---------- */
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell {
+  background:
+    radial-gradient(120% 60% at 75% -10%, rgba(63, 182, 200, 0.05), transparent 60%),
+    var(--ed-bg) !important;
+  color: var(--ed-fg);
+}
+.app-shell:not(.dark)[data-uaq-season='blue_sakura'] .family-app-shell {
+  background:
+    radial-gradient(120% 60% at 75% -10%, rgba(214, 174, 159, 0.12), transparent 60%),
+    var(--ed-bg) !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] :is(.app-content, .home-app, .home-scroll, .app-page, .page-scroll) {
+  background: transparent !important;
+  color: var(--ed-fg);
+}
+
+/* ---------- brand lockup ---------- */
+.app-shell[data-uaq-season='blue_sakura'] .fc-brand { color: var(--ed-teal) !important; gap: 8px; }
+.app-shell[data-uaq-season='blue_sakura'] .fc-brand__name {
+  font: 600 13px/1 var(--ed-display) !important;
+  letter-spacing: 0.32em !important;
+  text-transform: uppercase !important;
+  color: var(--ed-fg) !important;
+  -webkit-text-fill-color: currentColor !important;
+  background: none !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .fc-brand--lg .fc-brand__name { font-size: 22px !important; letter-spacing: 0.22em !important; }
+.app-shell[data-uaq-season='blue_sakura'] .fc-brand__sub {
+  font: 600 9.5px/1.2 var(--ed-body) !important;
+  letter-spacing: 0.2em !important;
+  color: var(--ed-rose) !important;
+}
+
+/* ---------- desktop sidebar ---------- */
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .desktop-sidebar {
+  background: var(--ed-panel) !important;
+  background-image: none !important;
+  border-right: 1px solid var(--ed-line) !important;
+  box-shadow: none !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .sidebar-brand-art {
+  background: none !important;
+  background-image: none !important;
+  border-bottom: 1px solid var(--ed-line) !important;
+  padding-bottom: 22px !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 999px !important;
+  color: var(--ed-soft) !important;
+  font: 500 13.5px/1.2 var(--ed-body) !important;
+  letter-spacing: 0.02em !important;
+  box-shadow: none !important;
+  padding-right: 16px !important;
+  transform: none !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button svg {
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  color: var(--ed-muted) !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button:hover {
+  background: var(--ed-card) !important;
+  color: var(--ed-fg) !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button.active {
+  background: transparent !important;
+  border-color: var(--ed-line-strong) !important;
+  color: var(--ed-fg) !important;
+  font-weight: 600 !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button.active svg { color: var(--ed-teal) !important; background: none !important; }
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .sidebar-footer {
+  background: none !important;
+  border-top: 1px solid var(--ed-line) !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .sidebar-footer strong {
+  font: 500 19px/1.2 var(--ed-serif) !important;
+  color: var(--ed-fg) !important;
+  letter-spacing: 0 !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .sidebar-footer :is(span, small, p) { color: var(--ed-muted) !important; }
+
+/* ---------- mobile brand + bottom nav ---------- */
+.app-shell[data-uaq-season='blue_sakura'] .fc-mobile-brand { background: none !important; }
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .mobile-bottom-nav {
+  background: color-mix(in srgb, var(--ed-panel) 88%, transparent) !important;
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--ed-line) !important;
+  box-shadow: var(--ed-shadow) !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .mobile-bottom-nav button {
+  color: var(--ed-muted) !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .mobile-bottom-nav button.active {
+  color: var(--ed-fg) !important;
+  background: transparent !important;
+  border-color: var(--ed-line-strong) !important;
+  box-shadow: none !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .mobile-bottom-nav button.active svg { color: var(--ed-teal) !important; }
+
+/* ---------- typography ---------- */
+.app-shell[data-uaq-season='blue_sakura'] .page-topbar {
+  background: transparent !important;
+  background-image: none !important;
+  border-bottom: 1px solid var(--ed-line) !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.app-shell[data-uaq-season='blue_sakura'] .page-topbar h1 {
+  font: 600 clamp(26px, 3.4vw, 40px)/1.05 var(--ed-display) !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  background: linear-gradient(180deg, var(--ed-title-a), var(--ed-title-b)) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: var(--ed-title-a) !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .page-topbar p { color: var(--ed-muted) !important; font-family: var(--ed-body) !important; }
+/* eyebrow / kicker labels */
+.app-shell[data-uaq-season='blue_sakura'] :is(.page-topbar > div > span:first-child, .section-heading span, .section-heading small, [class*='section-heading'] > div > span, [class*='eyebrow'], [class*='kicker'], .home-hero-top > div > span) {
+  color: var(--ed-rose) !important;
+  font: 600 11px/1.3 var(--ed-body) !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  background: none !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+/* section titles: serif, with a hairline */
+.app-shell[data-uaq-season='blue_sakura'] .app-content h2 {
+  font: 500 clamp(22px, 2.2vw, 28px)/1.15 var(--ed-serif) !important;
+  letter-spacing: 0 !important;
+  color: var(--ed-fg) !important;
+  -webkit-text-fill-color: currentColor !important;
+  background: none !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .app-content h3 {
+  font-family: var(--ed-body) !important;
+  color: var(--ed-fg) !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .section-heading {
+  border-bottom: 1px solid var(--ed-line);
+  padding-bottom: 8px;
+}
+.app-shell[data-uaq-season='blue_sakura'] .app-content :is(p, small) { color: var(--ed-muted); }
+
+/* ---------- home hero ---------- */
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .home-hero {
+  background: #0a0a0a !important;
+  position: relative !important;
+  overflow: hidden !important;
+  isolation: isolate;
+  border: 1px solid var(--ed-line) !important;
+  border-radius: 26px !important;
+  box-shadow: var(--ed-shadow) !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .home-hero-overlay { background: none !important; }
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .home-hero-top h1,
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .hero-motivation {
+  font: 500 clamp(26px, 2.6vw, 36px)/1.12 var(--ed-serif) !important;
+  color: #f3f1ee !important;
+  -webkit-text-fill-color: currentColor !important;
+  letter-spacing: 0 !important;
+  max-width: 17ch;
+  text-shadow: none !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .home-hero-top > div > span { color: #d6ae9f !important; }
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .home-hero-message {
+  background: transparent !important;
+  border: 1px solid rgba(243, 241, 238, 0.42) !important;
+  color: #f3f1ee !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .home-hero-message :is(svg, span, strong) { color: #f3f1ee !important; }
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .home-hero-message svg { color: #d6ae9f !important; fill: #d6ae9f !important; }
+
+/* round icon buttons (theme toggle, back) */
+.app-shell[data-uaq-season='blue_sakura'] .home-icon-button {
+  background: transparent !important;
+  border: 1px solid var(--ed-line-strong) !important;
+  color: var(--ed-fg) !important;
+  box-shadow: none !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .home-hero .home-icon-button {
+  border-color: rgba(243, 241, 238, 0.42) !important;
+  color: #f3f1ee !important;
+  background: rgba(10, 10, 10, 0.35) !important;
+}
+
+/* ---------- cards ---------- */
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell :is(
+  .uaq-blue-family-stats button, .home-summary-card, .resident-card, .activity-card,
+  .announcement-card, .appointment-card, .appointment-empty-card, .about-section-card,
+  .about-account-card, .version-card, .care-tile, .resident-header-card, .family-note-card,
+  [class$='-card'], [class*='-card ']
+):not(.care-tile--primary) {
+  background: var(--ed-card) !important;
+  background-image: none !important;
+  border: 1px solid var(--ed-line) !important;
+  border-radius: 20px !important;
+  box-shadow: none !important;
+  color: var(--ed-fg) !important;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .care-tile--primary {
+  background: linear-gradient(115deg, rgba(63, 182, 200, 0.10), rgba(214, 174, 159, 0.07) 70%, transparent), var(--ed-card) !important;
+  border: 1px solid var(--ed-line) !important;
+  box-shadow: none !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell :is(.home-summary-card, .resident-card, .activity-card, .uaq-blue-family-stats button):hover {
+  border-color: var(--ed-line-strong) !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell :is(.summary-icon, .about-section-icon, .about-account-icon, [class*='-icon']):not(svg) {
+  background: transparent !important;
+  border: 1px solid var(--ed-line) !important;
+  color: var(--ed-teal) !important;
+  box-shadow: none !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell :is(.summary-icon, .about-section-icon, .about-account-icon, [class*='-icon']) svg { color: var(--ed-teal) !important; }
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .care-tile--primary .care-tile__icon {
+  background: var(--ed-teal) !important;
+  color: #0b0b0b !important;
+  border-color: transparent !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .care-tile--primary .care-tile__icon svg { color: #0b0b0b !important; }
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .uaq-blue-family-stats strong,
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .home-summary-card strong { color: var(--ed-fg) !important; }
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .uaq-blue-family-stats strong { font: 500 30px/1 var(--ed-display) !important; }
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell :is(.uaq-blue-family-stats, .home-summary-card, .resident-card, .version-card) :is(span, small) { color: var(--ed-muted) !important; }
+
+/* resident avatar: monogram in a hairline circle, serif */
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .resident-avatar {
+  background: transparent !important;
+  background-image: none !important;
+  border: 1px solid var(--ed-line-strong) !important;
+  color: var(--ed-fg) !important;
+  font-family: var(--ed-serif) !important;
+  font-weight: 500 !important;
+  box-shadow: none !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .resident-status {
+  background: transparent !important;
+  border: 1px solid color-mix(in srgb, var(--ed-teal) 55%, transparent) !important;
+  color: var(--ed-teal) !important;
+}
+
+/* activity media */
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .activity-type-badge {
+  background: rgba(10, 10, 10, 0.6) !important;
+  color: #f3f1ee !important;
+  border: 1px solid rgba(243, 241, 238, 0.3) !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .activity-date { color: var(--ed-rose) !important; }
+
+/* ---------- chips, filters, buttons ---------- */
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell :is([class*='filter'] button, [class*='chip'], [class*='tab'] button) {
+  background: transparent !important;
+  border: 1px solid var(--ed-line) !important;
+  color: var(--ed-soft) !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell :is([class*='filter'] button, [class*='chip'], [class*='tab'] button):is(.active, [aria-pressed='true'], [aria-selected='true']) {
+  background: var(--ed-btn-bg) !important;
+  border-color: var(--ed-btn-bg) !important;
+  color: var(--ed-btn-fg) !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .sign-out-button {
+  background: transparent !important;
+  border: 1px solid rgba(229, 135, 122, 0.5) !important;
+  color: #e5877a !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+}
+.app-shell:not(.dark)[data-uaq-season='blue_sakura'] .family-app-shell .sign-out-button { color: #b8483a !important; border-color: rgba(184, 72, 58, 0.45) !important; }
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell a { color: var(--ed-teal); }
+
+/* appointment date block */
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .appointment-date-box {
+  background: transparent !important;
+  border: 1px solid var(--ed-line-strong) !important;
+  color: var(--ed-fg) !important;
+  box-shadow: none !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .appointment-date-box strong { font-family: var(--ed-display) !important; color: var(--ed-fg) !important; }
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .appointment-date-box span { color: var(--ed-rose) !important; }
+
+/* =====================================================================
+   LOGIN — photo + glass, like the website hero
+   ===================================================================== */
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family { background: #070707 !important; }
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__stage {
+  background: #0a0a0a !important;
+  border: 1px solid rgba(243, 241, 238, 0.14) !important;
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.55) !important;
+}
+/* team photo on its own layer (single background, safe for the CSS minifier) */
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__stage::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  background: #1a1a1a url('/images/editorial/login-home.jpg') 18% center / cover no-repeat;
+  /* calmer, evening-toned grade so the bright garden sits in the dark frame */
+  filter: saturate(0.88) brightness(0.9) contrast(1.06);
+  pointer-events: none;
+}
+@media (min-width: 900px) {
+  .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__stage::before {
+    top: 22px; bottom: 22px; right: 22px;
+    left: calc(36% - 30px);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, rgba(0, 0, 0, 0.55) 60px, #000 130px);
+    mask-image: linear-gradient(90deg, transparent 0, rgba(0, 0, 0, 0.55) 60px, #000 130px);
+    box-shadow: inset 0 -170px 110px -80px rgba(0, 0, 0, 0.7), inset 0 60px 60px -50px rgba(0, 0, 0, 0.35);
+  }
+  .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__panel {
+    width: 36% !important;
+    min-height: 0 !important;
+    margin: 22px !important;
+    position: absolute !important;
+    top: 0; bottom: 0; left: 0;
+  }
+  .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__stage::after {
+    content: 'Our home, their comfort';
+    position: absolute;
+    right: 52px;
+    bottom: 48px;
+    z-index: 4;
+    font: italic 500 26px/1.35 'Cormorant Garamond', Georgia, serif;
+    color: #f3f1ee;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+  }
+}
+@media (max-width: 899px) {
+  .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__stage {
+    display: block !important;
+    padding: 62vw 0 28px !important;
+  }
+  .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__stage::before {
+    top: 0; left: 0; right: 0;
+    height: 86vw;
+    background-position: 22% center;
+    -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+  }
+  .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__panel { margin: 0 auto !important; }
+}
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family :is(.uaq-nature-login__botanical, .uaq-nature-login__paper, .uaq-nature-login__paper-edge, .uaq-nature-login__blossom) { display: none !important; }
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__panel {
+  background: rgba(18, 18, 18, 0.75) !important;
+  border: 1px solid rgba(243, 241, 238, 0.28) !important;
+  border-radius: 32px !important;
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5) !important;
+  color: #f3f1ee !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .fc-brand { color: #3fb6c8 !important; }
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .fc-brand__name { color: #f3f1ee !important; }
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .fc-brand__sub { color: #d6ae9f !important; }
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__heading h1 {
+  font: 500 34px/1.1 var(--ed-serif) !important;
+  color: #f3f1ee !important;
+  -webkit-text-fill-color: currentColor !important;
+  letter-spacing: 0 !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family :is(.uaq-nature-login__heading p, .uaq-nature-login__help, label) { color: #cfcac3 !important; }
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__input-row {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(243, 241, 238, 0.22) !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+  color: #f3f1ee !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__input-row:focus-within { border-color: rgba(243, 241, 238, 0.6) !important; }
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__input-row :is(input, svg, button) {
+  color: #f3f1ee !important;
+  background: transparent !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family input::placeholder { color: rgba(243, 241, 238, 0.5) !important; }
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__submit {
+  background: #f3f1ee !important;
+  background-image: none !important;
+  color: #151515 !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+  font-weight: 600 !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__rule { color: rgba(243, 241, 238, 0.6) !important; }
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__rule::before,
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__rule::after { background: rgba(243, 241, 238, 0.22) !important; }
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__theme {
+  background: rgba(10, 10, 10, 0.4) !important;
+  border: 1px solid rgba(243, 241, 238, 0.4) !important;
+  color: #f3f1ee !important;
+  box-shadow: none !important;
+}
+
+/* startup splash */
+.app-shell[data-uaq-season='blue_sakura'] .startup-screen { background: var(--ed-bg) !important; color: var(--ed-muted) !important; }
+
+/* ---------- light mode details ---------- */
+.app-shell:not(.dark)[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button.active svg { color: var(--ed-teal) !important; }
+.app-shell:not(.dark)[data-uaq-season='blue_sakura'] .family-app-shell .care-tile--primary .care-tile__icon,
+.app-shell:not(.dark)[data-uaq-season='blue_sakura'] .family-app-shell .care-tile--primary .care-tile__icon svg { color: #ffffff !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell[data-uaq-season='blue_sakura'] .family-app-shell .desktop-nav button { transition: none !important; }
+}
+
+/* ---------- specificity boosters over legacy theme files ---------- */
+.app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)):has(.family-app-shell) {
+  --bg: var(--ed-bg);
+  --surface: #141414;
+  --surface-soft: #1a1a1a;
+  --text: var(--ed-fg);
+  --muted: var(--ed-muted);
+  --line: var(--ed-line);
+  --teal-soft: rgba(63, 182, 200, 0.12);
+  background: var(--ed-outer) !important;
+  color: var(--ed-fg) !important;
+}
+.app-shell:not(.dark)[data-uaq-season='blue_sakura']:has(.family-app-shell) {
+  --surface: #ffffff;
+  --surface-soft: #f8f6f2;
+}
+.app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell {
+  background-color: var(--ed-bg) !important;
+  background-image: radial-gradient(120% 60% at 75% -10%, rgba(63, 182, 200, 0.05), transparent 60%) !important;
+  background-size: auto !important;
+}
+.app-shell:not(.dark)[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell {
+  background-image: radial-gradient(120% 60% at 75% -10%, rgba(214, 174, 159, 0.12), transparent 60%) !important;
+}
+.app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell .desktop-sidebar {
+  background: var(--ed-panel) !important;
+  background-image: none !important;
+}
+.app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell .page-topbar {
+  background: transparent !important;
+  background-image: none !important;
+  border-bottom: 1px solid var(--ed-line) !important;
+  box-shadow: none !important;
+}
+/* Home hero photo: rain-wet autumn leaf on its own layer (single background,
+   safe for the CSS minifier), fading into the dark on the left behind the text. */
+.app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell .home-hero { background: #0a0a0a !important; }
+.app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell .home-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 0 30%;
+  z-index: -1;
+  background: #0a0a0a url('/images/editorial/home-leaf.jpg') 62% 55% / cover no-repeat;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.6) 22%, #000 45%);
+  mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.6) 22%, #000 45%);
+  pointer-events: none;
+}
+/* soft warm glow picked up from the leaf */
+.app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell .home-hero-overlay {
+  background: radial-gradient(60% 90% at 72% 60%, rgba(214, 160, 70, 0.10), transparent 70%) !important;
+  pointer-events: none;
+}
+.app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell .home-hero::after { display: none !important; content: none !important; background: none !important; }
+@media (max-width: 760px) {
+  .app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell .home-hero::before {
+    inset: 0;
+    background-position: 78% center;
+    -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.32) 45%, #000 100%);
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.32) 45%, #000 100%);
+  }
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .resident-status,
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .resident-status * {
+  background: transparent !important;
+  color: var(--ed-teal) !important;
+  box-shadow: none !important;
+}
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .resident-status { border: 1px solid color-mix(in srgb, var(--ed-teal) 55%, transparent) !important; border-radius: 999px !important; }
+
+/* leftovers found by the colour scan */
+.app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell :is(.resident-card-copy h3, .app-info-grid > article, .app-info-grid > article > div, .family-care-note, .family-care-note > div) { color: var(--ed-fg) !important; }
+.app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell :is(.resident-card-copy p, .home-summary-card > div > p) { color: var(--ed-muted) !important; }
+.app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell :is(.app-info-grid > article > .lucide, .version-card > .lucide) { color: var(--ed-teal) !important; }
+.app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell .activity-type-badge .lucide { color: #f3f1ee !important; }
+.app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell .app-info-grid > article { border-color: var(--ed-line) !important; background: var(--ed-card) !important; }
+.app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell .page-topbar h1 { color: var(--ed-title-a) !important; -webkit-text-fill-color: transparent !important; }
+/* login: no centre name line under the product name (same as eMAR) */
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .fc-brand__sub { display: none !important; }
+
+/* login photo eyebrow (re-uses the hidden paper layer) */
+@media (min-width: 900px) {
+  .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__paper {
+    display: block !important;
+    position: absolute !important;
+    inset: auto 52px 88px auto !important;
+    width: auto !important;
+    height: auto !important;
+    background: none !important;
+    z-index: 4 !important;
+    pointer-events: none;
+  }
+  .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__paper::before {
+    content: 'Pasir Gudang \00B7  Johor';
+    display: block;
+    font: 600 11px/1 'Raleway', 'Helvetica Neue', Arial, sans-serif;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: #e8c9bc;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.6);
+    text-align: right;
+  }
+}
+
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .hero-motivation { text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55) !important; }

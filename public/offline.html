@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0b4f57" />
+<title>Tiada sambungan — Family Connect</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { margin:0; min-height:100vh; display:grid; place-items:center; padding:24px;
+    background:#f7f5ef; color:#15302f; font:16px/1.5 'Plus Jakarta Sans', system-ui, sans-serif; text-align:center; }
+  .mark { width:120px; aspect-ratio:473/238; margin:0 auto 18px; background:#157f7c;
+    -webkit-mask:url('/images/uaq-mark.png') center/contain no-repeat; mask:url('/images/uaq-mark.png') center/contain no-repeat; }
+  h1 { font:600 26px/1.2 Fraunces, Georgia, serif; margin:0 0 8px; }
+  p { margin:0 auto 22px; max-width:30ch; color:#5f6f6c; }
+  button { border:0; border-radius:999px; padding:14px 26px; font:600 15px system-ui, sans-serif; color:#fff;
+    background:linear-gradient(135deg,#157f7c,#0b4f57); cursor:pointer; }
+  @media (prefers-color-scheme: dark) { body { background:#0f1d21; color:#eef6f5; } p { color:#a9bcba; } .mark { background:#6cc7c0; } }
+</style>
+</head>
+<body>
+  <main>
+    <div class="mark" aria-hidden="true"></div>
+    <h1>Tiada sambungan internet</h1>
+    <p>Semak data atau Wi-Fi anda. Family Connect akan dibuka semula sebaik sahaja talian kembali.</p>
+    <button onclick="location.reload()">Cuba lagi</button>
+  </main>
+</body>
+</html>

@@ -1,69 +1,52 @@
-self.addEventListener("push", (event) => {
-  let data = {};
+/* UAQ Family Connect service worker
+   - Makes the installed app open instantly and survive weak signal.
+   - NEVER caches Supabase / API traffic or anything cross-origin:
+     resident data always comes live from the server.
+   Bump VERSION whenever you want every phone to drop old caches. */
+const VERSION = 'fc-2026-10-11'
+const SHELL = ['/offline.html', '/manifest.webmanifest', '/images/uaq-mark.png', '/icon-192.png']
 
-  try {
-    data = event.data ? event.data.json() : {};
-  } catch (error) {
-    data = {
-      title: "UAQ Family Connect",
-      body: event.data
-        ? event.data.text()
-        : "You have a new notification.",
-    };
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(VERSION).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())
+  )
+})
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys()
+      .then((keys) => Promise.all(keys.filter((k) => k !== VERSION).map((k) => caches.delete(k))))
+      .then(() => self.clients.claim())
+  )
+})
+
+self.addEventListener('fetch', (event) => {
+  const req = event.request
+  if (req.method !== 'GET') return
+  const url = new URL(req.url)
+  if (url.origin !== self.location.origin) return // Supabase, fonts, etc. → straight to network
+
+  // Page loads: always from the network so data and login state are fresh.
+  // With no signal, show the branded offline page instead of opening the app
+  // (opening the app offline would fail to load data and sign the family out).
+  if (req.mode === 'navigate') {
+    event.respondWith(fetch(req).catch(() => caches.match('/offline.html')))
+    return
   }
 
-  const title = data.title || "UAQ Family Connect";
-
-  const options = {
-    body: data.body || "You have a new update.",
-
-    icon: "/android-chrome-192x192.png",
-    badge: "/android-chrome-192x192.png",
-
-    // Minta notification guna bunyi sistem jika device/browser benarkan
-    silent: false,
-
-    // Android biasanya support vibration pattern ini
-    vibrate: [200, 100, 200],
-
-    // Elakkan notification lama menindih secara pelik
-    tag: data.tag || "uaq-family-connect",
-
-    renotify: true,
-
-    data: {
-      url: data.url || "/",
-    },
-  };
-
-  event.waitUntil(
-    self.registration.showNotification(title, options)
-  );
-});
-
-self.addEventListener("notificationclick", (event) => {
-  event.notification.close();
-
-  const targetUrl =
-    event.notification.data?.url || "/";
-
-  event.waitUntil(
-    clients
-      .matchAll({
-        type: "window",
-        includeUncontrolled: true,
+  // Built JS/CSS have hashed names, images rarely change: cache-first, refresh in background.
+  if (url.pathname.startsWith('/assets/') || /\.(png|jpe?g|webp|svg|woff2?)$/i.test(url.pathname)) {
+    event.respondWith(
+      caches.open(VERSION).then(async (cache) => {
+        const hit = await cache.match(req)
+        const net = fetch(req)
+          .then((res) => {
+            if (res.ok) cache.put(req, res.clone())
+            return res
+          })
+          .catch(() => hit)
+        return hit || net
       })
-      .then((clientList) => {
-        for (const client of clientList) {
-          if ("focus" in client) {
-            client.navigate(targetUrl);
-            return client.focus();
-          }
-        }
-
-        if (clients.openWindow) {
-          return clients.openWindow(targetUrl);
-        }
-      })
-  );
-});
+    )
+  }
+})
