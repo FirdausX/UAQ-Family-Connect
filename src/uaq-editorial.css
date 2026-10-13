@@ -416,7 +416,7 @@
 .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__stage {
   background:
     linear-gradient(90deg, rgba(7, 7, 7, 0.88) 0%, rgba(7, 7, 7, 0.5) 45%, rgba(7, 7, 7, 0.2) 100%),
-    url('/images/editorial/hero.jpg') center 22% / cover no-repeat !important;
+    url('/images/editorial/login-garden-wide.jpg') center 45% / cover no-repeat !important;
   border: 1px solid rgba(243, 241, 238, 0.14) !important;
   box-shadow: none !important;
 }
@@ -424,7 +424,7 @@
   .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__stage {
     background:
       linear-gradient(180deg, rgba(7, 7, 7, 0.35) 0%, rgba(7, 7, 7, 0.75) 60%, rgba(7, 7, 7, 0.92) 100%),
-      url('/images/editorial/hero.jpg') 28% center / cover no-repeat !important;
+      url('/images/editorial/login-garden.jpg') 34% center / cover no-repeat !important;
   }
 }
 .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family :is(.uaq-nature-login__botanical, .uaq-nature-login__paper, .uaq-nature-login__paper-edge, .uaq-nature-login__blossom) { display: none !important; }
