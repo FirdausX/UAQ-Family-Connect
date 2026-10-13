@@ -48,8 +48,9 @@ import './uaq-seasonal-theme.css'
 import './uaq-seasonal-theme-v2.css'
 import './uaq-premium.css'
 import './raya-emerald.css'
-import './sakura-classic.css'
 import './care-tiles.css'
+import './uaq-editorial.css'
+import './editorial-sweep.css'
 import { useUaqVisualTheme } from './uaq-seasonal-theme'
 
 const APP_VERSION = '2.7.0'
@@ -1123,10 +1124,26 @@ function AnnouncementCard({
 }
 
 export default function App() {
+  // Default look is the dark editorial design (matches the website).
+  // The family's own choice is remembered on this device.
   const [
     dark,
     setDark,
-  ] = useState(false)
+  ] = useState(() => {
+    try {
+      return window.localStorage.getItem('uaq_family_theme') !== 'light'
+    } catch {
+      return true
+    }
+  })
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem('uaq_family_theme', dark ? 'dark' : 'light')
+    } catch {
+      /* storage unavailable: keep the in-memory choice */
+    }
+  }, [dark])
 
   const [
     greetingClock,
