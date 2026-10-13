@@ -414,22 +414,62 @@
    ===================================================================== */
 .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family { background: #070707 !important; }
 .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__stage {
-  background:
-    linear-gradient(90deg, rgba(7, 7, 7, 0.88) 0%, rgba(7, 7, 7, 0.5) 45%, rgba(7, 7, 7, 0.2) 100%),
-    url('/images/editorial/login-garden-wide.jpg') center 45% / cover no-repeat !important;
+  background: #0a0a0a !important;
   border: 1px solid rgba(243, 241, 238, 0.14) !important;
-  box-shadow: none !important;
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.55) !important;
+}
+/* team photo on its own layer (single background, safe for the CSS minifier) */
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__stage::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  background: #1a1a1a url('/images/editorial/login-team.jpg') right center / cover no-repeat;
+  pointer-events: none;
+}
+@media (min-width: 900px) {
+  .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__stage::before {
+    top: 22px; bottom: 22px; right: 22px;
+    left: calc(36% - 30px);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, rgba(0, 0, 0, 0.55) 60px, #000 130px);
+    mask-image: linear-gradient(90deg, transparent 0, rgba(0, 0, 0, 0.55) 60px, #000 130px);
+    box-shadow: inset 0 -170px 110px -80px rgba(0, 0, 0, 0.7), inset 0 60px 60px -50px rgba(0, 0, 0, 0.35);
+  }
+  .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__panel {
+    width: 36% !important;
+    min-height: 0 !important;
+    margin: 22px !important;
+    position: absolute !important;
+    top: 0; bottom: 0; left: 0;
+  }
+  .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__stage::after {
+    content: 'Our care team';
+    position: absolute;
+    right: 50px;
+    bottom: 46px;
+    z-index: 4;
+    font: italic 500 22px/1 'Cormorant Garamond', Georgia, serif;
+    color: #f3f1ee;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+  }
 }
 @media (max-width: 899px) {
   .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__stage {
-    background:
-      linear-gradient(180deg, rgba(7, 7, 7, 0.35) 0%, rgba(7, 7, 7, 0.75) 60%, rgba(7, 7, 7, 0.92) 100%),
-      url('/images/editorial/login-garden.jpg') 34% center / cover no-repeat !important;
+    display: block !important;
+    padding: 62vw 0 28px !important;
   }
+  .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__stage::before {
+    top: 0; left: 0; right: 0;
+    height: 86vw;
+    background-position: center top;
+    -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+  }
+  .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__panel { margin: 0 auto !important; }
 }
 .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family :is(.uaq-nature-login__botanical, .uaq-nature-login__paper, .uaq-nature-login__paper-edge, .uaq-nature-login__blossom) { display: none !important; }
 .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__panel {
-  background: rgba(14, 14, 14, 0.55) !important;
+  background: rgba(18, 18, 18, 0.75) !important;
   border: 1px solid rgba(243, 241, 238, 0.28) !important;
   border-radius: 32px !important;
   -webkit-backdrop-filter: blur(18px);
@@ -556,3 +596,5 @@
 .app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell .activity-type-badge .lucide { color: #f3f1ee !important; }
 .app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell .app-info-grid > article { border-color: var(--ed-line) !important; background: var(--ed-card) !important; }
 .app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell .page-topbar h1 { color: var(--ed-title-a) !important; -webkit-text-fill-color: transparent !important; }
+/* login: no centre name line under the product name (same as eMAR) */
+.app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .fc-brand__sub { display: none !important; }
