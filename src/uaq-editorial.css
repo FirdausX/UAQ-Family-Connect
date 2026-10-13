@@ -265,13 +265,10 @@
 
 /* ---------- home hero ---------- */
 .app-shell[data-uaq-season='blue_sakura'] .family-app-shell .home-hero {
-  background-color: #0d0d0d !important;
-  background-repeat: no-repeat !important;
-  background-image:
-    linear-gradient(90deg, #0d0d0d 0%, #0d0d0d 38%, rgba(13, 13, 13, 0.55) 60%, rgba(13, 13, 13, 0.1) 100%),
-    url('/images/editorial/hero.jpg') !important;
-  background-size: auto, cover !important;
-  background-position: 0 0, 72% 32% !important;
+  background: #0a0a0a !important;
+  position: relative !important;
+  overflow: hidden !important;
+  isolation: isolate;
   border: 1px solid var(--ed-line) !important;
   border-radius: 26px !important;
   box-shadow: var(--ed-shadow) !important;
@@ -567,20 +564,31 @@
   border-bottom: 1px solid var(--ed-line) !important;
   box-shadow: none !important;
 }
-.app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell .home-hero {
-  background-size: auto, 64% auto !important;
-  background-position: 0 0, right 34% !important;
-  background-image:
-    linear-gradient(90deg, #0d0d0d 0%, #0d0d0d 32%, rgba(13, 13, 13, 0.75) 44%, rgba(13, 13, 13, 0.25) 60%, rgba(13, 13, 13, 0) 76%),
-    url('/images/editorial/hero.jpg') !important;
+/* Home hero photo: rain-wet autumn leaf on its own layer (single background,
+   safe for the CSS minifier), fading into the dark on the left behind the text. */
+.app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell .home-hero { background: #0a0a0a !important; }
+.app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell .home-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 0 30%;
+  z-index: -1;
+  background: #0a0a0a url('/images/editorial/home-leaf.jpg') 62% 55% / cover no-repeat;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.6) 22%, #000 45%);
+  mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.6) 22%, #000 45%);
+  pointer-events: none;
 }
+/* soft warm glow picked up from the leaf */
+.app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell .home-hero-overlay {
+  background: radial-gradient(60% 90% at 72% 60%, rgba(214, 160, 70, 0.10), transparent 70%) !important;
+  pointer-events: none;
+}
+.app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell .home-hero::after { display: none !important; content: none !important; background: none !important; }
 @media (max-width: 760px) {
-  .app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell .home-hero {
-    background-size: auto, cover !important;
-    background-position: 0 0, 22% 30% !important;
-    background-image:
-      linear-gradient(180deg, rgba(13, 13, 13, 0.82) 0%, rgba(13, 13, 13, 0.55) 55%, rgba(13, 13, 13, 0.85) 100%),
-      url('/images/editorial/hero.jpg') !important;
+  .app-shell[data-uaq-season='blue_sakura']:is(.dark, :not(.dark)) .family-app-shell .home-hero::before {
+    inset: 0;
+    background-position: 78% center;
+    -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.32) 45%, #000 100%);
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.32) 45%, #000 100%);
   }
 }
 .app-shell[data-uaq-season='blue_sakura'] .family-app-shell .resident-status,
@@ -624,3 +632,5 @@
     text-align: right;
   }
 }
+
+.app-shell[data-uaq-season='blue_sakura'] .family-app-shell .hero-motivation { text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55) !important; }
