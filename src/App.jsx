@@ -43,6 +43,8 @@ import {
 } from 'lucide-react'
 
 import { supabase } from './lib/supabase'
+import FamilySupplies from './FamilySupplies.jsx'
+import PushOptIn, { useAutoResubscribe } from './PushOptIn.jsx'
 import './App.css'
 import './uaq-seasonal-theme.css'
 import './uaq-seasonal-theme-v2.css'
@@ -1204,6 +1206,13 @@ export default function App() {
     familyAccount,
     setFamilyAccount,
   ] = useState(null)
+
+  // 📲 keep this phone's notification subscription fresh (only if already allowed)
+  useAutoResubscribe(familyAccount)
+  // opened from a "items needed" notification
+  const supplyFocus =
+    typeof window !== 'undefined' &&
+    new URLSearchParams(window.location.search).get('supplies') === '1'
 
   const [
     resident,
@@ -2645,6 +2654,8 @@ if (!loggedIn) {
             )}
           </section>
 
+          <FamilySupplies focus={supplyFocus} />
+
           <section>
             <div className="section-heading">
               <div>
@@ -3352,6 +3363,10 @@ if (!loggedIn) {
         )}
 
         <div className="page-scroll about-scroll">
+
+          {familyAccount && (
+            <PushOptIn familyAccount={familyAccount} />
+          )}
 
           <section className="about-section-card">
             <div className="about-section-heading">

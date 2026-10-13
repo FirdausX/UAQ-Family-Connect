@@ -1,0 +1,136 @@
+/* 🛒 Items to bring + 📲 notifications — follows the UAQ Editorial tokens (dark + light),
+   with plain fallbacks for the other themes. */
+.fc-supplies { margin-top: 4px; }
+
+.fc-supplies__card {
+  background: var(--ed-card, var(--fc-surface, #fff));
+  border: 1px solid var(--ed-line, var(--fc-line, rgba(0, 0, 0, 0.08)));
+  border-radius: 20px;
+  padding: 18px 18px 16px;
+  color: var(--ed-fg, var(--fc-ink, #151515));
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+.fc-supplies__card + .fc-supplies__card { margin-top: 12px; }
+/* thin accent line, like the editorial cards on the website */
+.fc-supplies__card::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--ed-teal, #3fb6c8), var(--ed-rose, #d6ae9f));
+  opacity: 0.85;
+}
+
+.fc-supplies__head { display: flex; align-items: center; gap: 12px; }
+.fc-supplies__icon {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: var(--ed-teal, #1b8a9c);
+  border: 1px solid var(--ed-line-strong, rgba(0, 0, 0, 0.14));
+}
+.fc-supplies__eyebrow {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ed-muted, #6b6b6b);
+}
+.fc-supplies__head h3 {
+  margin: 2px 0 0;
+  font-family: var(--ed-serif, var(--fc-font-display, Georgia, serif));
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--ed-fg, inherit);
+}
+
+.fc-supplies__list { list-style: none; margin: 14px 0 14px; padding: 0; display: grid; gap: 8px; }
+.fc-supplies__list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--ed-line, rgba(0, 0, 0, 0.08));
+  background: transparent;
+}
+.fc-supplies__dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ed-teal, #1b8a9c); flex: 0 0 auto; }
+.fc-supplies__item { flex: 1 1 auto; min-width: 0; font-size: 15px; overflow-wrap: anywhere; }
+.fc-supplies__badge {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  color: var(--ed-teal, #1b8a9c);
+  border: 1px solid currentColor;
+  white-space: nowrap;
+}
+
+.fc-supplies__primary,
+.fc-supplies__ghost {
+  appearance: none;
+  border-radius: 999px;
+  padding: 12px 18px;
+  font: inherit;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  min-height: 46px;
+}
+.fc-supplies__primary {
+  background: var(--ed-btn-bg, #151515);
+  color: var(--ed-btn-fg, #fff);
+  border: 1px solid var(--ed-btn-bg, #151515);
+}
+.fc-supplies__ghost {
+  background: transparent;
+  color: var(--ed-fg, inherit);
+  border: 1px solid var(--ed-line-strong, rgba(0, 0, 0, 0.18));
+}
+.fc-supplies__primary:disabled,
+.fc-supplies__ghost:disabled { opacity: 0.5; cursor: default; }
+.fc-supplies__wide { width: 100%; }
+
+.fc-supplies__picker { display: grid; gap: 12px; }
+.fc-supplies__ask { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ed-muted, #6b6b6b); }
+.fc-supplies__dates { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.fc-supplies__dates button,
+.fc-supplies__dates input {
+  min-width: 0;
+  min-height: 42px;
+  border-radius: 12px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--ed-fg, inherit);
+  background: var(--ed-input, transparent);
+  border: 1px solid var(--ed-line-strong, rgba(0, 0, 0, 0.18));
+  padding: 8px 10px;
+}
+.fc-supplies__dates input { grid-column: 1 / -1; color-scheme: light dark; }
+.fc-supplies__dates button.is-on {
+  border-color: var(--ed-teal, #1b8a9c);
+  color: var(--ed-teal, #1b8a9c);
+  box-shadow: inset 0 0 0 1px var(--ed-teal, #1b8a9c);
+}
+.fc-supplies__actions { display: grid; grid-template-columns: 1fr 1.4fr; gap: 10px; }
+
+.fc-supplies__note {
+  margin: 12px 2px 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ed-teal, #1b8a9c);
+}
+
+/* About → Notifications */
+.fc-push .fc-push__text { margin: 12px 0 14px; font-size: 15px; line-height: 1.55; color: var(--ed-muted, #6b6b6b); }
