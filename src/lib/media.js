@@ -102,6 +102,11 @@ function r2Bucket(bucket) {
   return {
     async upload(path, file, options = {}) {
       if (!(await useR2ForNew())) return sb().upload(path, file, options)
+      // test mode: keep a Supabase copy too, so apps not yet switched still show the file
+      if (configCache?.mode === 'test') {
+        const copy = await sb().upload(path, file, options)
+        if (copy.error) return copy
+      }
       try {
         const token = await accessToken()
         const key = `${bucket}/${path}`
