@@ -43,6 +43,7 @@ import {
 } from 'lucide-react'
 
 import { supabase } from './lib/supabase'
+import { mediaStorage } from './lib/media'
 import FamilySupplies from './FamilySupplies.jsx'
 import PushOptIn, { useAutoResubscribe } from './PushOptIn.jsx'
 import './App.css'
@@ -357,7 +358,7 @@ async function createSignedStorageMediaUrl(
   const {
     data,
     error,
-  } = await supabase.storage
+  } = await mediaStorage
     .from(bucket)
     .createSignedUrl(
       path,
