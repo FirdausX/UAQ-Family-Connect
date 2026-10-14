@@ -16,6 +16,15 @@ export const MEDIA_WORKER = 'https://uaq-telegram-bot.uaq-ecc.workers.dev'
 const R2_BUCKETS = new Set(['family-updates', 'family-announcements', 'emar-media'])
 const TIMEOUT_MS = 8000
 
+// open any page with ?r2=1 to opt this browser into the test (?r2=0 to leave)
+try {
+  const q = new URLSearchParams(window.location.search).get('r2')
+  if (q === '1') localStorage.setItem('uaq_media_r2', '1')
+  if (q === '0') localStorage.removeItem('uaq_media_r2')
+} catch {
+  /* no window/localStorage */
+}
+
 function testFlag() {
   try {
     return localStorage.getItem('uaq_media_r2') === '1'
