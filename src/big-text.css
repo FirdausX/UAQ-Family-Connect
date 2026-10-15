@@ -23,3 +23,15 @@
 @media (max-width: 374px) {
   .app-shell .mobile-bottom-nav span { font-size: 11.5px !important; }
 }
+
+/* Appointment date box: room for the bigger month name (e.g. "SEPTEMBER") */
+.app-shell .appointment-card,
+.app-shell .appointment-card.next {
+  grid-template-columns: auto minmax(0, 1fr) !important;
+}
+.app-shell .appointment-date-box {
+  width: auto !important;
+  min-width: 84px !important;
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}
