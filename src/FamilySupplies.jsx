@@ -46,6 +46,7 @@ export default function FamilySupplies({ focus = false }) {
   const [asking, setAsking] = useState(null)
   const [expanded, setExpanded] = useState({})
   const [message, setMessage] = useState({})
+  const [askedIds, setAskedIds] = useState({})
   const ref = useRef(null)
 
   const load = useCallback(async () => {
@@ -68,13 +69,13 @@ export default function FamilySupplies({ focus = false }) {
 
   const residents = useMemo(() => {
     const map = new Map()
-    for (const s of status) map.set(s.patient_id, { id: s.patient_id, name: String(s.patient_name || '').trim(), askedAt: s.asked_at, stock: s.items || [], bring: [] })
+    for (const s of status) map.set(s.patient_id, { id: s.patient_id, name: String(s.patient_name || '').trim(), askedAt: s.asked_at, asked: Boolean(askedIds[s.patient_id]), stock: s.items || [], bring: [] })
     for (const r of rows) {
       if (!map.has(r.patient_id)) map.set(r.patient_id, { id: r.patient_id, name: String(r.patient_name || '').trim(), askedAt: null, stock: [], bring: [] })
       map.get(r.patient_id).bring.push(r)
     }
     return [...map.values()]
-  }, [rows, status])
+  }, [rows, status, askedIds])
 
   if (!residents.length) return null
 
@@ -113,11 +114,12 @@ export default function FamilySupplies({ focus = false }) {
       })
       const res = await r.json().catch(() => ({}))
       if (!r.ok) throw new Error(res.error || 'failed')
+      if (res.ok) setAskedIds((a) => ({ ...a, [g.id]: true }))
       setMessage((m) => ({
         ...m,
         [g.id]: res.ok
           ? 'Thank you — the care team has been asked. If anything is needed, the list will appear here and you will get a notification.'
-          : `The care team was already asked at ${niceTime(res.asked_at)}. They will reply here.`,
+          : `The care team was asked at ${niceTime(res.asked_at)}. You can ask again after ${niceTime(res.next_at || new Date(Date.parse(res.asked_at) + 30 * 60e3).toISOString())}.`,
       }))
       load()
     } catch {
@@ -142,7 +144,8 @@ export default function FamilySupplies({ focus = false }) {
         const attention = g.stock.filter((i) => i.status !== 'ok').length
         const open = expanded[g.id]
         const shown = open ? g.stock : g.stock.slice(0, SHOW_FIRST)
-        const askedRecently = g.askedAt && Date.now() - Date.parse(g.askedAt) < 6 * 3600e3
+        const askedRecently = g.askedAt && Date.now() - Date.parse(g.askedAt) < 30 * 60e3
+        const askedBefore = Boolean(g.asked)
         return (
           <div className="fc-supplies__card" key={g.id}>
             <div className="fc-supplies__head">
@@ -232,7 +235,9 @@ export default function FamilySupplies({ focus = false }) {
 
             <button type="button" className="fc-supplies__ghost fc-supplies__wide fc-supplies__askbtn" disabled={asking === g.id || askedRecently} onClick={() => ask(g)}>
               <MessageCircle size={16} />
-              {askedRecently ? `Asked at ${niceTime(g.askedAt)}` : asking === g.id ? 'Sending…' : 'Ask the care team'}
+              {askedRecently
+                ? `Asked at ${niceTime(g.askedAt)} · ask again after ${niceTime(new Date(Date.parse(g.askedAt) + 30 * 60e3).toISOString())}`
+                : asking === g.id ? 'Sending…' : askedBefore ? 'Ask the care team again' : 'Ask the care team'}
             </button>
 
             {message[g.id] && <p className="fc-supplies__note">{message[g.id]}</p>}
