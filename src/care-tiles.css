@@ -74,14 +74,14 @@
   display: block;
   margin: 2px 0 6px;
   color: var(--ct-muted);
-  font: 800 10.5px/1.2 'Plus Jakarta Sans', system-ui, sans-serif;
+  font: 800 14.5px/1.2 'Plus Jakarta Sans', system-ui, sans-serif;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 .care-tile__copy strong {
   display: block;
   color: var(--ct-ink);
-  font: 700 15px/1.4 'Plus Jakarta Sans', system-ui, sans-serif;
+  font: 700 17px/1.4 'Plus Jakarta Sans', system-ui, sans-serif;
   overflow-wrap: anywhere;
 }
 
@@ -100,7 +100,7 @@
 .app-shell.dark .care-tile--primary .care-tile__icon { color: #0d1b2e; background: linear-gradient(140deg, var(--ct-accent), color-mix(in srgb, var(--ct-accent) 70%, #fff)); }
 .care-tile--primary .care-tile__copy strong {
   font-family: Fraunces, Georgia, serif;
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 600;
 }
 
@@ -136,7 +136,7 @@
   .care-tile { flex-direction: column; gap: 10px; min-height: 0; padding: 14px; }
   .care-tile--alert, .care-tile--warn { padding-left: 18px; }
   .care-tile--primary { grid-column: 1 / -1; flex-direction: row; align-items: center; }
-  .care-tile__copy strong { font-size: 14px; }
+  .care-tile__copy strong { font-size: 16.5px; }
 }
 
 /* Resident header + family note pick up the same glass */

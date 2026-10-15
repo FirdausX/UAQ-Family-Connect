@@ -1,0 +1,25 @@
+/* =========================================================
+   Bigger text for older eyes: bottom nav labels stay whole.
+   Each button takes the width its label needs (long labels like
+   "Appointments" / "Announcement" get more room), no "…" cut-off.
+   ========================================================= */
+.app-shell .family-app-shell .mobile-bottom-nav,
+.app-shell .mobile-bottom-nav {
+  display: flex !important;
+  gap: 2px !important;
+}
+.app-shell .mobile-bottom-nav button {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  padding-left: 4px !important;
+  padding-right: 4px !important;
+}
+.app-shell .mobile-bottom-nav span {
+  font-size: 12.5px !important;
+  letter-spacing: -0.01em !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+@media (max-width: 374px) {
+  .app-shell .mobile-bottom-nav span { font-size: 11.5px !important; }
+}

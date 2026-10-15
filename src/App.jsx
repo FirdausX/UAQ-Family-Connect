@@ -54,6 +54,7 @@ import './raya-emerald.css'
 import './care-tiles.css'
 import './uaq-editorial.css'
 import './editorial-sweep.css'
+import './big-text.css'
 import { useUaqVisualTheme } from './uaq-seasonal-theme'
 
 const APP_VERSION = '2.7.0'
@@ -3919,7 +3920,7 @@ if (!loggedIn) {
                   color: dark
                     ? '#f1f6f4'
                     : '#203631',
-                  fontSize: '21px',
+                  fontSize: '22px',
                   lineHeight: 1.2,
                 }}
               >
@@ -3934,7 +3935,7 @@ if (!loggedIn) {
                   color: dark
                     ? '#aebeb8'
                     : '#87948f',
-                  fontSize: '11px',
+                  fontSize: '14.5px',
                   fontWeight: 650,
                 }}
               >

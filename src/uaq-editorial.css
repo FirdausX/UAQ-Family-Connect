@@ -127,16 +127,16 @@
 /* ---------- brand lockup ---------- */
 .app-shell[data-uaq-season='blue_sakura'] .fc-brand { color: var(--ed-teal) !important; gap: 8px; }
 .app-shell[data-uaq-season='blue_sakura'] .fc-brand__name {
-  font: 600 13px/1 var(--ed-display) !important;
+  font: 600 16px/1 var(--ed-display) !important;
   letter-spacing: 0.32em !important;
   text-transform: uppercase !important;
   color: var(--ed-fg) !important;
   -webkit-text-fill-color: currentColor !important;
   background: none !important;
 }
-.app-shell[data-uaq-season='blue_sakura'] .fc-brand--lg .fc-brand__name { font-size: 22px !important; letter-spacing: 0.22em !important; }
+.app-shell[data-uaq-season='blue_sakura'] .fc-brand--lg .fc-brand__name { font-size: 23px !important; letter-spacing: 0.22em !important; }
 .app-shell[data-uaq-season='blue_sakura'] .fc-brand__sub {
-  font: 600 9.5px/1.2 var(--ed-body) !important;
+  font: 600 13px/1.2 var(--ed-body) !important;
   letter-spacing: 0.2em !important;
   color: var(--ed-rose) !important;
 }
@@ -159,7 +159,7 @@
   border: 1px solid transparent !important;
   border-radius: 999px !important;
   color: var(--ed-soft) !important;
-  font: 500 13.5px/1.2 var(--ed-body) !important;
+  font: 500 16px/1.2 var(--ed-body) !important;
   letter-spacing: 0.02em !important;
   box-shadow: none !important;
   padding-right: 16px !important;
@@ -188,7 +188,7 @@
   border-top: 1px solid var(--ed-line) !important;
 }
 .app-shell[data-uaq-season='blue_sakura'] .family-app-shell .sidebar-footer strong {
-  font: 500 19px/1.2 var(--ed-serif) !important;
+  font: 500 20px/1.2 var(--ed-serif) !important;
   color: var(--ed-fg) !important;
   letter-spacing: 0 !important;
 }
@@ -239,7 +239,7 @@
 /* eyebrow / kicker labels */
 .app-shell[data-uaq-season='blue_sakura'] :is(.page-topbar > div > span:first-child, .section-heading span, .section-heading small, [class*='section-heading'] > div > span, [class*='eyebrow'], [class*='kicker'], .home-hero-top > div > span) {
   color: var(--ed-rose) !important;
-  font: 600 11px/1.3 var(--ed-body) !important;
+  font: 600 14.5px/1.3 var(--ed-body) !important;
   letter-spacing: 0.18em !important;
   text-transform: uppercase !important;
   background: none !important;
@@ -624,7 +624,7 @@
   .app-shell[data-uaq-season='blue_sakura'] .uaq-nature-login--family .uaq-nature-login__paper::before {
     content: 'Pasir Gudang \00B7  Johor';
     display: block;
-    font: 600 11px/1 'Raleway', 'Helvetica Neue', Arial, sans-serif;
+    font: 600 14.5px/1 'Raleway', 'Helvetica Neue', Arial, sans-serif;
     letter-spacing: 0.24em;
     text-transform: uppercase;
     color: #e8c9bc;
