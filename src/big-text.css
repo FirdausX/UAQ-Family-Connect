@@ -1,0 +1,57 @@
+/* =========================================================
+   Bigger text for older eyes: bottom nav labels stay whole.
+   Each button takes the width its label needs (long labels like
+   "Appointments" / "Announcement" get more room), no "…" cut-off.
+   ========================================================= */
+.app-shell .family-app-shell .mobile-bottom-nav,
+.app-shell .mobile-bottom-nav {
+  display: flex !important;
+  gap: 2px !important;
+}
+.app-shell .mobile-bottom-nav button {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  padding-left: 4px !important;
+  padding-right: 4px !important;
+}
+.app-shell .mobile-bottom-nav span {
+  font-size: 13px !important;
+  letter-spacing: -0.01em !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+@media (max-width: 374px) {
+  .app-shell .mobile-bottom-nav span { font-size: 12px !important; }
+}
+
+/* Appointment date box: room for the bigger month name (e.g. "SEPTEMBER") */
+.app-shell .appointment-card,
+.app-shell .appointment-card.next {
+  grid-template-columns: auto minmax(0, 1fr) !important;
+}
+.app-shell .appointment-date-box {
+  width: auto !important;
+  min-width: 84px !important;
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}
+
+/* Home overview cards: icon beside the number, label and note use the full card width,
+   so long words like "Announcements" stay inside the card */
+.app-shell .uaq-blue-family-stats button {
+  grid-template-columns: auto minmax(0, 1fr) !important;
+  grid-template-rows: auto auto auto !important;
+  align-items: center !important;
+  column-gap: 12px !important;
+}
+.app-shell .uaq-blue-family-stats button > svg {
+  grid-row: 1 !important;
+  grid-column: 1 !important;
+  width: 40px !important;
+  height: 40px !important;
+  padding: 9px !important;
+}
+.app-shell .uaq-blue-family-stats button > strong { grid-row: 1 !important; grid-column: 2 !important; }
+.app-shell .uaq-blue-family-stats button > span,
+.app-shell .uaq-blue-family-stats button > small { grid-column: 1 / -1 !important; min-width: 0; }
+.app-shell .uaq-blue-family-stats button > span { margin-top: 10px !important; }

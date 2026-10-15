@@ -374,7 +374,7 @@
   background-repeat:no-repeat,no-repeat !important;
   color:var(--uaq-v4-ink) !important;
   opacity:1 !important;
-  font:800 11px/1.6 'Plus Jakarta Sans',Inter,system-ui,sans-serif !important;
+  font:800 16px/1.6 'Plus Jakarta Sans',Inter,system-ui,sans-serif !important;
   letter-spacing:.12em !important;
   text-align:center !important;
   pointer-events:none !important;
@@ -585,7 +585,7 @@
   .app-shell[data-uaq-season] .family-app-shell .home-hero::after {animation:none !important;}
   .app-shell[data-uaq-season] .content-area::before,
   .app-shell[data-uaq-season] .app-content::before {
-    font-size:9px !important; letter-spacing:.045em !important;
+    font-size:15px !important; letter-spacing:.045em !important;
     padding:9px 12px !important; min-height:30px !important;
   }
   .app-shell[data-uaq-season] .family-app-shell .home-hero::after {

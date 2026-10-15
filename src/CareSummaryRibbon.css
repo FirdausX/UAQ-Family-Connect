@@ -141,7 +141,7 @@
     "Times New Roman",
     serif;
 
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 600;
   line-height: 1.12;
   letter-spacing: -0.1px;
@@ -250,7 +250,7 @@
 
   color: #87928e;
 
-  font-size: 9px;
+  font-size: 15px;
   font-weight: 800;
   line-height: 1.2;
   letter-spacing: 0.35px;
@@ -262,7 +262,7 @@
 
   color: #263f3a;
 
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 750;
   line-height: 1.42;
 
@@ -329,7 +329,7 @@
 
   .family-care-ribbon-tab strong {
     max-width: 140px;
-    font-size: 14px;
+    font-size: 17.5px;
   }
 }
 
@@ -385,7 +385,7 @@
 
     max-width: none;
 
-    font-size: 14px;
+    font-size: 17.5px;
   }
 
   .family-care-ribbon-body {
@@ -424,10 +424,10 @@
   }
 
   .family-care-ribbon-value span {
-    font-size: 8px;
+    font-size: 14px;
   }
 
   .family-care-ribbon-value strong {
-    font-size: 12px;
+    font-size: 16.5px;
   }
 }

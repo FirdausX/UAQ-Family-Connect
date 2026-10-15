@@ -167,7 +167,7 @@ input:focus-visible {
   align-items: center;
   gap: 8px;
   margin-bottom: 17px;
-  font-size: 12px;
+  font-size: 16.5px;
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -184,7 +184,7 @@ input:focus-visible {
 .login-hero-copy p {
   max-width: 470px;
   margin: 20px 0 0;
-  font-size: 16px;
+  font-size: 18.5px;
   line-height: 1.65;
   color: rgba(255,255,255,0.88);
 }
@@ -237,7 +237,7 @@ input:focus-visible {
 .login-title > span {
   display: block;
   color: var(--teal-dark);
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -266,7 +266,7 @@ input:focus-visible {
 .login-form label {
   display: grid;
   gap: 8px;
-  font-size: 12px;
+  font-size: 16.5px;
   font-weight: 800;
 }
 
@@ -321,7 +321,7 @@ input:focus-visible {
   border-radius: 14px;
   background: #fff3f1;
   color: #934b45;
-  font-size: 12px;
+  font-size: 16.5px;
 }
 
 .login-button {
@@ -347,7 +347,7 @@ input:focus-visible {
   gap: 7px;
   margin-top: 18px;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 16px;
 }
 
 /* =========================================================
@@ -408,7 +408,7 @@ input:focus-visible {
 .mobile-bottom-nav span {
   max-width: 100%;
   overflow: hidden;
-  font-size: 8px;
+  font-size: 14px;
   font-weight: 750;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -446,7 +446,7 @@ input:focus-visible {
 .about-account-card > div > span,
 .about-connection-card > div > span {
   color: var(--sage-dark);
-  font-size: 9px;
+  font-size: 15px;
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -464,7 +464,7 @@ input:focus-visible {
   margin: 7px 0 0;
   max-width: 560px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 16.5px;
   line-height: 1.5;
 }
 
@@ -511,7 +511,7 @@ input:focus-visible {
   border: 0;
   background: transparent;
   color: var(--teal-dark);
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 800;
   cursor: pointer;
 }
@@ -565,7 +565,7 @@ input:focus-visible {
 
 .home-hero-top > div > span {
   color: var(--sage-dark);
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 800;
   letter-spacing: 0.10em;
   text-transform: uppercase;
@@ -593,7 +593,7 @@ input:focus-visible {
   border-radius: 999px;
   background: rgba(255,255,255,0.77);
   color: var(--sage-dark);
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 800;
   backdrop-filter: blur(12px);
 }
@@ -657,13 +657,13 @@ input:focus-visible {
 
 .resident-card-copy > span {
   color: var(--muted);
-  font-size: 9px;
+  font-size: 15px;
 }
 
 .resident-card-copy h3 {
   margin: 4px 0 0;
   overflow: hidden;
-  font-size: 19px;
+  font-size: 20px;
   letter-spacing: -0.025em;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -672,7 +672,7 @@ input:focus-visible {
 .resident-card-copy p {
   margin: 5px 0 0;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 16px;
 }
 
 .resident-status {
@@ -690,7 +690,7 @@ input:focus-visible {
   border-radius: 999px;
   background: #e7f0e8;
   color: #56715d;
-  font-size: 10px;
+  font-size: 15.5px;
   font-weight: 800;
 }
 
@@ -736,14 +736,14 @@ input:focus-visible {
 .home-summary-card span {
   display: block;
   color: var(--muted);
-  font-size: 9px;
+  font-size: 15px;
 }
 
 .home-summary-card strong {
   display: block;
   margin-top: 2px;
   overflow: hidden;
-  font-size: 13px;
+  font-size: 17px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -751,7 +751,7 @@ input:focus-visible {
 .home-summary-card p {
   margin: 2px 0 0;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 15.5px;
 }
 
 .home-summary-card > svg {
@@ -787,7 +787,7 @@ input:focus-visible {
   border-radius: 999px;
   background: rgba(255,255,255,0.70);
   color: #53645d;
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 750;
   cursor: pointer;
 }
@@ -814,19 +814,19 @@ input:focus-visible {
   width: 42px;
   height: 42px;
   border-radius: 14px;
-  font-size: 14px;
+  font-size: 17.5px;
 }
 
 .linked-resident-strip span {
   display: block;
   color: var(--muted);
-  font-size: 9px;
+  font-size: 15px;
 }
 
 .linked-resident-strip strong {
   display: block;
   margin-top: 1px;
-  font-size: 12px;
+  font-size: 16.5px;
 }
 
 .linked-resident-strip > svg {
@@ -874,7 +874,7 @@ input:focus-visible {
   border-radius: 999px;
   background: rgba(255,255,255,0.90);
   color: #24483f;
-  font-size: 9px;
+  font-size: 15px;
   font-weight: 800;
   backdrop-filter: blur(9px);
 }
@@ -899,19 +899,19 @@ input:focus-visible {
 
 .activity-date {
   color: var(--muted);
-  font-size: 9px;
+  font-size: 15px;
 }
 
 .activity-card-content h3 {
   margin: 5px 0 0;
-  font-size: 16px;
+  font-size: 18.5px;
   letter-spacing: -0.02em;
 }
 
 .activity-card-content p {
   margin: 6px 0 0;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -929,7 +929,7 @@ input:focus-visible {
   border-radius: 18px;
   background: rgba(255,255,255,0.67);
   color: var(--muted);
-  font-size: 10px;
+  font-size: 15.5px;
 }
 
 .private-media-note {
@@ -938,7 +938,7 @@ input:focus-visible {
   gap: 6px;
   margin-top: 10px;
   color: var(--sage-dark);
-  font-size: 10px;
+  font-size: 15.5px;
   font-weight: 800;
 }
 
@@ -975,7 +975,7 @@ input:focus-visible {
 .media-viewer-header span {
   display: block;
   color: var(--teal-dark);
-  font-size: 9px;
+  font-size: 15px;
   font-weight: 800;
   text-transform: uppercase;
 }
@@ -1012,13 +1012,13 @@ input:focus-visible {
 
 .media-viewer-copy > span {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 15.5px;
 }
 
 .media-viewer-copy p {
   margin: 8px 0 0;
   color: #465750;
-  font-size: 12px;
+  font-size: 16.5px;
   line-height: 1.55;
 }
 
@@ -1071,7 +1071,7 @@ input:focus-visible {
 }
 
 .private-video-time {
-  font-size: 9px;
+  font-size: 15px;
   color: rgba(255,255,255,0.76);
 }
 
@@ -1127,7 +1127,7 @@ input:focus-visible {
 
 .appointment-date-box span {
   margin-top: 3px;
-  font-size: 9px;
+  font-size: 15px;
   font-weight: 800;
   text-transform: uppercase;
 }
@@ -1137,13 +1137,13 @@ input:focus-visible {
   align-items: center;
   gap: 5px;
   color: var(--teal-dark);
-  font-size: 9px;
+  font-size: 15px;
   font-weight: 800;
 }
 
 .appointment-card h3 {
   margin: 5px 0 0;
-  font-size: 16px;
+  font-size: 18.5px;
 }
 
 .appointment-meta {
@@ -1152,7 +1152,7 @@ input:focus-visible {
   gap: 9px;
   margin-top: 7px;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 15.5px;
 }
 
 .appointment-meta span {
@@ -1164,7 +1164,7 @@ input:focus-visible {
 .appointment-card p {
   margin: 7px 0 0;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 15.5px;
   line-height: 1.45;
 }
 
@@ -1193,14 +1193,14 @@ input:focus-visible {
 .appointment-empty-card strong,
 .announcement-empty-card strong {
   display: block;
-  font-size: 13px;
+  font-size: 17px;
 }
 
 .appointment-empty-card p,
 .announcement-empty-card p {
   margin: 4px 0 0;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 15.5px;
   line-height: 1.45;
 }
 
@@ -1244,7 +1244,7 @@ input:focus-visible {
   flex-wrap: wrap;
   gap: 8px;
   color: var(--muted);
-  font-size: 9px;
+  font-size: 15px;
 }
 
 .announcement-meta span:first-child {
@@ -1255,13 +1255,13 @@ input:focus-visible {
 
 .announcement-card h3 {
   margin: 5px 0 0;
-  font-size: 15px;
+  font-size: 18px;
 }
 
 .announcement-card p {
   margin: 6px 0 0;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -1307,7 +1307,7 @@ input:focus-visible {
 
 .resident-profile-copy h2 {
   margin: 5px 0 0;
-  font-size: 22px;
+  font-size: 23px;
   letter-spacing: -0.025em;
 }
 
@@ -1317,7 +1317,7 @@ input:focus-visible {
   gap: 5px;
   margin: 7px 0 0;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 16px;
 }
 
 .resident-profile-status {
@@ -1329,7 +1329,7 @@ input:focus-visible {
   border-radius: 999px;
   background: #e8f0e8;
   color: #58715e;
-  font-size: 10px;
+  font-size: 15.5px;
   font-weight: 800;
 }
 
@@ -1340,7 +1340,7 @@ input:focus-visible {
 .care-summary-intro {
   margin: -3px 0 0;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 16px;
 }
 
 .family-care-note {
@@ -1357,13 +1357,13 @@ input:focus-visible {
 
 .family-care-note strong {
   display: block;
-  font-size: 12px;
+  font-size: 16.5px;
 }
 
 .family-care-note p {
   margin: 4px 0 0;
   color: #768079;
-  font-size: 10px;
+  font-size: 15.5px;
   line-height: 1.5;
 }
 
@@ -1455,7 +1455,7 @@ input:focus-visible {
   gap: 5px;
   max-width: 170px;
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 14px;
+  font-size: 17.5px;
   line-height: 1.12;
 }
 
@@ -1510,7 +1510,7 @@ input:focus-visible {
   display: block;
   margin-bottom: 5px;
   color: #87928e;
-  font-size: 9px;
+  font-size: 15px;
   font-weight: 800;
   letter-spacing: 0.35px;
   text-transform: uppercase;
@@ -1519,7 +1519,7 @@ input:focus-visible {
 .family-care-ribbon-value strong {
   display: block;
   color: #263f3a;
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 750;
   line-height: 1.42;
   overflow-wrap: anywhere;
@@ -1578,7 +1578,7 @@ input:focus-visible {
 .about-section-heading p {
   margin: 5px 0 0;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 15.5px;
   line-height: 1.5;
 }
 
@@ -1604,13 +1604,13 @@ input:focus-visible {
 
 .app-info-grid strong {
   display: block;
-  font-size: 11px;
+  font-size: 16px;
 }
 
 .app-info-grid p {
   margin: 3px 0 0;
   color: var(--muted);
-  font-size: 9px;
+  font-size: 15px;
   line-height: 1.45;
 }
 
@@ -1643,14 +1643,14 @@ input:focus-visible {
 .about-account-card h2,
 .about-connection-card h2 {
   margin: 4px 0 0;
-  font-size: 16px;
+  font-size: 18.5px;
 }
 
 .about-account-card p,
 .about-connection-card p {
   margin: 3px 0 0;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 15.5px;
 }
 
 .about-account-card > svg {
@@ -1679,14 +1679,14 @@ input:focus-visible {
 .version-card span {
   display: block;
   color: var(--muted);
-  font-size: 8px;
+  font-size: 14px;
   text-transform: uppercase;
 }
 
 .version-card strong {
   display: block;
   margin-top: 1px;
-  font-size: 11px;
+  font-size: 16px;
 }
 
 .whats-new-list {
@@ -1701,7 +1701,7 @@ input:focus-visible {
   gap: 8px;
   align-items: start;
   color: #52625c;
-  font-size: 10px;
+  font-size: 15.5px;
   line-height: 1.45;
 }
 
@@ -1877,7 +1877,7 @@ input:focus-visible {
   }
 
   .desktop-nav button span {
-    font-size: 13px;
+    font-size: 17px;
   }
 
   .sidebar-footer {
@@ -1890,20 +1890,20 @@ input:focus-visible {
 
   .sidebar-footer strong {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 18px;
+    font-size: 20px;
     line-height: 1.15;
     color: #4c6c5a;
   }
 
   .sidebar-footer span {
     color: var(--muted);
-    font-size: 9px;
+    font-size: 15px;
     line-height: 1.5;
   }
 
   .sidebar-footer small {
     color: var(--teal-dark);
-    font-size: 9px;
+    font-size: 15px;
     font-weight: 800;
   }
 
@@ -2036,7 +2036,7 @@ input:focus-visible {
     width: 60px;
     height: 60px;
     border-radius: 19px;
-    font-size: 20px;
+    font-size: 21px;
   }
 
   .resident-status {
@@ -2058,7 +2058,7 @@ input:focus-visible {
     width: 70px;
     height: 70px;
     border-radius: 20px;
-    font-size: 21px;
+    font-size: 22px;
   }
 
   .resident-profile-status {
@@ -2108,7 +2108,7 @@ input:focus-visible {
   .family-care-ribbon-tab strong {
     justify-content: flex-start;
     max-width: none;
-    font-size: 14px;
+    font-size: 17.5px;
   }
 
   .family-care-ribbon-body {
@@ -2130,11 +2130,11 @@ input:focus-visible {
   }
 
   .family-care-ribbon-value span {
-    font-size: 8px;
+    font-size: 14px;
   }
 
   .family-care-ribbon-value strong {
-    font-size: 12px;
+    font-size: 16.5px;
   }
 }
 
@@ -2182,7 +2182,7 @@ input:focus-visible {
   }
 
   .mobile-bottom-nav span {
-    font-size: 7.5px;
+    font-size: 14px;
   }
 }
 
@@ -2703,20 +2703,20 @@ body:has(.app-shell.dark) #root {
 
 .announcement-meta {
   gap: 9px !important;
-  font-size: 11px !important;
+  font-size: 16px !important;
   line-height: 1.35 !important;
 }
 
 .announcement-card h3 {
   margin-top: 6px !important;
-  font-size: clamp(17px, 1.35vw, 20px) !important;
+  font-size: clamp(19px, 1.35vw, 21px) !important;
   line-height: 1.28 !important;
   letter-spacing: -0.018em !important;
 }
 
 .announcement-card p {
   margin-top: 8px !important;
-  font-size: clamp(13.5px, 1vw, 15px) !important;
+  font-size: clamp(17px, 1vw, 18px) !important;
   line-height: 1.62 !important;
 }
 
@@ -2733,27 +2733,27 @@ body:has(.app-shell.dark) #root {
   }
 
   .announcement-meta {
-    font-size: 10.5px !important;
+    font-size: 16px !important;
   }
 
   .announcement-card h3 {
-    font-size: 18px !important;
+    font-size: 20px !important;
     line-height: 1.3 !important;
   }
 
   .announcement-card p {
-    font-size: 14px !important;
+    font-size: 17.5px !important;
     line-height: 1.6 !important;
   }
 }
 
 @media (min-width: 1200px) {
   .announcement-card h3 {
-    font-size: 19px !important;
+    font-size: 20px !important;
   }
 
   .announcement-card p {
-    font-size: 14.5px !important;
+    font-size: 18px !important;
   }
 }
 
@@ -2966,7 +2966,7 @@ body:has(.app-shell.dark) #root {
   }
 
   .desktop-nav button span {
-    font-size: 17px !important;
+    font-size: 19px !important;
     line-height: 1.25 !important;
     font-weight: 750 !important;
     letter-spacing: -0.01em !important;
@@ -3313,7 +3313,7 @@ body:has(.app-shell.dark) #root {
 }
 .uaq-nature-login__blossom {
   position:absolute; right:-27px; top:35%;
-  font-family:Georgia,serif;font-size:clamp(21px,2.7vw,36px);
+  font-family:Georgia,serif;font-size:clamp(22px,2.7vw,36px);
   color:#f19bad;text-shadow:8px 8px 0 #ffd4db;
 }
 .uaq-nature-login__appname {
@@ -3322,7 +3322,7 @@ body:has(.app-shell.dark) #root {
   letter-spacing:-.04em;line-height:1.05;
 }
 .uaq-nature-login__brandline {
-  margin-top:8px;font-size:10px;font-weight:650;
+  margin-top:8px;font-size:15.5px;font-weight:650;
   letter-spacing:.24em;color:#826c5a;
 }
 .uaq-nature-login__family-brand {
@@ -3338,12 +3338,12 @@ body:has(.app-shell.dark) #root {
   letter-spacing:-.035em;line-height:1.08;
 }
 .uaq-nature-login__heading p {
-  color:#5f7165; margin:0; font-size:14px;line-height:1.55;
+  color:#5f7165; margin:0; font-size:17.5px;line-height:1.55;
 }
 .uaq-nature-login__form {display:flex; flex-direction:column; gap:0;}
 .uaq-nature-login__form label {
   display:block;margin:0 0 8px 13px;
-  font-size:12px;font-weight:650;line-height:1.2;letter-spacing:.01em;
+  font-size:16.5px;font-weight:650;line-height:1.2;letter-spacing:.01em;
   color:#374b3e;
 }
 .uaq-nature-login__input-row {
@@ -3367,7 +3367,7 @@ body:has(.app-shell.dark) #root {
   width:100%;height:54px;min-width:0;flex:1 1 auto;
   padding:0;border:0!important;outline:0!important;
   background:transparent!important;box-shadow:none!important;
-  color:#203629!important;font-size:14px;font-weight:500;
+  color:#203629!important;font-size:17.5px;font-weight:500;
   line-height:1.25;
 }
 .uaq-nature-login__input-row input::placeholder {color:#7d887f;opacity:1;}
@@ -3375,7 +3375,7 @@ body:has(.app-shell.dark) #root {
   flex:0 0 auto;min-width:41px;height:34px;
   display:flex;align-items:center;justify-content:center;
   border:0;background:transparent;color:#3d6350;
-  border-radius:10px;cursor:pointer;font-size:12px;font-weight:700;
+  border-radius:10px;cursor:pointer;font-size:16.5px;font-weight:700;
 }
 .uaq-nature-login__eye:hover {background:rgba(76,115,87,.10);}
 .uaq-nature-login__eye svg{width:19px;height:19px;stroke:currentColor;fill:none;}
@@ -3384,28 +3384,28 @@ body:has(.app-shell.dark) #root {
   justify-content:center;gap:16px;margin-top:4px;
   padding:14px 22px;border:0;border-radius:999px;
   background:linear-gradient(145deg,#355d45,#203f2e)!important;
-  color:#fff!important;font-size:16px;font-weight:750;
+  color:#fff!important;font-size:18.5px;font-weight:750;
   box-shadow:0 15px 28px rgba(28,67,40,.17);
   cursor:pointer;transition:transform .18s ease,filter .18s ease;
 }
 .uaq-nature-login__submit:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.06);}
 .uaq-nature-login__submit:disabled {opacity:.62;cursor:wait;}
-.uaq-nature-login__submit span{font-size:22px;line-height:0;transform:translateY(-1px);}
+.uaq-nature-login__submit span{font-size:23px;line-height:0;transform:translateY(-1px);}
 .uaq-nature-login__error {
   margin:-4px 0 15px;padding:12px 13px;border:1px solid #edbbb4;
   border-radius:14px;background:#fff1ef;color:#913e3e;
-  font-size:12px;line-height:1.45;
+  font-size:16.5px;line-height:1.45;
 }
 .uaq-nature-login__rule {
   display:flex;align-items:center;gap:12px;
-  margin:22px 0 0;font-size:11px;color:#708074;text-align:center;
+  margin:22px 0 0;font-size:16px;color:#708074;text-align:center;
 }
 .uaq-nature-login__rule::before,.uaq-nature-login__rule::after {
   content:'';height:1px;flex:1 1 auto;background:rgba(67,93,73,.23);
 }
 .uaq-nature-login__help {
   color:#608a71;text-align:center;
-  font-size:11.5px;font-weight:650;line-height:1.55;
+  font-size:16.5px;font-weight:650;line-height:1.55;
   margin:17px auto 0;
 }
 .uaq-nature-login__theme {
@@ -3521,7 +3521,7 @@ body:has(.app-shell.dark) #root {
    min-height:56px !important;border-radius:15px !important;color:#41618c !important;
    text-align:left; font-weight:750 !important;padding:0 17px !important;
  }
- .family-app-shell .desktop-nav button span{font-size:15px !important;}
+ .family-app-shell .desktop-nav button span{font-size:18px !important;}
  .family-app-shell .desktop-nav button.active {background:linear-gradient(100deg,#cde2fb,#edf5ff) !important;color:#165aa8 !important;border:1px solid rgba(76,131,202,.12) !important;box-shadow:0 5px 17px rgba(58,113,181,.09);}
  .family-app-shell .desktop-nav button:hover:not(.active){background:rgba(219,235,255,.78) !important;color:#1b62ad !important;}
  .family-app-shell .sidebar-footer{border-top-color:rgba(85,142,201,.18) !important;}
@@ -3530,9 +3530,9 @@ body:has(.app-shell.dark) #root {
 }
 /* Intro matches the illustration's large, airy heading. */
 .uaq-blue-family-intro{padding:clamp(22px,3vw,42px) clamp(20px,3vw,45px) 21px;}
-.uaq-blue-family-intro>span{display:block;color:#4f7db6;font:500 19px/1.3 Georgia,serif;}
+.uaq-blue-family-intro>span{display:block;color:#4f7db6;font:500 20px/1.3 Georgia,serif;}
 .uaq-blue-family-intro h1{margin:5px 0 6px;color:#102c66;font:600 clamp(30px,3.4vw,51px)/1.13 Georgia,serif;letter-spacing:-.025em;}
-.uaq-blue-family-intro p{color:#6687b0;margin:0;font-size:14px;line-height:1.6;}
+.uaq-blue-family-intro p{color:#6687b0;margin:0;font-size:17.5px;line-height:1.6;}
 .family-app-shell .home-app {background:transparent !important;}
 .family-app-shell .home-hero {
   margin:0 clamp(14px,2.7vw,42px);
@@ -3545,7 +3545,7 @@ body:has(.app-shell.dark) #root {
 }
 .family-app-shell .home-hero-overlay {background:linear-gradient(90deg,rgba(249,252,255,.88),rgba(245,251,255,.62) 45%,rgba(242,250,255,.08) 94%) !important;}
 .family-app-shell .home-hero-top h1 {color:#143e7e !important;font-family:Georgia,serif !important;font-size:clamp(28px,3.8vw,46px) !important;line-height:1.08 !important;max-width:690px !important;}
-.family-app-shell .home-hero-top>div>span{color:#497fbc !important;font-size:11px !important;}
+.family-app-shell .home-hero-top>div>span{color:#497fbc !important;font-size:16px !important;}
 .family-app-shell .home-hero-message{background:rgba(248,252,255,.92) !important;color:#2c70bb !important;border-color:rgba(93,150,204,.25) !important;}
 .family-app-shell .home-icon-button{background:rgba(255,255,255,.88) !important;color:#265c9b !important;border:1px solid #d9e9fb !important;}
 /* KPI tiles are REAL data backed, links call the existing navigation. */
@@ -3564,8 +3564,8 @@ body:has(.app-shell.dark) #root {
 .uaq-blue-family-stats button:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(57,107,158,.16);}
 .uaq-blue-family-stats button>svg{grid-row:1/4;place-self:center;background:#dfedff;border-radius:15px;width:42px;height:42px;padding:10px;}
 .uaq-blue-family-stats button>strong{font:600 29px/1 Georgia,serif;color:#143879;}
-.uaq-blue-family-stats button>span{margin-top:5px;font-size:11px;font-weight:800;color:#235c9b;}
-.uaq-blue-family-stats button>small{margin-top:4px;font-size:10px;line-height:1.4;color:#7895b5;}
+.uaq-blue-family-stats button>span{margin-top:5px;font-size:16px;font-weight:800;color:#235c9b;}
+.uaq-blue-family-stats button>small{margin-top:4px;font-size:15.5px;line-height:1.4;color:#7895b5;}
 .family-app-shell .home-scroll{width:100% !important;max-width:1500px !important;padding:20px clamp(14px,2.7vw,42px) 50px !important;}
 @media (min-width:1100px){
  .family-app-shell .home-scroll{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-content:start;gap:16px !important;}
@@ -3598,7 +3598,7 @@ body:has(.app-shell.dark) #root {
 .family-app-shell .resident-status>span{background:#e3f0ff !important;color:#366b9e !important;}
 .family-app-shell .summary-icon{background:#e1efff !important;color:#2d75c7 !important;}
 .family-app-shell .home-summary-card span{color:#647fa2 !important;}
-.family-app-shell .home-summary-card strong{color:#194576 !important;font-size:14px !important;}
+.family-app-shell .home-summary-card strong{color:#194576 !important;font-size:17.5px !important;}
 .family-app-shell .home-summary-card p{color:#829ab4 !important;}
 .family-app-shell .home-activity-grid{gap:12px !important;}
 /* Rest of the pages inherit the exact same botanical blue tokens. */
@@ -3668,8 +3668,8 @@ body:has(.app-shell.dark) #root {
  .family-app-shell .mobile-bottom-nav button.active{background:#d9eaff !important;color:#1d62b0 !important;}
 }
 @media(max-width:440px){
- .uaq-blue-family-stats button>span{font-size:10px;}
- .uaq-blue-family-stats button>small{font-size:9px;}
+ .uaq-blue-family-stats button>span{font-size:15.5px;}
+ .uaq-blue-family-stats button>small{font-size:15px;}
  .family-app-shell .home-hero{min-height:290px;}
  .family-app-shell .home-hero-top{padding:21px 16px 0;}
  .family-app-shell .home-hero-top h1{font-size:clamp(27px,8vw,39px) !important;}
