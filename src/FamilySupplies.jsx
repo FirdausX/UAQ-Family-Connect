@@ -1,14 +1,25 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { CalendarDays, Check, ShoppingBag } from 'lucide-react'
+import { CalendarDays, Check, MessageCircle, ShoppingBag } from 'lucide-react'
 import { supabase } from './lib/supabase'
+import { MEDIA_WORKER } from './lib/media'
 import './family-supplies.css'
 
 /* =====================================================================
-   🛒 Items to bring — supplies the care team asked the FAMILY to buy.
-   Data: rpc family_supply_list() (only my linked residents, family-bought
-   items only). "I'll bring these" → rpc family_supply_pledge(ids, date).
-   Renders nothing when there is nothing to bring.
+   🛒 Supplies — one card per linked resident:
+   • Items to bring: what the care team asked the FAMILY to buy
+     (rpc family_supply_list) → "I'll bring these" (rpc family_supply_pledge)
+   • Supply status: Enough / Running low / Needed — no numbers
+     (rpc family_supply_status)
+   • "Ask the care team": tells the store team on Telegram + the eMAR bell
+     (worker /family/ask; once every 6 hours per resident)
    ===================================================================== */
+
+const STATUS = {
+  need: { label: 'Needed', className: 'is-need' },
+  low: { label: 'Running low', className: 'is-low' },
+  ok: { label: 'Enough', className: 'is-ok' },
+}
+const SHOW_FIRST = 6
 
 function malaysiaToday() {
   return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kuala_Lumpur' }).format(new Date())
@@ -22,18 +33,25 @@ function niceDate(iso) {
   if (!iso) return ''
   return new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' })
 }
+function niceTime(iso) {
+  return new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur', hour: 'numeric', minute: '2-digit', hour12: true }).format(new Date(iso))
+}
 
 export default function FamilySupplies({ focus = false }) {
   const [rows, setRows] = useState([])
+  const [status, setStatus] = useState([])
   const [picking, setPicking] = useState(null) // patient_id being pledged
   const [date, setDate] = useState('')
   const [busy, setBusy] = useState(false)
-  const [message, setMessage] = useState('')
+  const [asking, setAsking] = useState(null)
+  const [expanded, setExpanded] = useState({})
+  const [message, setMessage] = useState({})
   const ref = useRef(null)
 
   const load = useCallback(async () => {
-    const { data, error } = await supabase.rpc('family_supply_list')
-    if (!error) setRows(data || [])
+    const [list, st] = await Promise.all([supabase.rpc('family_supply_list'), supabase.rpc('family_supply_status')])
+    if (!list.error) setRows(list.data || [])
+    if (!st.error) setStatus(Array.isArray(st.data) ? st.data : [])
   }, [])
 
   useEffect(() => {
@@ -45,19 +63,20 @@ export default function FamilySupplies({ focus = false }) {
 
   // Opened from a notification (?supplies=1): bring the card into view.
   useEffect(() => {
-    if (focus && rows.length && ref.current) ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }, [focus, rows.length])
+    if (focus && (rows.length || status.length) && ref.current) ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [focus, rows.length, status.length])
 
-  const groups = useMemo(() => {
+  const residents = useMemo(() => {
     const map = new Map()
+    for (const s of status) map.set(s.patient_id, { id: s.patient_id, name: String(s.patient_name || '').trim(), askedAt: s.asked_at, stock: s.items || [], bring: [] })
     for (const r of rows) {
-      if (!map.has(r.patient_id)) map.set(r.patient_id, { id: r.patient_id, name: r.patient_name, items: [] })
-      map.get(r.patient_id).items.push(r)
+      if (!map.has(r.patient_id)) map.set(r.patient_id, { id: r.patient_id, name: String(r.patient_name || '').trim(), askedAt: null, stock: [], bring: [] })
+      map.get(r.patient_id).bring.push(r)
     }
     return [...map.values()]
-  }, [rows])
+  }, [rows, status])
 
-  if (!groups.length) return null
+  if (!residents.length) return null
 
   const today = malaysiaToday()
   const quick = [
@@ -66,21 +85,46 @@ export default function FamilySupplies({ focus = false }) {
     [niceDate(addDays(today, 2)).split(',')[0], addDays(today, 2)],
   ]
 
-  async function pledge(group) {
+  async function pledge(g) {
     if (!date) return
     setBusy(true)
-    setMessage('')
-    const ids = group.items.map((r) => r.id)
+    const ids = g.bring.map((r) => r.id)
     const { error } = await supabase.rpc('family_supply_pledge', { p_ids: ids, p_date: date })
     setBusy(false)
     if (error) {
-      setMessage('Sorry, that did not go through. Please try again.')
+      setMessage((m) => ({ ...m, [g.id]: 'Sorry, that did not go through. Please try again.' }))
       return
     }
     setPicking(null)
     setDate('')
-    setMessage(`Thank you! The care team has been told you will bring these on ${niceDate(date)}.`)
+    setMessage((m) => ({ ...m, [g.id]: `Thank you! The care team has been told you will bring these on ${niceDate(date)}.` }))
     load()
+  }
+
+  async function ask(g) {
+    setAsking(g.id)
+    setMessage((m) => ({ ...m, [g.id]: '' }))
+    try {
+      const { data } = await supabase.auth.getSession()
+      const r = await fetch(`${MEDIA_WORKER}/family/ask`, {
+        method: 'POST',
+        headers: { authorization: `Bearer ${data?.session?.access_token || ''}`, 'content-type': 'application/json' },
+        body: JSON.stringify({ patient_id: g.id }),
+      })
+      const res = await r.json().catch(() => ({}))
+      if (!r.ok) throw new Error(res.error || 'failed')
+      setMessage((m) => ({
+        ...m,
+        [g.id]: res.ok
+          ? 'Thank you — the care team has been asked. If anything is needed, the list will appear here and you will get a notification.'
+          : `The care team was already asked at ${niceTime(res.asked_at)}. They will reply here.`,
+      }))
+      load()
+    } catch {
+      setMessage((m) => ({ ...m, [g.id]: 'Sorry, that did not go through. Please try again.' }))
+    } finally {
+      setAsking(null)
+    }
   }
 
   return (
@@ -88,13 +132,17 @@ export default function FamilySupplies({ focus = false }) {
       <div className="section-heading">
         <div>
           <span>Supplies</span>
-          <h2>Items to bring</h2>
+          <h2>Supplies &amp; items to bring</h2>
         </div>
       </div>
 
-      {groups.map((g) => {
-        const pledged = g.items.filter((r) => r.pledge_date)
-        const allPledged = pledged.length === g.items.length
+      {residents.map((g) => {
+        const pledged = g.bring.filter((r) => r.pledge_date)
+        const allPledged = g.bring.length > 0 && pledged.length === g.bring.length
+        const attention = g.stock.filter((i) => i.status !== 'ok').length
+        const open = expanded[g.id]
+        const shown = open ? g.stock : g.stock.slice(0, SHOW_FIRST)
+        const askedRecently = g.askedAt && Date.now() - Date.parse(g.askedAt) < 6 * 3600e3
         return (
           <div className="fc-supplies__card" key={g.id}>
             <div className="fc-supplies__head">
@@ -102,64 +150,95 @@ export default function FamilySupplies({ focus = false }) {
                 <ShoppingBag size={20} />
               </div>
               <div>
-                <span className="fc-supplies__eyebrow">Requested by the care team</span>
+                <span className="fc-supplies__eyebrow">
+                  {g.bring.length ? 'Requested by the care team' : attention ? `${attention} item${attention > 1 ? 's' : ''} to check` : 'All looks good'}
+                </span>
                 <h3>For {g.name}</h3>
               </div>
             </div>
 
-            <ul className="fc-supplies__list">
-              {g.items.map((r) => (
-                <li key={r.id}>
-                  <span className="fc-supplies__dot" />
-                  <span className="fc-supplies__item">{r.item_name}</span>
-                  {r.pledge_date && (
-                    <span className="fc-supplies__badge">
-                      <Check size={12} /> {niceDate(r.pledge_date)}
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ul>
-
-            {picking === g.id ? (
-              <div className="fc-supplies__picker">
-                <span className="fc-supplies__ask">
-                  <CalendarDays size={16} /> When can you bring them?
-                </span>
-                <div className="fc-supplies__dates">
-                  {quick.map(([label, iso]) => (
-                    <button type="button" key={iso} className={date === iso ? 'is-on' : ''} onClick={() => setDate(iso)}>
-                      {label}
-                    </button>
+            {g.bring.length > 0 && (
+              <>
+                <p className="fc-supplies__sub">Items to bring</p>
+                <ul className="fc-supplies__list">
+                  {g.bring.map((r) => (
+                    <li key={r.id}>
+                      <span className="fc-supplies__dot" />
+                      <span className="fc-supplies__item">{r.item_name}</span>
+                      {r.pledge_date && (
+                        <span className="fc-supplies__badge">
+                          <Check size={12} /> {niceDate(r.pledge_date)}
+                        </span>
+                      )}
+                    </li>
                   ))}
-                  <input
-                    type="date"
-                    aria-label="Choose another date"
-                    min={today}
-                    max={addDays(today, 30)}
-                    value={quick.some(([, iso]) => iso === date) ? '' : date}
-                    onChange={(e) => setDate(e.target.value)}
-                  />
-                </div>
-                <div className="fc-supplies__actions">
-                  <button type="button" className="fc-supplies__ghost" onClick={() => { setPicking(null); setDate('') }}>
-                    Cancel
+                </ul>
+
+                {picking === g.id ? (
+                  <div className="fc-supplies__picker">
+                    <span className="fc-supplies__ask">
+                      <CalendarDays size={16} /> When can you bring them?
+                    </span>
+                    <div className="fc-supplies__dates">
+                      {quick.map(([label, iso]) => (
+                        <button type="button" key={iso} className={date === iso ? 'is-on' : ''} onClick={() => setDate(iso)}>
+                          {label}
+                        </button>
+                      ))}
+                      <input
+                        type="date"
+                        aria-label="Choose another date"
+                        min={today}
+                        max={addDays(today, 30)}
+                        value={quick.some(([, iso]) => iso === date) ? '' : date}
+                        onChange={(e) => setDate(e.target.value)}
+                      />
+                    </div>
+                    <div className="fc-supplies__actions">
+                      <button type="button" className="fc-supplies__ghost" onClick={() => { setPicking(null); setDate('') }}>
+                        Cancel
+                      </button>
+                      <button type="button" className="fc-supplies__primary" disabled={!date || busy} onClick={() => pledge(g)}>
+                        {busy ? 'Sending…' : 'Confirm'}
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <button type="button" className="fc-supplies__primary fc-supplies__wide" onClick={() => { setPicking(g.id); setMessage((m) => ({ ...m, [g.id]: '' })) }}>
+                    {allPledged ? 'Change delivery date' : "I'll bring these"}
                   </button>
-                  <button type="button" className="fc-supplies__primary" disabled={!date || busy} onClick={() => pledge(g)}>
-                    {busy ? 'Sending…' : 'Confirm'}
-                  </button>
-                </div>
-              </div>
+                )}
+              </>
+            )}
+
+            <p className="fc-supplies__sub">Supply status</p>
+            {g.stock.length ? (
+              <ul className="fc-supplies__status">
+                {shown.map((i) => (
+                  <li key={i.name}>
+                    <span className="fc-supplies__item">{i.name}</span>
+                    <span className={`fc-supplies__pill ${STATUS[i.status]?.className || ''}`}>{STATUS[i.status]?.label || ''}</span>
+                  </li>
+                ))}
+              </ul>
             ) : (
-              <button type="button" className="fc-supplies__primary fc-supplies__wide" onClick={() => { setPicking(g.id); setMessage('') }}>
-                {allPledged ? 'Change delivery date' : "I'll bring these"}
+              <p className="fc-supplies__empty">No supply records yet.</p>
+            )}
+            {g.stock.length > SHOW_FIRST && (
+              <button type="button" className="fc-supplies__more" onClick={() => setExpanded((e) => ({ ...e, [g.id]: !open }))}>
+                {open ? 'Show less' : `Show all (${g.stock.length})`}
               </button>
             )}
+
+            <button type="button" className="fc-supplies__ghost fc-supplies__wide fc-supplies__askbtn" disabled={asking === g.id || askedRecently} onClick={() => ask(g)}>
+              <MessageCircle size={16} />
+              {askedRecently ? `Asked at ${niceTime(g.askedAt)}` : asking === g.id ? 'Sending…' : 'Ask the care team'}
+            </button>
+
+            {message[g.id] && <p className="fc-supplies__note">{message[g.id]}</p>}
           </div>
         )
       })}
-
-      {message && <p className="fc-supplies__note">{message}</p>}
     </section>
   )
 }

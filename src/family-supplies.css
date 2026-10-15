@@ -132,5 +132,49 @@
   color: var(--ed-teal, #1b8a9c);
 }
 
+/* Supply status (Enough / Running low / Needed) + ask */
+.fc-supplies__sub {
+  margin: 16px 0 8px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ed-muted, #6b6b6b);
+}
+.fc-supplies__status { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.fc-supplies__status li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 9px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--ed-line, rgba(0, 0, 0, 0.08));
+}
+.fc-supplies__pill {
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+  border: 1px solid currentColor;
+}
+.fc-supplies__pill.is-ok { color: #2e9a57; }
+.fc-supplies__pill.is-low { color: #c08a12; }
+.fc-supplies__pill.is-need { color: #d1503f; background: rgba(209, 80, 63, 0.08); }
+.fc-supplies__empty { margin: 0; font-size: 14px; color: var(--ed-muted, #6b6b6b); }
+.fc-supplies__more {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 8px 2px 0;
+  font: inherit;
+  font-size: 14px;
+  color: var(--ed-teal, #1b8a9c);
+  cursor: pointer;
+}
+.fc-supplies__askbtn { margin-top: 14px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.fc-supplies__card .fc-supplies__primary.fc-supplies__wide { margin-top: 2px; }
+
 /* About → Notifications */
 .fc-push .fc-push__text { margin: 12px 0 14px; font-size: 15px; line-height: 1.55; color: var(--ed-muted, #6b6b6b); }
