@@ -3935,7 +3935,7 @@ if (!loggedIn) {
                   color: dark
                     ? '#aebeb8'
                     : '#87948f',
-                  fontSize: '14.5px',
+                  fontSize: '16px',
                   fontWeight: 650,
                 }}
               >

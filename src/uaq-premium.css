@@ -89,7 +89,7 @@
 .fc-brand__sub {
   margin-top: 2px;
   font-family: var(--fc-font-ui);
-  font-size: 13.5px;
+  font-size: 15.5px;
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -102,7 +102,7 @@
   align-items: center;
   gap: 10px;
   --fc-mark-w: 58px;
-  --fc-name-size: 19.5px;
+  --fc-name-size: 20px;
 }
 
 /* Startup splash */
@@ -195,7 +195,7 @@
   line-height: 1.12 !important;
 }
 .family-app-shell .home-hero-top > div > span {
-  font-size: 15px !important;
+  font-size: 16.5px !important;
   letter-spacing: 0.14em !important;
   font-weight: 700 !important;
   text-transform: uppercase;
@@ -247,7 +247,7 @@
   border-radius: 999px;
   background: #15302f;
   color: #fff;
-  font: 600 16px/1.2 var(--fc-font-ui);
+  font: 600 17px/1.2 var(--fc-font-ui);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 @media (min-width: 960px) { .fc-offline { bottom: 24px; } }
