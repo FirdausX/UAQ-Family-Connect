@@ -159,6 +159,7 @@
   white-space: nowrap;
   border: 1px solid currentColor;
 }
+.fc-supplies__qty { display: block; margin-top: 2px; font-size: 16px; font-weight: 600; color: var(--ed-muted, #6b6b6b); }
 .fc-supplies__pill.is-ok { color: #2e9a57; }
 .fc-supplies__pill.is-low { color: #c08a12; }
 .fc-supplies__pill.is-need { color: #d1503f; background: rgba(209, 80, 63, 0.08); }
