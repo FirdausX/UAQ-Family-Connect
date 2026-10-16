@@ -20,6 +20,11 @@ const STATUS = {
   ok: { label: 'Enough', className: 'is-ok' },
 }
 const SHOW_FIRST = 6
+// quantity kept in the store for this resident (lent items still count as theirs)
+function qtyLabel(q) {
+  const n = Math.max(0, Number(q) || 0)
+  return n === 0 ? 'None left' : `${Number.isInteger(n) ? n : n.toFixed(1)} left`
+}
 
 function malaysiaToday() {
   return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kuala_Lumpur' }).format(new Date())
@@ -219,7 +224,10 @@ export default function FamilySupplies({ focus = false }) {
               <ul className="fc-supplies__status">
                 {shown.map((i) => (
                   <li key={i.name}>
-                    <span className="fc-supplies__item">{i.name}</span>
+                    <span className="fc-supplies__item">
+                      {i.name}
+                      {i.qty != null && <small className="fc-supplies__qty">{qtyLabel(i.qty)}</small>}
+                    </span>
                     <span className={`fc-supplies__pill ${STATUS[i.status]?.className || ''}`}>{STATUS[i.status]?.label || ''}</span>
                   </li>
                 ))}
