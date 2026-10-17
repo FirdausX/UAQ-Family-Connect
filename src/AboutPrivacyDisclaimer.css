@@ -1,0 +1,66 @@
+/* Bilingual confidentiality notice on the Family Connect About page. */
+.fc-privacy-notice__languages {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.fc-privacy-notice__language {
+  min-width: 0;
+  padding: clamp(16px, 2.5vw, 22px);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface-soft);
+  color: var(--text);
+}
+
+.fc-privacy-notice__language h3 {
+  margin: 0 0 15px;
+  color: var(--teal-dark);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.fc-privacy-notice__language p {
+  margin: 0 0 13px;
+  color: var(--text);
+  font-size: 14.5px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.fc-privacy-notice__language p:last-child {
+  margin-bottom: 0;
+}
+
+.fc-privacy-notice__footer {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.app-shell.dark .fc-privacy-notice__language {
+  background: rgba(35, 49, 44, 0.94);
+  border-color: var(--line);
+}
+
+.app-shell.dark .fc-privacy-notice__language h3 {
+  color: #94ddd4;
+}
+
+@media (min-width: 900px) {
+  .fc-privacy-notice__languages {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .fc-privacy-notice__language p {
+    font-size: 14px;
+  }
+}
