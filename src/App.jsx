@@ -45,6 +45,7 @@ import {
 import { supabase } from './lib/supabase'
 import { mediaStorage } from './lib/media'
 import FamilySupplies from './FamilySupplies.jsx'
+import AboutPrivacyDisclaimer from './AboutPrivacyDisclaimer.jsx'
 import PushOptIn, { useAutoResubscribe } from './PushOptIn.jsx'
 import './App.css'
 import './uaq-seasonal-theme.css'
@@ -3652,6 +3653,8 @@ if (!loggedIn) {
               </div>
             </section>
           </div>
+
+          <AboutPrivacyDisclaimer />
 
           <button
             type="button"
